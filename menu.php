@@ -1,11 +1,11 @@
 <ul class="navbar-nav  sidebar sidebar-dark accordion"  id="accordionSidebar" 
-style="background: linear-gradient(36deg, #E7503F, #E7A43F,#D6E73F);;">
+style="background: linear-gradient(36deg, #515bf0,#515bf0);;">
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-               <!---- <div class="sidebar-brand-icon">
+              <div class="sidebar-brand-icon">
                     <i class="fas fa-home"></i>
-                </div>-->
+                </div>
                 <div class="sidebar-brand-text mx-3">ASF Surveillance & Monitoring</div>
             </a>
 

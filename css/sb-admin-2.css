@@ -106,6 +106,7 @@ address {
   line-height: inherit;
 }
 
+
 ol,
 ul,
 dl {
@@ -10411,7 +10412,7 @@ a:focus {
 }
 
 .sidebar #sidebarToggle {
-  width: 2.5rem;
+  width: 2.1rem;
   height: 2.5rem;
   text-align: center;
   margin-bottom: 1rem;
@@ -10509,7 +10510,7 @@ a:focus {
 
 @media (min-width: 768px) {
   .sidebar {
-    width: 14rem !important;
+    width: 12rem !important;
   }
   .sidebar .nav-item .collapse {
     position: relative;

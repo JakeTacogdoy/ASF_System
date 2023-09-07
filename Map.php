@@ -47,6 +47,8 @@
             <!-- Main Content -->
             <div id="content">
 
+            
+
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
@@ -88,9 +90,48 @@
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
+                <div class="col" id="mapid" style="height: 500px;"></div>
 
+<script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+<script>
+  function initMap() {
+    // Create a new map object and set its center and zoom level
+    var map = L.map('mapid').setView([10.395911295892605, 124.94326335612267], 18);
+
+
+    // Add a tile layer to the map
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+        '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+        'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+      maxZoom: 18
+    }).addTo(map);
+
+    var marker = null;
+
+    // Add a click event to the map
+    map.on('click', function (event) {
+      var lat = event.latlng.lat;
+      var lng = event.latlng.lng;
+
+      if (marker !== null) {
+        map.removeLayer(marker);
+      }
+
+      console.log("Clicked on (" + lat + ", " + lng + ")");
+
+      marker = L.marker([lat, lng]).addTo(map);
+    });
+  }
+</script>
+<script>
+  // Call the initMap function once the page has loaded
+  document.addEventListener('DOMContentLoaded', function () {
+    initMap();
+  });
+</script>
                     <!-- Page Heading -->
-                    <div id="map"></div>
+                    
 
                 </div>
                
@@ -140,13 +181,7 @@
         </div>
     </div>
     
-    <script>
-        var map = L.map('map').setView([51.505, -0.09], 13);
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-         maxZoom: 19,
-        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        }).addTo(map);
-    </script>
+
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
