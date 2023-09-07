@@ -80,80 +80,10 @@
 
 
 
-                    <!-- Content Row -->
-
-                    <div class="row">
-
-                        <div class="col-lg-12 mb-4">
+                  
 
                             <!-- Illustrations -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3" style="background: linear-gradient(36deg, #E8E62B, #E8872B, #2BE8E6);">
-                                    <center><h2 class="m-0 font-weight-bold text-dark">BARANGAY LIBAS</h2></center>
-                                </div>
-                                <div class="card-body">
-                                    <div class="text-center">
-                                        <img class="img-fluid px-4 px-sm-4 mt-4 mb-4" style="width: 25rem;"
-                                            src="img/Logo.jpg" alt="...">
-                                
-
-                                    <center><h5 class="m-0 font-weight-bold text-dark" style="font-family: Century Gothic;">BARANGAY OFFICIALS</h5></center>
-                                    <center><h5 class="m-0 font-weight-bold text-dark" style="font-family: Century Gothic;">S.Y 2018 - 2022</h5></center>
-
-                                     <table class="table table-hover">
-                                <tr class="bg-warning text-white text-center">
-                                    <td>Position</td>
-                                    <td>Name</td>
-                                </tr>
-                                <tr class="text-center">
-                                    <td>Barangay Captain</td>
-                                    <td>HON. LEVI T. GALDO</td>
-                                </tr>
-                                <tr class="text-center">
-                                    <td>Barangay Secretary</td>
-                                    <td>HON. JEZALYN E. MEODE</td>
-                                </tr>
-                                <tr class="text-center">
-                                    <td>Barangay Treasurer</td>
-                                    <td>HON. OMEGA I. OCTOBRE</td>
-                                </tr>
-                                <tr class="text-center">
-                                    <td>Barangay Councilor 1</td>
-                                    <td>HON. ROMMEL M. SIDAYA</td>
-                                </tr>
-                                <tr class="text-center">
-                                    <td>Barangay Councilor 2</td>
-                                    <td>HON. FELIX M. LASQUITES</td>
-                                </tr>
-                                <tr class="text-center">
-                                    <td>Barangay Councilor 3</td>
-                                    <td>HON. DAVID T. TUBLE</td>
-                                </tr>
-                                <tr class="text-center">
-                                    <td>Barangay Councilor 4</td>
-                                    <td>HON. DEXTER T. APLAN</td>
-                                </tr>
-                                <tr class="text-center">
-                                    <td>Barangay Councilor 5</td>
-                                    <td>HON. ELISEO M. CALOOY</td>
-                                </tr>
-                                <tr class="text-center">
-                                    <td>Barangay Councilor 6</td>
-                                    <td>HON. CRISPIN G. VALDE</td>
-                                </tr>
-                                <tr class="text-center">
-                                    <td>Barangay Councilor 7</td>
-                                    <td>HON. CARMELITA S. TINIO</td>
-                                </tr>
-                                </tr>
-                                <tr class="text-center">
-                                    <td>Barangay SK Chairperson </td>
-                                    <td>HON. MIANEZA A. TOMON</td>
-                            </table>  
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                           
 
                     <!-- Content Row -->
                     <div class="row ">
