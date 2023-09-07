@@ -23,7 +23,7 @@
 
 </head>
 
-<body style="background: linear-gradient(36deg, #E7503F, #E7A43F,#D6E73F);">
+<body style="background: #ABF1C2 ;">
 )
     <div class="container">
 
@@ -35,8 +35,8 @@
                 <div class="card o-hidden border-0 shadow-lg my-5">
                     <div class="card-body p-0">
                         <!-- Nested Row within Card Body -->
-                        <div class="row" style="background: linear-gradient(36deg, #EDC9C5,#EDDDC5, #E9EDC5);">
-                            <div class="col-md-4 d-lg-block ml-5 mx-4 my-auto "><center><img src="img/Logo.jpg" class="max-width: 20%; img-fluid    "></center></div>
+                        <div class="row" style="background: #8BF46F;">
+                            <div class="col-md-4 d-lg-block ml-5 mx-4 my-auto "><center><img src="img/DA.png" class="max-width: 20%; img-fluid    "></center></div>
                             <div class="col-lg-6">
                                 <div class="p-5">
                                     <div class="text-center">
@@ -53,7 +53,7 @@
                                             <input type="password" class="form-control form-control-user"
                                                 id="password" placeholder="Password">
                                         </div>
-                                        <a href="#" id = "btnLogin" class="btn btn-warning btn-user btn-block">
+                                        <a href="#" id = "btnLogin" class="btn btn-primary btn-user btn-block">
                                             Login
                                         </a>
                                     </form>
