@@ -13,9 +13,9 @@ style="background: linear-gradient(36deg, #515bf0,#515bf0);;">
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item active"></li>
+             <li class="nav-item active"></li>
                 <a class="nav-link" href="index.php">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                <i class="fa-solid fa-gauge" style="color: #ffffff;"></i>
                     <span>Dashboard</span></a>
             </li>
 
@@ -31,13 +31,13 @@ style="background: linear-gradient(36deg, #515bf0,#515bf0);;">
             <!-- Nav Item - Tables -->
             <li class="nav-item">
                 <a class="nav-link" href="Userslist.php">
-                    <i class="fas fa-fw fa-table"></i>
+                <i class="fa-solid fa-clipboard-list""></i>
                     <span>Users</span></a>
             </li>
 
             <li class="nav-item">
                 <a class="nav-link" href="Map.php">
-                    <i class="fas fa-fw fa-table"></i>
+                <i class="fa-solid fa-map-location-dot"></i>
                     <span>Map</span></a>
             </li>
 
@@ -49,13 +49,13 @@ style="background: linear-gradient(36deg, #515bf0,#515bf0);;">
 
             <li class="nav-item">
                 <a class="nav-link" href="UploadVideo.php">
-                    <i class="fas fa-fw fa-table"></i>
+                <i class="fa-solid fa-video"></i>
                     <span>Videos</span></a>
             </li>
 
              <li class="nav-item">
                 <a class="nav-link" href="UploadNews.php">
-                    <i class="fas fa-fw fa-table"></i>
+                <i class="fa-solid fa-newspaper"></i>
                     <span>News</span></a>
             </li>
 

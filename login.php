@@ -10,7 +10,7 @@
     <meta name="author" content="">
 
     <title>Login</title>
-    <link rel="shortcut icon" type="image/x-icon" href="img/Logo.jpg" />
+    <link rel="shortcut icon" type="image/x-icon" href="img/DA.png" />
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
