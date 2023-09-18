@@ -13,7 +13,7 @@ style="background: linear-gradient(36deg, #515bf0,#515bf0);;">
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-             <li class="nav-item active"></li>
+             <li class="nav-item active">
                 <a class="nav-link" href="index.php">
                 <i class="fa-solid fa-gauge" style="color: #ffffff;"></i>
                     <span>Dashboard</span></a>
@@ -48,13 +48,13 @@ style="background: linear-gradient(36deg, #515bf0,#515bf0);;">
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="UploadVideo.php">
+                <a class="nav-link" href="Video.php">
                 <i class="fa-solid fa-video"></i>
                     <span>Videos</span></a>
             </li>
 
              <li class="nav-item">
-                <a class="nav-link" href="UploadNews.php">
+                <a class="nav-link" href="News.php">
                 <i class="fa-solid fa-newspaper"></i>
                     <span>News</span></a>
             </li>
