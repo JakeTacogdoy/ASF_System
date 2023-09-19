@@ -48,13 +48,13 @@ style="background: linear-gradient(36deg, #515bf0,#515bf0);;">
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="UploadVideo.php">
+                <a class="nav-link" href="Video.php">
                 <i class="fa-solid fa-video"></i>
                     <span>Videos</span></a>
             </li>
 
              <li class="nav-item">
-                <a class="nav-link" href="UploadNews.php">
+                <a class="nav-link" href="News.php">
                 <i class="fa-solid fa-newspaper"></i>
                     <span>News</span></a>
             </li>
