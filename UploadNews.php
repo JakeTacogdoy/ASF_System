@@ -91,6 +91,27 @@
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
                     <!-- Page Heading -->
+                    <div class="container mt-5">
+        <h1>Upload News</h1>
+        <form action="upload.php" method="post">
+            <div class="form-group">
+                <label for="newsDescription">News Description:</label>
+                <textarea class="form-control" id="newsDescription" name="description" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="newsURL">URL Link:</label>
+                <input type="text" class="form-control" id="newsURL" name="url" placeholder="https://example.com">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+       
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.5.0/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
                     
 
                 </div>
