@@ -108,6 +108,33 @@
                 </div>
                
                 <!-- /.container-fluid -->
+                        <div class="container2">
+                        <table>
+                            <tr>
+                                <th>ID</th>
+                                <th>URL</th>
+                            </tr>
+                    <?php
+
+                    include "db_connection.php";
+
+                    $sql = "SELECT * FROM videos";
+                    $result = $conn->query($sql);
+
+                if($result->num_rows > 0) {
+
+                    while ($row = $result->fetch_assoc())
+                    {
+                        echo "<tr>
+                            <td>" . $row['id']. "</td>
+                            <td>" . $row['video_url']."</td>
+                            </tr>";
+                    }
+                }
+                ?>
+
+            </table>
+            </div>
 
             </div>
             <!-- End of Main Content -->

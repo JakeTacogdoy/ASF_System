@@ -10,35 +10,26 @@
         exit;
     }
 
-    
+
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
 
 <?php
-    include("header.php");
+    include('header.php');
 ?>
-
 <body id="page-top">
 
     <!-- Page Wrapper -->
     <div id="wrapper">
 
         <!-- Sidebar -->
-       <?php
-            include ("menu.php");
+        <?php
+            include ('menu.php');
 
         ?>
-            <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
-
-            <!-- Sidebar Toggler (Sidebar) -->
-            <div class="text-center d-none d-md-inline">
-                <button class="rounded-circle border-0" id="sidebarToggle"></button>
-            </div>
-
-        </ul>
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
@@ -46,8 +37,6 @@
 
             <!-- Main Content -->
             <div id="content">
-
-            
 
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
@@ -90,98 +79,55 @@
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
+
                     <!-- Page Heading -->
-                    <div class="container mt-5">
-        <h1>Upload News</h1>
-        <form action="UploadNews.php" method="post">
-            <div class="form-group">
-                <label for="newsDescription">News Description:</label>
-                <textarea class="form-control" id="newsDescription" name="description" rows="3"></textarea>
-            </div>
-            <div class="form-group">
-                <label for="newsURL">URL Link:</label>
-                <input type="text" class="form-control" id="newsURL" name="url" placeholder="https://example.com">
-            </div>
-            <button type="submit" class="btn btn-primary" name="submit">Submit</button>
-        </form>
-       
-    </div>
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Edit</h1>
+                        
+                    </div>
 
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.5.0/dist/js/bootstrap.min.js"></script>
-</body>
-</html>
-                    
-
-                </div>
-                <div class="container2" style="margin: 20px">
-                        <table style="width: 100%; border-collapse: collapse;">
-                            <tr>
-                                <th style="padding: 8px; text-align: left; border-bottom: 1px solid #ddd; background-color: #f2f2f2;">ID</th>
-                                <th style="padding: 8px; text-align: left; border-bottom: 1px solid #ddd; background-color: #f2f2f2;">DESCRIPTION</th>
-                                <th style="padding: 8px; text-align: left; border-bottom: 1px solid #ddd; background-color: #f2f2f2;">URL</th>
-                               
-                                
-                            </tr>
                     <?php
+                        $id = $_GET['id'];
+                        $sql = "Select * from news where id = ".$id;
+                        $results = $conn->query($sql);
+                        $row = $results->fetch_assoc();
 
-                    include "db_connection.php";
-
-                    $sql = "SELECT * FROM news";
-                    $result = $conn->query($sql);
-
-                if($result->num_rows > 0) {
-
-                    while ($row = $result->fetch_assoc())
-                    {
-                        echo "<tr>
-
-                            <td>" . $row['id']. "</td>
-                            <td>" . $row['description']. "</td>
-                            <td>" . $row['url']."</td>
-
-                            <a class = 'mr-2' href = 'EditNews.php?id=".$row['id']."'>
-                            <i class = 'fa fa-edit text-success'></i>
-                            </a>
-              
-                          
-                           <a href = 'DeleteNews.php?id=".$row['id']."'>
-                            <i class = 'fa fa-trash text-danger'></i>
-                            </a>
-                            
-                            </tr>";
-
-                            
-
-                    }
-
-                }
-                ?>
-
-            </table>
-            </div>
+                    ?>
+                    <!-- Content Row -->
+                    
+                   <form action = "EditSaveNews.php" method="post">
+                        <input type="hidden" name="hiddenID" value="<?=$id?>">
+                            <div class="row">
+                                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label>ID</label>
+                                        <input type="text" name="id" class="form-control" value="<?=$row['id']?>">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label>DESCRIPTION</label>
+                                        <input type="text" name="description" class="form-control" value="<?=$row['description']?>">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label>URL</label>
+                                        <input type="text" name="url" class="form-control" value="<?=$row['url']?>">
+                                    </div>
+                                </div>
+                            </div>
+                                <div class="row">
+                               
+                               
+                       </div>
+                        <center><button class="btn btn btn-flat btn-primary btn-sm" style="margin: 20px;"><i class="fa fa-save"></i> Save Changes</button></center>
+                    </form>
+                </div>
                 <!-- /.container-fluid -->
 
             </div>
             <!-- End of Main Content -->
-
-            <!-- Footer -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy;Southern Leyte State University 2023</span>
-                    </div>
-                </div>
-            </footer>
-            <!-- End of Footer -->
-
-        </div>
-        <!-- End of Content Wrapper -->
-
-    </div>
-    <!-- End of Page Wrapper -->
-
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
@@ -207,8 +153,6 @@
         </div>
     </div>
 
-    
-
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -220,13 +164,11 @@
     <script src="js/sb-admin-2.min.js"></script>
 
     <!-- Page level plugins -->
-    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
-    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="vendor/chart.js/Chart.min.js"></script>
 
     <!-- Page level custom scripts -->
-    <script src="js/demo/datatables-demo.js"></script>
-
- 
+    <script src="js/demo/chart-area-demo.js"></script>
+    <script src="js/demo/chart-pie-demo.js"></script>
 
 </body>
 
