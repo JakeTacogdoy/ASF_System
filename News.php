@@ -118,10 +118,11 @@
                 <div class="container2" style="margin: 20px">
                         <table style="width: 100%; border-collapse: collapse;">
                             <tr>
+                               
                                 <th style="padding: 8px; text-align: left; border-bottom: 1px solid #ddd; background-color: #f2f2f2;">ID</th>
                                 <th style="padding: 8px; text-align: left; border-bottom: 1px solid #ddd; background-color: #f2f2f2;">DESCRIPTION</th>
                                 <th style="padding: 8px; text-align: left; border-bottom: 1px solid #ddd; background-color: #f2f2f2;">URL</th>
-                               
+                                <th style="padding: 8px; text-align: left; border-bottom: 1px solid #ddd; background-color: #f2f2f2;">ACTION</th>
                                 
                             </tr>
                     <?php
@@ -136,20 +137,21 @@
                     while ($row = $result->fetch_assoc())
                     {
                         echo "<tr>
-
+                       
                             <td>" . $row['id']. "</td>
                             <td>" . $row['description']. "</td>
                             <td>" . $row['url']."</td>
-
+                            <td>
                             <a class = 'mr-2' href = 'EditNews.php?id=".$row['id']."'>
                             <i class = 'fa fa-edit text-success'></i>
                             </a>
-              
-                          
-                           <a href = 'DeleteNews.php?id=".$row['id']."'>
+            
+                        
+                        <a href = 'DeleteNews.php?id=".$row['id']."'>
                             <i class = 'fa fa-trash text-danger'></i>
                             </a>
-                            
+                       </td>
+
                             </tr>";
 
                             

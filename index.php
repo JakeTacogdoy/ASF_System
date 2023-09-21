@@ -3,7 +3,7 @@
 
     require_once('db_connection.php');
 
-
+    
     $hasLogin = (isset($_SESSION['hasLogin'])?$_SESSION['hasLogin']:0);
 
     if (empty($hasLogin)){
@@ -182,73 +182,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-6 col-md-6 mb-4">
-                            <div class="card border-left-info shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                TOTAL MALE</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
-                    <?php
-                       $sql = "SELECT * from residents where Sex='Male';";
-                        
-                        if ($result = mysqli_query($conn, $sql)) {
-
-                        $rowcount = mysqli_num_rows( $result );
-    
-                        printf($rowcount);
-                        
-                        }
-
-                    ?>           
-
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-male fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-6 col-md-6 mb-4">
-                            <div class="card border-left-info shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">TOTAL FEMALE
-                                            </div>
-                                            <div class="row no-gutters align-items-center">
-                                                <div class="col-auto">
-                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
-                                                        
-                    <?php
-                       $sql = "SELECT * from residents where Sex='Female';";
-                        
-                        if ($result = mysqli_query($conn, $sql)) {
-
-                        $rowcount = mysqli_num_rows( $result );
-    
-                        printf($rowcount);
-                        
-                        }
-
-                    ?>  
-
-                                                    </div>
-                                                </div>
-                                            
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-female fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
+                       
                     </div>
                 
 

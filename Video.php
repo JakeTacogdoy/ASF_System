@@ -111,8 +111,10 @@
                         <div class="container2">
                         <table>
                             <tr>
-                                <th>ID</th>
-                                <th>URL</th>
+                            <th style="padding: 8px; text-align: left; border-bottom: 1px solid #ddd; background-color: #f2f2f2;">ID</th>
+                                <th style="padding: 8px; text-align: left; border-bottom: 1px solid #ddd; background-color: #f2f2f2;">TITLE</th>
+                                <th style="padding: 8px; text-align: left; border-bottom: 1px solid #ddd; background-color: #f2f2f2;">URL</th>
+                                <th style="padding: 8px; text-align: left; border-bottom: 1px solid #ddd; background-color: #f2f2f2;">ACTION</th>
                             </tr>
                     <?php
 
@@ -127,7 +129,14 @@
                     {
                         echo "<tr>
                             <td>" . $row['id']. "</td>
+                            <td>" . $row['title']. "</td>  
                             <td>" . $row['video_url']."</td>
+                            <td>
+                            
+                            <a href = 'DeleteVideo.php?id=".$row['id']."'>
+                            <i class = 'fa fa-trash text-danger'></i>
+                            </a>
+                       </td>
                             </tr>";
                     }
                 }
