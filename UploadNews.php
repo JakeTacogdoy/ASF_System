@@ -12,7 +12,7 @@ if (isset($_POST['submit'])) {
     $sql = "INSERT INTO news (id, description, url) VALUES ('$id', '$description', '$url')";
     
     if (mysqli_query($conn, $sql)) {
-        header("Location: index.php"); // Redirect to the homepage
+        header("Location: News.php"); // Redirect to the homepage
         exit();
     } else {
         $error_message = "Error: " . mysqli_error($conn);
@@ -20,7 +20,7 @@ if (isset($_POST['submit'])) {
         exit();
     }
 } else {
-    header("Location: index.php");
+    header("Location: News.php");
     exit();
-}
+}   
 ?>

@@ -108,8 +108,8 @@
                 </div>
                
                 <!-- /.container-fluid -->
-                        <div class="container2">
-                        <table>
+                        <div class="container2" style="margin: 20px">
+                        <table style="width: 100%; border-collapse: collapse;">
                             <tr>
                             <th style="padding: 8px; text-align: left; border-bottom: 1px solid #ddd; background-color: #f2f2f2;">ID</th>
                                 <th style="padding: 8px; text-align: left; border-bottom: 1px solid #ddd; background-color: #f2f2f2;">TITLE</th>
@@ -133,7 +133,7 @@
                             <td>" . $row['video_url']."</td>
                             <td>
                             
-                            <a href = 'DeleteVideo.php?id=".$row['id']."'>
+                            <a href = 'DeleteVideo.php?id=".$row['id']."' style='font-size: 30px;'>
                             <i class = 'fa fa-trash text-danger'></i>
                             </a>
                        </td>

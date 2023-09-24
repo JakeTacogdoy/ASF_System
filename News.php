@@ -142,12 +142,12 @@
                             <td>" . $row['description']. "</td>
                             <td>" . $row['url']."</td>
                             <td>
-                            <a class = 'mr-2' href = 'EditNews.php?id=".$row['id']."'>
+                            <a class = 'mr-2' href = 'EditNews.php?id=".$row['id']."'style='font-size: 30px;'>
                             <i class = 'fa fa-edit text-success'></i>
                             </a>
             
                         
-                        <a href = 'DeleteNews.php?id=".$row['id']."'>
+                        <a href = 'DeleteNews.php?id=".$row['id']."'style='font-size: 30px;'>
                             <i class = 'fa fa-trash text-danger'></i>
                             </a>
                        </td>

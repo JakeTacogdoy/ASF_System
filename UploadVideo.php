@@ -36,13 +36,13 @@
             }
             else{
                 $em = "You can't upload files of this type";
-                header("Location: index.php?error=$em");
+                header("Location: Video.php?error=$em");
             }
         }
         
     }
     else {
-        header("Location: index.php");
+        header("Location: Video.php");
     }
 
 

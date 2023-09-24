@@ -24,7 +24,7 @@
 </head>
 
 <body style="background: #ABF1C2 ;">
-)
+
     <div class="container">
 
         <!-- Outer Row -->
