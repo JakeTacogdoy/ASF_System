@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 18, 2023 at 01:36 PM
+-- Generation Time: Sep 25, 2023 at 06:32 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -20,6 +20,18 @@ SET time_zone = "+00:00";
 --
 -- Database: `final`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `news`
+--
+
+CREATE TABLE `news` (
+  `id` int(11) NOT NULL,
+  `description` varchar(50) NOT NULL,
+  `url` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -46,19 +58,20 @@ CREATE TABLE `residents` (
 
 CREATE TABLE `users` (
   `id` int(50) NOT NULL,
+  `Email` varchar(50) NOT NULL,
   `FirstName` varchar(50) NOT NULL,
   `LastName` varchar(50) NOT NULL,
   `UserName` varchar(50) NOT NULL,
-  `Password` varchar(50) NOT NULL
+  `Password` varchar(50) NOT NULL,
+  `usertype` varchar(50) NOT NULL DEFAULT 'user'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `FirstName`, `LastName`, `UserName`, `Password`) VALUES
-(1, '', '', 'admin', '1234'),
-(2, 'Jundelle', 'Sillo', 'Jundelle', '1234');
+INSERT INTO `users` (`id`, `Email`, `FirstName`, `LastName`, `UserName`, `Password`, `usertype`) VALUES
+(1, 'johndave@yahoo.com', ' asdasd', ' asdasd', 'admin', '1234', 'user');
 
 -- --------------------------------------------------------
 
@@ -68,22 +81,19 @@ INSERT INTO `users` (`id`, `FirstName`, `LastName`, `UserName`, `Password`) VALU
 
 CREATE TABLE `videos` (
   `id` int(11) NOT NULL,
-  `video_url` text NOT NULL
+  `video_url` text NOT NULL,
+  `title` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `videos`
---
-
-INSERT INTO `videos` (`id`, `video_url`) VALUES
-(1, 'video-650649988bfd70.04085330.mp4'),
-(2, 'video-6506743d7d8b68.37291563.mp4'),
-(3, 'video-6506747f9ef8d5.80810285.mp4'),
-(4, 'video-6506750402f483.40956411.mp4');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `news`
+--
+ALTER TABLE `news`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `residents`
@@ -108,6 +118,12 @@ ALTER TABLE `videos`
 --
 
 --
+-- AUTO_INCREMENT for table `news`
+--
+ALTER TABLE `news`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
 -- AUTO_INCREMENT for table `residents`
 --
 ALTER TABLE `residents`
@@ -117,7 +133,7 @@ ALTER TABLE `residents`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `videos`
