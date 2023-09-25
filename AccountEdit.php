@@ -126,6 +126,14 @@
                             <label for="confirmPassword">Confirm Password</label>
                             <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" required>
                         </div>
+                        <div class="form-group">
+                                <label for="userType">User Type</label>
+                                <select class="form-control" id="userType" name="userType" required>
+                                    <option value="user">User</option>
+                                    <option value="admin">Admin</option>
+                                </select>
+                            </div>
+                            
                         <button type="submit" class="btn btn-primary">Add Admin</button>
                     </form>
                 </div>
