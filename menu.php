@@ -6,7 +6,7 @@ style="background: linear-gradient(36deg, #515bf0,#515bf0);;">
               <div class="sidebar-brand-icon">
                     <i class="fas fa-home"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">Surveillance & Monitoring</div>
+                <div class="sidebar-brand-text mx-3">SwineSight</div>
             </a>
 
             <!-- Divider -->
@@ -33,6 +33,18 @@ style="background: linear-gradient(36deg, #515bf0,#515bf0);;">
                 <a class="nav-link" href="Userslist.php">
                 <i class="fa-solid fa-clipboard-list""></i>
                     <span>Users</span></a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="Account.php">
+                <i class="fa-solid fa-user-plus"></i>
+                    <span>Add Account</span></a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="Userslist.php">
+                <i class="fa-solid fa-message"></i>
+                    <span>Message</span></a>
             </li>
 
             <li class="nav-item">

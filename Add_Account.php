@@ -90,69 +90,36 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Residents Information</h1>
-
-                    <?php
-                        $sql = "Select id, LastName, FirstName, MiddleName, Birthdate, TIMESTAMPDIFF(YEAR, Birthdate, CURDATE()) AS Age, Sex, Status from residents order by LastName";
-                        $results = $conn->query($sql);
-
-                    ?>
-
-                   <!-- Add Button -->
-                            <a href="residentsadd.php" class="btn bg-primary" style="margin-bottom:15px"><i class="fa fa-plus"></i> Add Resident</a>
-                        <!-- End Add Button -->
-                    <div class="card shadow mb-4">
-                         
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table" id="dataTable" width="100%" cellspacing="0">
-                                     <thead>
-                                        <tr class="bg-gradient-warning text-white">
-                                            <th>Action</th>
-                                            <th>Last Name</th>
-                                            <th>First Name</th>
-                                            <th>Middle Name</th>
-                                            <th>Date of Birth</th>
-                                            <th>Age</th>
-                                            <th>Sex</th>
-                                            <th>Status</th>
-                                        </tr>
-                                        </thead>
-
-                                        <tbody>
-                        <?php
-                            foreach ($results as $line) {
-                                echo "<tr>
-                                    <td>
-                                     
-                                      <a class = 'mr-2' href = 'residentsedit.php?id=".$line['id']."'>
-                                        <i class = 'fa fa-edit text-success'></i>
-                                        </a>
-                          
-                                      
-                                       <a href = 'residentsdelete.php?id=".$line['id']."'>
-                                        <i class = 'fa fa-trash text-danger'></i>
-                                        </a>
-
-
-
-                                    </td>
-                                    <td>".$line['LastName']."</td>
-                                    <td>".$line['FirstName']."</td>
-                                    <td>".$line['MiddleName']."</td>
-                                    <td>".$line['Birthdate']."</td>
-                                    <td>".$line['Age']."</td>
-                                    <td>".$line['Sex']."</td>
-                                    <td>".$line['Status']."</td>
-                                </tr>";
-                            }
-                        ?>
-                        </tbody>
-                                </table>
-                            </div>
+                    <h1 class="h3 mb-2 text-gray-800">Admin Information</h1>
+                    
+                    <form action="Add_admin_process.php" method="post">
+                        
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email" required>
                         </div>
-                    </div>
-
+                        <div class="form-group">
+                            <label for="firstName">First Name</label>
+                            <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Enter First Name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Last Name</label>
+                            <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Enter Last Name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="confirmPassword">Confirm Password</label>
+                            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" required>
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="addAdmin()">Add Admin</button>
+                    </form>
                 </div>
                 <!-- /.container-fluid -->
 
@@ -218,5 +185,62 @@
     <script src="js/demo/datatables-demo.js"></script>
 
 </body>
+<script type="text/javascript">
+      function addAdmin() {
+        var emailInput = document.getElementById("email");
+        var emailValue = emailInput.value;
 
+        // Check if the email contains "@"
+        if (emailValue.indexOf("@") === -1) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Invalid Email Address',
+                text: 'Please enter a valid email.'
+            });
+            return; // Don't submit the form
+        }
+
+        var passwordInput = document.getElementById("password");
+        var confirmPasswordInput = document.getElementById("confirmPassword");
+        var passwordValue = passwordInput.value;
+        var confirmPasswordValue = confirmPasswordInput.value;
+
+        // Check if password and confirm password match
+        if (passwordValue !== confirmPasswordValue) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Passwords Mismatch',
+                text: 'Please make sure passwords match.'
+            });
+            return; // Don't submit the form
+        }
+
+        // If the email and passwords are valid, submit the form
+        $.ajax({
+            url: 'Add_admin_process.php',
+            type: 'POST',
+            data: $('form').serialize(),
+            success: function(response) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Account Added Successfully',
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+
+                setTimeout(function(){
+                    window.location.href = 'Account.php'; // Redirect after 2 seconds
+                }, 2000);
+            },
+            error: function(xhr, status, error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Something went wrong!'
+                });
+                console.error(error);
+            }
+        });
+    }
+</script>
 </html>

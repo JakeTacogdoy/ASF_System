@@ -96,7 +96,7 @@
         <form action="UploadNews.php" method="post">
             <div class="form-group">
                 <label for="newsDescription">News Description:</label>
-                <textarea class="form-control" id="newsDescription" name="description" rows="3"></textarea>
+                <textarea class="form-control" id="newsDescription" name="description" rows="3" placeholder="Type Here"></textarea>
             </div>
             <div class="form-group">
                 <label for="newsURL">URL Link:</label>

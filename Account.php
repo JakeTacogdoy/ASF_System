@@ -90,16 +90,16 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Residents Information</h1>
+                    <h1 class="h3 mb-2 text-gray-800">Admin Information</h1>
 
                     <?php
-                        $sql = "Select id, LastName, FirstName, MiddleName, Birthdate, TIMESTAMPDIFF(YEAR, Birthdate, CURDATE()) AS Age, Sex, Status from residents order by LastName";
+                        $sql = "Select * from users order by LastName";
                         $results = $conn->query($sql);
 
                     ?>
 
                    <!-- Add Button -->
-                            <a href="residentsadd.php" class="btn bg-primary" style="margin-bottom:15px"><i class="fa fa-plus"></i> Add Resident</a>
+                            <a href="Add_Account.php" class="btn bg-info" style="margin-bottom:15px"><i class="fa fa-plus"></i>Add Account</a>
                         <!-- End Add Button -->
                     <div class="card shadow mb-4">
                          
@@ -107,15 +107,13 @@
                             <div class="table-responsive">
                                 <table class="table" id="dataTable" width="100%" cellspacing="0">
                                      <thead>
-                                        <tr class="bg-gradient-warning text-white">
+                                        <tr class="bg-gradient-info text-white">
                                             <th>Action</th>
-                                            <th>Last Name</th>
+                                            <th>Email Address</th>
                                             <th>First Name</th>
-                                            <th>Middle Name</th>
-                                            <th>Date of Birth</th>
-                                            <th>Age</th>
-                                            <th>Sex</th>
-                                            <th>Status</th>
+                                            <th>Last Name</th>
+                                            <th>User Name</th>
+                                            <th>Password</th>
                                         </tr>
                                         </thead>
 
@@ -125,25 +123,23 @@
                                 echo "<tr>
                                     <td>
                                      
-                                      <a class = 'mr-2' href = 'residentsedit.php?id=".$line['id']."'>
-                                        <i class = 'fa fa-edit text-success'></i>
-                                        </a>
-                          
-                                      
-                                       <a href = 'residentsdelete.php?id=".$line['id']."'>
-                                        <i class = 'fa fa-trash text-danger'></i>
-                                        </a>
+                                    <button type='button' class='btn btn-success mr-2' onclick='showEditAlert(". $line['id'] .")'>
+                                    <i class='fa fa-edit'></i>
+                                    </button>
+                    
+                                    <button type='button' class='btn btn-danger' onclick='showDeleteAlert(". $line['id'] .")'>
+                                    <i class='fa fa-trash'></i>
+                                     </button>
+
 
 
 
                                     </td>
-                                    <td>".$line['LastName']."</td>
+                                    <td>".$line['Email']."</td>
                                     <td>".$line['FirstName']."</td>
-                                    <td>".$line['MiddleName']."</td>
-                                    <td>".$line['Birthdate']."</td>
-                                    <td>".$line['Age']."</td>
-                                    <td>".$line['Sex']."</td>
-                                    <td>".$line['Status']."</td>
+                                    <td>".$line['LastName']."</td>
+                                    <td>".$line['UserName']."</td>
+                                    <td>".$line['Password']."</td>
                                 </tr>";
                             }
                         ?>
@@ -199,6 +195,7 @@
             </div>
         </div>
     </div>
+  
 
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
@@ -218,5 +215,44 @@
     <script src="js/demo/datatables-demo.js"></script>
 
 </body>
+<script type="text/javascript">
+    function showEditAlert(id) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "Once edited, you will not be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, edit it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = 'AccountEdit.php?id=' + id;
+            }
+        });
+    }
+
+    function showDeleteAlert(id) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "Once deleted, you will not be able to recover this account!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire(
+                    'Deleted!',
+                    'Your file has been deleted.',
+                    'success'
+                ).then(() => {
+                    window.location.href = 'AccountDelete.php?id=' + id;
+                });
+            }
+        });
+    }
+</script>
 
 </html>
