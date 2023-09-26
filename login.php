@@ -156,7 +156,14 @@
             success: function (response) {
                 if (response == "1"){
                     window.location = "index.php";
-                }else{
+                }else if(response == "2")
+                {
+                    window.location = "user.php";
+                }else if(response == "3")
+                {
+                    window.location = "da.php";
+                }
+                else{
                     $("#msg").html(response);
                 }
                 
