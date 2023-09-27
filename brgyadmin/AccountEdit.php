@@ -90,69 +90,52 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">User Information</h1>
-
+                    <h1 class="h3 mb-2 text-gray-800">Admin Information</h1>
+                    
                     <?php
-                        $sql = "Select id, LastName, FirstName, MiddleName, Birthdate, TIMESTAMPDIFF(YEAR, Birthdate, CURDATE()) AS Age, Sex, Status from residents order by LastName";
+                        $id = $_GET['id'];
+                        $sql = "Select * from users where id = ".$id;
                         $results = $conn->query($sql);
+                        $row = $results->fetch_assoc();
 
                     ?>
 
-                   <!-- Add Button -->
-                            <a href="residentsadd.php" class="btn bg-warning" style="margin-bottom:15px"><i class="fa fa-plus"></i> Add Resident</a>
-                        <!-- End Add Button -->
-                    <div class="card shadow mb-4">
-                         
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table" id="dataTable" width="100%" cellspacing="0">
-                                     <thead>
-                                        <tr class="bg-gradient-warning text-white">
-                                            <th>Action</th>
-                                            <th>Last Name</th>
-                                            <th>First Name</th>
-                                            <th>Middle Name</th>
-                                            <th>Date of Birth</th>
-                                            <th>Age</th>
-                                            <th>Sex</th>
-                                            <th>Status</th>
-                                        </tr>
-                                        </thead>
-
-                                        <tbody>
-                        <?php
-                            foreach ($results as $line) {
-                                echo "<tr>
-                                    <td>
-                                     
-                                      <a class = 'mr-2' href = 'residentsedit.php?id=".$line['id']."'>
-                                        <i class = 'fa fa-edit text-success'></i>
-                                        </a>
-                          
-                                      
-                                       <a href = 'residentsdelete.php?id=".$line['id']."'>
-                                        <i class = 'fa fa-trash text-danger'></i>
-                                        </a>
-
-
-
-                                    </td>
-                                    <td>".$line['LastName']."</td>
-                                    <td>".$line['FirstName']."</td>
-                                    <td>".$line['MiddleName']."</td>
-                                    <td>".$line['Birthdate']."</td>
-                                    <td>".$line['Age']."</td>
-                                    <td>".$line['Sex']."</td>
-                                    <td>".$line['Status']."</td>
-                                </tr>";
-                            }
-                        ?>
-                        </tbody>
-                                </table>
-                            </div>
+                    <form action="brgyadmin/Add_user_process.php" method="post">
+                        
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email" required>
                         </div>
-                    </div>
-
+                        <div class="form-group">
+                            <label for="firstName">First Name</label>
+                            <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Enter First Name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Last Name</label>
+                            <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Enter Last Name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="confirmPassword">Confirm Password</label>
+                            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" required>
+                        </div>
+                        <div class="form-group">
+                                <label for="userType">User Type</label>
+                                <select class="form-control" id="userType" name="userType" required>
+                                    <option value="user">User</option>
+                                    <option value="admin">Admin</option>
+                                </select>
+                            </div>
+                            
+                        <button type="submit" class="btn btn-primary">Add Admin</button>
+                    </form>
                 </div>
                 <!-- /.container-fluid -->
 

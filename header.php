@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Backyard Farm Management System</title>
+    <title>SwineSight</title>
 
     <link rel="shortcut icon" type="image/x-icon" href="img/DA.png" />
 
