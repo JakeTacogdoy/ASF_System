@@ -10,35 +10,26 @@
         exit;
     }
 
-    
+
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
 
 <?php
-    include("header.php");
+    include('header.php');
 ?>
-
 <body id="page-top">
 
     <!-- Page Wrapper -->
     <div id="wrapper">
 
         <!-- Sidebar -->
-       <?php
-            include ("menu.php");
+        <?php
+            include ('menu.php');
 
         ?>
-            <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
-
-            <!-- Sidebar Toggler (Sidebar) -->
-            <div class="text-center d-none d-md-inline">
-                <button class="rounded-circle border-0" id="sidebarToggle"></button>
-            </div>
-
-        </ul>
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
@@ -90,8 +81,11 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Admin Information</h1>
-                    
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Edit</h1>
+                        
+                    </div>
+
                     <?php
                         $id = $_GET['id'];
                         $sql = "Select * from users where id = ".$id;
@@ -99,65 +93,60 @@
                         $row = $results->fetch_assoc();
 
                     ?>
-
-                    <form action="Add_admin_process.php" method="post">
-                        
-                        <div class="form-group">
-                            <label for="email">Email Address</label>
-                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="firstName">First Name</label>
-                            <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Enter First Name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="lastName">Last Name</label>
-                            <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Enter Last Name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="username">Username</label>
-                            <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="password">Password</label>
-                            <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="confirmPassword">Confirm Password</label>
-                            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" required>
-                        </div>
-                        <div class="form-group">
-                                <label for="userType">User Type</label>
-                                <select class="form-control" id="userType" name="userType" required>
-                                    <option value="user">User</option>
-                                    <option value="admin">Admin</option>
-                                </select>
+                    <!-- Content Row -->
+                    
+                   <form id="updateForm" action = "AccountUpdate.php" method="post">
+                        <input type="hidden" name="hiddenID" value="<?=$id?>">
+                            <div class="row">
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="email">Email Address</label>
+                                        <input type="email" name="Email" class="form-control" value="<?=$row['Email']?>">
+                                    </div>
+                                </div> 
+                                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label>First Name</label>
+                                        <input type="text" name="firstName" class="form-control" value="<?=$row['FirstName']?>">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label>Last Name</label>
+                                        <input type="text" name="lastName" class="form-control" value="<?=$row['LastName']?>">
+                                    </div>
+                                </div>
                             </div>
-                            
-                        <button type="submit" class="btn btn-primary">Add Admin</button>
+                                <div class="row">
+                                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label>User Name</label>
+                                        <input type="text" name="username" class="form-control" value="<?=$row['UserName']?>">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label>Password</label>
+                                        <input type="text" name="password" class="form-control" value="<?=$row['Password']?>">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label>User Type</label>
+                                        <input type="text" name="userType" class="form-control" value="<?=$row['usertype']?>">
+                                    </div>
+                                </div>  
+                               
+                       </div>
+                        <center> <button type="submit" class="btn btn btn-flat btn-primary btn-sm" style="margin: 40px;">
+                        <i class="fa fa-save"></i> Save Changes
+                         </button></i></button></center>
                     </form>
                 </div>
                 <!-- /.container-fluid -->
 
             </div>
             <!-- End of Main Content -->
-
-            <!-- Footer -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Barangay Ambao Information System 2022</span>
-                    </div>
-                </div>
-            </footer>
-            <!-- End of Footer -->
-
-        </div>
-        <!-- End of Content Wrapper -->
-
-    </div>
-    <!-- End of Page Wrapper -->
-
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
@@ -194,12 +183,41 @@
     <script src="js/sb-admin-2.min.js"></script>
 
     <!-- Page level plugins -->
-    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
-    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="vendor/chart.js/Chart.min.js"></script>
 
     <!-- Page level custom scripts -->
-    <script src="js/demo/datatables-demo.js"></script>
+    <script src="js/demo/chart-area-demo.js"></script>
+    <script src="js/demo/chart-pie-demo.js"></script>
 
 </body>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#updateForm').submit(function(e) {
+            e.preventDefault();
 
+            $.ajax({
+                type: 'POST',
+                url: $(this).attr('action'),
+                data: $(this).serialize(),
+                success: function(response) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Changes Saved',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(function() {
+                        window.location.href = 'Account.php';
+                    });
+                },
+                error: function() {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Failed to save changes',
+                    });
+                }
+            });
+        });
+    });
+</script>
 </html>

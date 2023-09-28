@@ -1,7 +1,7 @@
 <?php
     session_start();
 
-    require_once('db_connection.php');
+    require_once('../db_connection.php');
 
     
     $hasLogin = (isset($_SESSION['hasLogin'])?$_SESSION['hasLogin']:0);
@@ -17,7 +17,7 @@
 <html lang="en">
 
 <?php
-    include("header.php");
+    include("../header.php");
 ?>
 
 <body id="page-top">
@@ -27,7 +27,7 @@
 
         <!-- Sidebar -->
         <?php
-            include ("menu.php");
+            include ("brgymenu.php");
 
         ?>
         <!-- End of Sidebar -->
@@ -58,7 +58,7 @@
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-white-600 small">Admin</span>
                                 <img class="img-profile rounded-circle"
-                                    src="img/undraw_profile.svg">
+                                    src="../img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"

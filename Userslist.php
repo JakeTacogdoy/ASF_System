@@ -93,13 +93,13 @@
                     <h1 class="h3 mb-2 text-gray-800">User Information</h1>
 
                     <?php
-                        $sql = "Select id, LastName, FirstName, MiddleName, Birthdate, TIMESTAMPDIFF(YEAR, Birthdate, CURDATE()) AS Age, Sex, Status from residents order by LastName";
-                        $results = $conn->query($sql);
+                        $sql = "Select * from owners order by lastname";
+                        $results = $conn->query($sql); 
 
                     ?>
 
                    <!-- Add Button -->
-                            <a href="residentsadd.php" class="btn bg-warning" style="margin-bottom:15px"><i class="fa fa-plus"></i> Add Resident</a>
+                            <a href="UserinfoAdd.php" class="btn bg-primary text-white" style="margin-bottom:15px"><i class="fa fa-plus"></i>Add User</a>
                         <!-- End Add Button -->
                     <div class="card shadow mb-4">
                          
@@ -107,15 +107,17 @@
                             <div class="table-responsive">
                                 <table class="table" id="dataTable" width="100%" cellspacing="0">
                                      <thead>
-                                        <tr class="bg-gradient-warning text-white">
+                                        <tr class="bg-gradient-dark text-white">
                                             <th>Action</th>
-                                            <th>Last Name</th>
+                                            <th>Email Address</th>
                                             <th>First Name</th>
                                             <th>Middle Name</th>
-                                            <th>Date of Birth</th>
-                                            <th>Age</th>
-                                            <th>Sex</th>
-                                            <th>Status</th>
+                                            <th>Last Name</th>
+                                            <th>Contact No.</th>
+                                            <th>Barangay</th>
+                                            <th>No. Farm</th>
+                                            <th>No. Pigs</th>
+                                            
                                         </tr>
                                         </thead>
 
@@ -125,25 +127,26 @@
                                 echo "<tr>
                                     <td>
                                      
-                                      <a class = 'mr-2' href = 'residentsedit.php?id=".$line['id']."'>
-                                        <i class = 'fa fa-edit text-success'></i>
-                                        </a>
-                          
-                                      
-                                       <a href = 'residentsdelete.php?id=".$line['id']."'>
-                                        <i class = 'fa fa-trash text-danger'></i>
-                                        </a>
+                                    <button type='button' class='btn btn-success mr-2' onclick='showEditAlert(". $line['id'] .")'>
+                                    <i class='fa fa-edit'></i>
+                                    </button>
+                    
+                                    <button type='button' class='btn btn-danger' onclick='showDeleteAlert(". $line['id'] .")'>
+                                    <i class='fa fa-trash'></i>
+                                     </button>
+
 
 
 
                                     </td>
-                                    <td>".$line['LastName']."</td>
-                                    <td>".$line['FirstName']."</td>
-                                    <td>".$line['MiddleName']."</td>
-                                    <td>".$line['Birthdate']."</td>
-                                    <td>".$line['Age']."</td>
-                                    <td>".$line['Sex']."</td>
-                                    <td>".$line['Status']."</td>
+                                    <td>".$line['email']."</td>
+                                    <td>".$line['firstname']."</td>
+                                    <td>".$line['middlename']."</td>
+                                    <td>".$line['lastname']."</td>
+                                    <td>".$line['contact']."</td>
+                                    <td>".$line['barangay']."</td>
+                                    <td>".$line['farm']."</td>
+                                    <td>".$line['pig']."</td>
                                 </tr>";
                             }
                         ?>
@@ -159,15 +162,6 @@
             </div>
             <!-- End of Main Content -->
 
-            <!-- Footer -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Barangay Ambao Information System 2022</span>
-                    </div>
-                </div>
-            </footer>
-            <!-- End of Footer -->
 
         </div>
         <!-- End of Content Wrapper -->
@@ -199,6 +193,7 @@
             </div>
         </div>
     </div>
+  
 
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
@@ -218,5 +213,44 @@
     <script src="js/demo/datatables-demo.js"></script>
 
 </body>
+<script type="text/javascript">
+    function showEditAlert(id) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "Once edited, you will not be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, edit it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = 'UserinfoEdit.php?id=' + id;
+            }
+        });
+    }
+
+    function showDeleteAlert(id) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "Once deleted, you will not be able to recover this account!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire(
+                    'Deleted!',
+                    'Your file has been deleted.',
+                    'success'
+                ).then(() => {
+                    window.location.href = 'UserinfoDelete.php?id=' + id;
+                });
+            }
+        });
+    }
+</script>
 
 </html>
