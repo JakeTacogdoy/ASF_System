@@ -121,7 +121,7 @@
                             <div class="form-group">
                                 <label for="userType">User Type</label>
                                 <select class="form-control" id="userType" name="userType" required>
-                                    <option value="user">User</option>
+                                    <option value="da-admin">DA-Admin</option>
                                     <option value="admin">Admin</option>
                                 </select>
                             </div>

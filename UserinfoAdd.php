@@ -90,7 +90,7 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Admin Information</h1>
+                    <h1 class="h3 mb-2 text-gray-800">User Information</h1>
                     
 
                     <form action="Userinfo_process.php" method="post">
@@ -169,8 +169,13 @@
                                     <option value="ZONE V">ZONE V</option>
                                 </select>
                             </div>
+                           
                         </div>
                         <div class="row">
+                        <div class="form-group col-md-4">
+                                <label for="farmNo">Purok</label>
+                                <input type="text" class="form-control" id="purok" name="purok" placeholder="Enter Purok" required>
+                            </div>
                             <div class="form-group col-md-4">
                                 <label for="farmNo">No. Farm</label>
                                 <input type="number" class="form-control" id="farmNo" name="farmNo" placeholder="Enter No. Farm" required>
@@ -179,25 +184,37 @@
                                 <label for="pigsNo">No. Pigs</label>
                                 <input type="number" class="form-control" id="pigsNo" name="pigsNo" placeholder="Enter No. Pigs" required>
                             </div>
-                            
+                           
                         </div>
-                        <button type="submit" class="btn btn-primary">Add Admin</button>
-                    </form>
-                </div>
+                        <div class="row">
+           
+                          </div>
+                        <div class="row">
+                        <div class="col-md-6">
+                                <div id="map" style="width: 90%; height: 300px;"></div>
+                            </div>
+                            <div class="col-md-6">
+                            <br>  <div class="form-group">
+                                    <label for="latitude">Latitude</label>
+                                    <input type="text" class="form-control" id="latitude" name="latitude" placeholder="Enter Latitude" required>
+                                </div>
+                            
+                        
+                                <div class="form-group">
+                                    <label for="longitude">Longitude</label>
+                                    <input type="text" class="form-control" id="longitude" name="longitude" placeholder="Enter Longitude" required>
+                                </div>
+                            </div>
+                        </div>
+
+                                    <br>  <button type="submit" class="btn btn-primary">Add Admin</button>
+                                    </form>
+                                </div>
                 <!-- /.container-fluid -->
 
             </div>
             <!-- End of Main Content -->
 
-            <!-- Footer -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Barangay Ambao Information System 2022</span>
-                    </div>
-                </div>
-            </footer>
-            <!-- End of Footer -->
 
         </div>
         <!-- End of Content Wrapper -->
@@ -246,6 +263,61 @@
 
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
+
+    <script type="text/javascript">
+       
+       var map = L.map('map').setView([10.3959, 124.9427], 17);
+       L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+
+        var blueIcon = L.icon({
+            iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            shadowSize: [41, 41],
+        });
+
+        var markers = L.layerGroup().addTo(map);
+
+        // Add an event listener for clicks on the map
+        map.on('click', function(e) {
+            var latitude = e.latlng.lat;
+            var longitude = e.latlng.lng;
+
+            // Update the latitude and longitude in the form
+            $('#latitude').val(latitude);
+            $('#longitude').val(longitude);
+
+            var marker = L.marker([latitude, longitude], { icon: blueIcon }).addTo(markers);
+
+            // Add a popup to show the coordinates
+            marker.bindPopup(`Latitude: ${latitude}<br>Longitude: ${longitude}`).openPopup();
+        });
+
+        $('#addMarker').click(function() {
+            var latitude = $('#latitude').val();
+            var longitude = $('#longitude').val();
+
+            if (!isNaN(latitude) && !isNaN(longitude)) {
+                var latlng = L.latLng(parseFloat(latitude), parseFloat(longitude));
+
+                var marker = L.marker(latlng, { icon: blueIcon }).addTo(markers);
+
+                // You can add a popup with marker information here
+                marker.bindPopup(`Latitude: ${latitude}<br>Longitude: ${longitude}`).openPopup();
+
+                // Clear the latitude and longitude fields
+                $('#latitude').val('');
+                $('#longitude').val('');
+            } else {
+                alert("Invalid latitude or longitude. Please enter numeric values.");
+            }
+        });
+
+    </script>
 
 </body>
 
