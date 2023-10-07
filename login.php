@@ -158,7 +158,7 @@
                     window.location = "index.php";
                 }else if(response == "2")
                 {
-                    window.location = "user.php";
+                    window.location = "useradmin/index.php";
                 }else if(response == "3")
                 {
                     window.location = "da.php";
