@@ -27,7 +27,7 @@
 
         <!-- Sidebar -->
         <?php
-            include ("brgymenu.php");
+            include ("brgy`menu.php");
 
         ?>
         <!-- End of Sidebar -->

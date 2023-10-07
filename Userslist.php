@@ -115,8 +115,11 @@
                                             <th>Last Name</th>
                                             <th>Contact No.</th>
                                             <th>Barangay</th>
+                                            <th>Purok</th>
                                             <th>No. Farm</th>
                                             <th>No. Pigs</th>
+                                            <th>Latitude</th>
+                                            <th>Longitude</th>
                                             
                                         </tr>
                                         </thead>
@@ -145,8 +148,11 @@
                                     <td>".$line['lastname']."</td>
                                     <td>".$line['contact']."</td>
                                     <td>".$line['barangay']."</td>
+                                    <td>".$line['purok']."</td>
                                     <td>".$line['farm']."</td>
                                     <td>".$line['pig']."</td>
+                                    <td>".$line['latitude']."</td>
+                                    <td>".$line['longitude']."</td>
                                 </tr>";
                             }
                         ?>
