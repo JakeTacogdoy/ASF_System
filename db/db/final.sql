@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 02, 2023 at 07:11 AM
+-- Generation Time: Oct 09, 2023 at 06:28 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -20,6 +20,46 @@ SET time_zone = "+00:00";
 --
 -- Database: `final`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `news`
+--
+
+CREATE TABLE `news` (
+  `id` int(11) NOT NULL,
+  `description` varchar(50) NOT NULL,
+  `url` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `owners`
+--
+
+CREATE TABLE `owners` (
+  `id` int(11) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `firstname` varchar(50) NOT NULL,
+  `middlename` varchar(50) NOT NULL,
+  `lastname` varchar(50) NOT NULL,
+  `barangay` varchar(255) NOT NULL,
+  `purok` varchar(255) NOT NULL,
+  `contact` bigint(11) NOT NULL,
+  `farm` bigint(255) NOT NULL,
+  `pig` bigint(255) NOT NULL,
+  `latitude` decimal(10,6) NOT NULL,
+  `longitude` decimal(10,6) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `owners`
+--
+
+INSERT INTO `owners` (`id`, `email`, `firstname`, `middlename`, `lastname`, `barangay`, `purok`, `contact`, `farm`, `pig`, `latitude`, `longitude`) VALUES
+(7, 'jundelleollis25@gmail.com', 'Jundelle', 'Dador', 'Sillo', 'RIZAL', 'purok 5', 9956479695, 2, 1, '10.390810', '124.983393');
 
 -- --------------------------------------------------------
 
@@ -79,6 +119,18 @@ CREATE TABLE `videos` (
 --
 
 --
+-- Indexes for table `news`
+--
+ALTER TABLE `news`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `owners`
+--
+ALTER TABLE `owners`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `residents`
 --
 ALTER TABLE `residents`
@@ -99,6 +151,18 @@ ALTER TABLE `videos`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `news`
+--
+ALTER TABLE `news`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `owners`
+--
+ALTER TABLE `owners`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `residents`

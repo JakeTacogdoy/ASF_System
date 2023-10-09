@@ -50,7 +50,7 @@ style="background: linear-gradient(36deg, #515bf0,#515bf0);;">
             <li class="nav-item">
                 <a class="nav-link" href="Map.php">
                 <i class="fa-solid fa-map-location-dot"></i>
-                    <span>Map</span></a>
+                    <span>GIS Map</span></a>
             </li>
 
              <li class="nav-item">

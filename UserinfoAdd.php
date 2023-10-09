@@ -191,7 +191,7 @@
                           </div>
                         <div class="row">
                         <div class="col-md-6">
-                                <div id="map" style="width: 90%; height: 300px;"></div>
+                                <div id="mapid" style="width: 90%; height: 300px;"></div>
                             </div>
                             <div class="col-md-6">
                             <br>  <div class="form-group">
@@ -207,7 +207,7 @@
                             </div>
                         </div>
 
-                                    <br>  <button type="submit" class="btn btn-primary">Add Admin</button>
+                                    <br>  <button type="submit" class="btn btn-primary">Add User</button>
                                     </form>
                                 </div>
                 <!-- /.container-fluid -->
@@ -264,61 +264,44 @@
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
 
-    <script type="text/javascript">
-       
-       var map = L.map('map').setView([10.3959, 124.9427], 17);
-       L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    }).addTo(map);
+    <script>
+    var map;
+    var marker;
+    var latitudeInput = document.getElementById('latitude');
+    var longitudeInput = document.getElementById('longitude');
 
-        var blueIcon = L.icon({
-            iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
-            iconSize: [25, 41],
-            iconAnchor: [12, 41],
-            popupAnchor: [1, -34],
-            shadowSize: [41, 41],
-        });
+    function initMap() {
+      map = L.map('mapid').setView([10.395911295892605, 124.94326335612267], 18);
 
-        var markers = L.layerGroup().addTo(map);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+          '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+          'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        maxZoom: 18
+      }).addTo(map);
 
-        // Add an event listener for clicks on the map
-        map.on('click', function(e) {
-            var latitude = e.latlng.lat;
-            var longitude = e.latlng.lng;
+      map.on('click', function (event) {
+        var lat = event.latlng.lat;
+        var lng = event.latlng.lng;
 
-            // Update the latitude and longitude in the form
-            $('#latitude').val(latitude);
-            $('#longitude').val(longitude);
+        // Update the marker's position
+        if (marker) {
+          marker.setLatLng([lat, lng]);
+        } else {
+          marker = L.marker([lat, lng]).addTo(map);
+        }
 
-            var marker = L.marker([latitude, longitude], { icon: blueIcon }).addTo(markers);
+        // Update the input fields with the latitude and longitude
+        latitudeInput.value = lat;
+        longitudeInput.value = lng;
+      });
+    }
 
-            // Add a popup to show the coordinates
-            marker.bindPopup(`Latitude: ${latitude}<br>Longitude: ${longitude}`).openPopup();
-        });
-
-        $('#addMarker').click(function() {
-            var latitude = $('#latitude').val();
-            var longitude = $('#longitude').val();
-
-            if (!isNaN(latitude) && !isNaN(longitude)) {
-                var latlng = L.latLng(parseFloat(latitude), parseFloat(longitude));
-
-                var marker = L.marker(latlng, { icon: blueIcon }).addTo(markers);
-
-                // You can add a popup with marker information here
-                marker.bindPopup(`Latitude: ${latitude}<br>Longitude: ${longitude}`).openPopup();
-
-                // Clear the latitude and longitude fields
-                $('#latitude').val('');
-                $('#longitude').val('');
-            } else {
-                alert("Invalid latitude or longitude. Please enter numeric values.");
-            }
-        });
-
-    </script>
-
+    // Call the initMap function once the page has loaded
+    document.addEventListener('DOMContentLoaded', function () {
+      initMap();
+    });
+  </script>
 </body>
 
 </html>

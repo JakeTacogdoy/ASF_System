@@ -90,7 +90,7 @@
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-                <div class="col" id="mapid" style="height: 500px;"></div>
+                <div class="col" id="mapid" style="height: 580px; "></div>
 
 <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
 <script>
