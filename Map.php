@@ -94,42 +94,65 @@
 
 <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
 <script>
-  function initMap() {
-    // Create a new map object and set its center and zoom level
-    var map = L.map('mapid').setView([10.395911295892605, 124.94326335612267], 18);
+    var map;
+    var marker;
+    var latitudeInput = document.getElementById('latitude');
+    var longitudeInput = document.getElementById('longitude');
 
+    function initMap() {
+      map = L.map('mapid').setView([10.395911295892605, 124.94326335612267], 18);
 
-    // Add a tile layer to the map
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
-        '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-        'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-      maxZoom: 18
-    }).addTo(map);
+      L.tileLayer('https://api.maptiler.com/maps/openstreetmap/{z}/{x}/{y}@2x.jpg?key=ck9IuPHVWmR193EaY5rr', {
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+          '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+          'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        maxZoom: 18
+      }).addTo(map);
 
-    var marker = null;
+      map.on('click', function (event) {
+        var lat = event.latlng.lat;
+        var lng = event.latlng.lng;
 
-    // Add a click event to the map
-    map.on('click', function (event) {
-      var lat = event.latlng.lat;
-      var lng = event.latlng.lng;
+        // Update the marker's position
+        if (marker) {
+          marker.setLatLng([lat, lng]);
+        } else {
+          marker = L.marker([lat, lng]).addTo(map);
+        }
 
-      if (marker !== null) {
-        map.removeLayer(marker);
-      }
+        // Update the input fields with the latitude and longitude
+        latitudeInput.value = lat;
+        longitudeInput.value = lng;
 
-      console.log("Clicked on (" + lat + ", " + lng + ")");
+        // Add a popup to the marker
+        marker.bindPopup('Click here for more information.').openPopup();
+      });
+    }
 
-      marker = L.marker([lat, lng]).addTo(map);
+    // Call the initMap function once the page has loaded
+    document.addEventListener('DOMContentLoaded', function () {
+      initMap();
     });
-  }
-</script>
-<script>
-  // Call the initMap function once the page has loaded
-  document.addEventListener('DOMContentLoaded', function () {
-    initMap();
-  });
-</script>
+
+    document.getElementById('submitForm').addEventListener('click', function() {
+      // Get the form data
+      var formData = new FormData(document.getElementById('userForm'));
+
+      // Send the form data using AJAX
+      var xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+          if (xhr.status === 200) {
+            swal('Success', 'User information added successfully!', 'success');
+          } else {
+            swal('Error', 'An error occurred while adding user information.', 'error');
+          }
+        }
+      };
+      xhr.open('POST', 'Userinfo_process.php', true);
+      xhr.send(formData);
+    });
+  </script> 
                     <!-- Page Heading -->
                     
 

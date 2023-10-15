@@ -264,44 +264,72 @@
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
 
-    <script>
-    var map;
-    var marker;
-    var latitudeInput = document.getElementById('latitude');
-    var longitudeInput = document.getElementById('longitude');
+    
+<script>
+var map;
+var marker;
+var latitudeInput = document.getElementById('latitude');
+var longitudeInput = document.getElementById('longitude');
 
-    function initMap() {
-      map = L.map('mapid').setView([10.395911295892605, 124.94326335612267], 18);
+function initMap() {
+  map = L.map('mapid').setView([10.395911295892605, 124.94326335612267], 18);
 
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
-          '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-          'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-        maxZoom: 18
-      }).addTo(map);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+      '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+      'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+    maxZoom: 18
+  }).addTo(map);
 
-      map.on('click', function (event) {
-        var lat = event.latlng.lat;
-        var lng = event.latlng.lng;
+  map.on('click', function (event) {
+    var lat = event.latlng.lat;
+    var lng = event.latlng.lng;
 
-        // Update the marker's position
-        if (marker) {
-          marker.setLatLng([lat, lng]);
-        } else {
-          marker = L.marker([lat, lng]).addTo(map);
-        }
-
-        // Update the input fields with the latitude and longitude
-        latitudeInput.value = lat;
-        longitudeInput.value = lng;
-      });
+    // Update the marker's position
+    if (marker) {
+      marker.setLatLng([lat, lng]);
+    } else {
+      marker = L.marker([lat, lng]).addTo(map);
     }
 
-    // Call the initMap function once the page has loaded
-    document.addEventListener('DOMContentLoaded', function () {
-      initMap();
-    });
-  </script>
+    // Update the input fields with the latitude and longitude
+    latitudeInput.value = lat;
+    longitudeInput.value = lng;
+  });
+}
+
+// Call the initMap function once the page has loaded
+document.addEventListener('DOMContentLoaded', function () {
+  initMap();
+});
+
+document.getElementById('submitForm').addEventListener('click', function() {
+    var latitude = document.getElementById('latitude').value;
+    var longitude = document.getElementById('longitude').value;
+
+    var formData = new FormData(document.getElementById('userinfoForm'));
+    formData.append('latitude', latitude);
+    formData.append('longitude', longitude);
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'Userinfo_process.php', true);
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            swal('Success!', 'User added successfully!', 'success');
+
+            var marker = L.marker([latitude, longitude]).addTo(map);
+            marker.bindPopup('<b>User Info:</b><br> Name: ' + formData.get('firstName') + ' ' + formData.get('lastName'));
+
+            document.getElementById('userinfoForm').reset();
+        } else {
+            swal('Error!', 'An error occurred while adding user.', 'error');
+        }
+    };
+
+    xhr.send(formData);
+});
+</script>
+
 </body>
 
 </html>
