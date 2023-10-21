@@ -103,7 +103,7 @@
                             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                                 <div class="form-group">
                                     <label>First Name</label>
-                                    <input type="text" name="firstName" class="form-control" value="<?= $row['firstname'] ?>">
+                                    <input type="text" name="firstName" class="form-control" value="<?= $row['firstname'] ?>" required>
                                 </div>
                             </div>
 
@@ -126,92 +126,34 @@
 
                             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                                 <div class="form-group">
-                                    <label>Email Address</label>
-                                    <input type="email" name="email" class="form-control" value="<?= $row['email'] ?>">
-                                </div>
-                            </div>
-
-                    
-                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                                <div class="form-group">
                                     <label>Contact No.</label>
                                     <input type="tel" name="contactNo" class="form-control" value="<?= $row['contact'] ?>">
                                 </div>
                             </div>
-
                             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                                <div class="form-group">
-                                    <label>Barangay</label>
-                                    <select name="barangay" class="form-control">
-                                        <option value="BENIT">BENIT</option>
-                                        <option value="BUAC DAKU">BUAC DAKU</option>
-                                    <option value="BUAC GAMAY">BUAC GAMAY</option>
-                                    <option value="CABADBARAN">CABADBARAN</option>
-                                    <option value="CONCEPCION">CONCEPCION</option>
-                                    <option value="CONSOLACION">CONSOLACION</option>
-                                    <option value="DAGSA">DAGSA</option>
-                                    <option value="HIBOD-HIBOD">HIBOD-HIBOD</option>
-                                    <option value="HINDANGAN">HINDANGAN</option>
-                                    <option value="HIPANTAG">HIPANTAG</option>
-                                    <option value="JAVIER">JAVIER</option>
-                                    <option value="KAHUPIAN">KAHUPIAN</option>
-                                    <option value="KANANGKAAN">KANANGKAAN</option>
-                                    <option value="KAUSWAGAN">KAUSWAGAN</option>
-                                    <option value="LP CONCEPCION">LP CONCEPCION</option>
-                                    <option value="LIBAS">LIBAS</option>
-                                    <option value="LOM-AN">LOM-AN</option>
-                                    <option value="MABICAY">MABICAY</option>
-                                    <option value="MAAC">MAAC</option>
-                                    <option value="MAGATAS">MAGATAS</option>
-                                    <option value="MAHAYAHAY">MAHAYAHAY</option>
-                                    <option value="MALINAO">MALINAO</option>
-                                    <option value="MARIA PLANA">MARIA PLANA</option>
-                                    <option value="MILAGROSO">MILAGROSO</option>
-                                    <option value="OLISIHAN">OLISIHAN</option>
-                                    <option value="PANCHO VILLA">PANCHO VILLA</option>
-                                    <option value="PANDAN">PANDAN</option>
-                                    <option value="RIZAL">RIZAL</option>
-                                    <option value="SALVACION">SALVACION</option>
-                                    <option value="SF MABUHAY">SF MABUHAY</option>
-                                    <option value="SAN ISIDRO">SAN ISIDRO</option>
-                                    <option value="SAN JOSE">SAN JOSE</option>
-                                    <option value="SAN JUAN (AGATA)">SAN JUAN (AGATA)</option>
-                                    <option value="SAN MIGUEL">SAN MIGUEL</option>
-                                    <option value="SAN PEDRO">SAN PEDRO</option>
-                                    <option value="SAN ROQUE">SAN ROQUE</option>
-                                    <option value="SAN VICENTE">SAN VICENTE</option>
-                                    <option value="SANTA MARIA">SANTA MARIA</option>
-                                    <option value="SUBA">SUBA</option>
-                                    <option value="TAMPOONG">TAMPOONG</option>
-                                    <option value="ZONE I">ZONE I</option>
-                                    <option value="ZONE II">ZONE II</option>
-                                    <option value="ZONE III">ZONE III</option>
-                                    <option value="ZONE IV">ZONE IV</option>
-                                    <option value="ZONE V">ZONE V</option>
-                                    </select>
-                                </div>
+                                <label for="pigsNo">No. Pigs</label>
+                                <input type="number" class="form-control" id="pigsNo" name="pigsNo" value="<?= $row['pig'] ?>" required>
                             </div>
-                        </div>
 
+                           
                         <div class="row">
-     
-                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                                <div class="form-group">
-                                    <label>No. Farm</label>
-                                    <input type="number" name="farmNo" class="form-control" value="<?= $row['farm'] ?>">
-                                </div>
-                            </div>
+                       
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
 
-                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                                <div class="form-group">
-                                    <label>No. Pigs</label>
-                                    <input type="number" name="pigsNo" class="form-control" value="<?= $row['pig'] ?>">
-                                </div>
+                        <label for="positive">Status</label>
+                            <div style="display: flex; align-items: right;">
+                            Positive
+                                <label style="margin-right: 10px;">
+                                    <input type="radio" name="pigsStatus" value="<?= $row['is_positive'] ?>" required> 
+                                </label>
+                            
+                            
+                            
                             </div>
                         </div>
 
                         <center>
-                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                            <button style="margin-top: 200px;" type="submit" class="btn btn-primary">Save Changes</button>
                         </center>
                     </form>
                 <!-- /.container-fluid -->

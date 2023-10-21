@@ -10,7 +10,19 @@
         exit;
     }
 
+    function isWithinRadius($centerLat, $centerLon, $targetLat, $targetLon) {
+        $earthRadius = 6371000; // Radius of the Earth in meters
     
+        $dLat = deg2rad($targetLat - $centerLat);
+        $dLon = deg2rad($targetLon - $centerLon);
+    
+        $a = sin($dLat / 2) * sin($dLat / 2) + cos(deg2rad($centerLat)) * cos(deg2rad($targetLat)) * sin($dLon / 2) * sin($dLon / 2);
+        $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+    
+        $distance = $earthRadius * $c; // Distance in meters
+    
+        return $distance <= 500;
+    }
 ?>
 
 <!DOCTYPE html>
@@ -87,7 +99,13 @@
 
                 </nav>
                 <!-- End of Topbar -->
-
+                <?php
+                        $sql = "Select * from owners";
+                        $owners = $conn->query($sql);
+                        $sql = "Select * from owners where is_positive = 1";
+                        $positives = $conn->query($sql);
+                        echo "<script>document.addEventListener('DOMContentLoaded', function () { initMap(); });</script>";
+                    ?>
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
                 <div class="col" id="mapid" style="height: 580px; "></div>
@@ -100,58 +118,91 @@
     var longitudeInput = document.getElementById('longitude');
 
     function initMap() {
-      map = L.map('mapid').setView([10.395911295892605, 124.94326335612267], 18);
+      map = L.map('mapid').setView([11.474641, 125.065661], 8);
 
       L.tileLayer('https://api.maptiler.com/maps/openstreetmap/{z}/{x}/{y}@2x.jpg?key=ck9IuPHVWmR193EaY5rr', {
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
           '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
           'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-        maxZoom: 18
+        maxZoom: 13
       }).addTo(map);
 
-      map.on('click', function (event) {
-        var lat = event.latlng.lat;
-        var lng = event.latlng.lng;
-
-        // Update the marker's position
-        if (marker) {
-          marker.setLatLng([lat, lng]);
-        } else {
-          marker = L.marker([lat, lng]).addTo(map);
+    
+    <?php 
+        // Example usage:
+        // $centerLatitude = 10.059410; // Example latitude
+        // $centerLongitude = 125.159160; // Example longitude
+        
+        foreach ($positives as $positive) { 
+            $centerLatitude = $positive['latitude'];
+            $centerLongitude = $positive['longitude'];
         }
 
-        // Update the input fields with the latitude and longitude
-        latitudeInput.value = lat;
-        longitudeInput.value = lng;
+        foreach ($owners as $owner) { 
+            $targetLatitude = $owner['latitude']; 
+            $targetLongitude = $owner['longitude']; 
 
-        // Add a popup to the marker
-        marker.bindPopup('Click here for more information.').openPopup();
-      });
+            if (isWithinRadius($centerLatitude, $centerLongitude, $targetLatitude, $targetLongitude)) {
+    ?>  
+            console.log('Positive : <?php echo $owner['firstname']; ?>');
+              L.marker([<?php echo $owner['latitude']; ?>, <?php echo $owner['longitude']; ?>]).addTo(map)
+                .bindPopup(`<p style="background-color:red;">Within the radius!</p><br>
+                First Name: <?php echo $owner['firstname']; ?>
+                `)
+                .openPopup();
+    <?php 
+            } else {
+    ?>   
+            console.log('Negative : <?php echo $owner['firstname']; ?>');
+            L.marker([<?php echo $owner['latitude']; ?>, <?php echo $owner['longitude']; ?>]).addTo(map)
+            .bindPopup(`First Name: <?php echo $owner['firstname']; ?>`);
+    <?php          
+            }
+        }
+    ?>
+      
+
+    //   map.on('click', function (event) {
+    //     var lat = event.latlng.lat;
+    //     var lng = event.latlng.lng;
+
+    //     // Update the marker's position
+    //     if (marker) {
+    //       marker.setLatLng([lat, lng]);
+    //     } else {
+    //       marker = L.marker([lat, lng]).addTo(map);
+    //     }
+
+    //     // Update the input fields with the latitude and longitude
+    //     latitudeInput.value = lat;
+    //     longitudeInput.value = lng;
+
+    //     // Add a popup to the marker
+    //     marker.bindPopup('Click here for more information.').openPopup();
+    //   });
     }
 
     // Call the initMap function once the page has loaded
-    document.addEventListener('DOMContentLoaded', function () {
-      initMap();
-    });
+    
 
-    document.getElementById('submitForm').addEventListener('click', function() {
-      // Get the form data
-      var formData = new FormData(document.getElementById('userForm'));
+    // document.getElementById('submitForm').addEventListener('click', function() {
+    //   // Get the form data
+    //   var formData = new FormData(document.getElementById('userForm'));
 
-      // Send the form data using AJAX
-      var xhr = new XMLHttpRequest();
-      xhr.onreadystatechange = function() {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-          if (xhr.status === 200) {
-            swal('Success', 'User information added successfully!', 'success');
-          } else {
-            swal('Error', 'An error occurred while adding user information.', 'error');
-          }
-        }
-      };
-      xhr.open('POST', 'Userinfo_process.php', true);
-      xhr.send(formData);
-    });
+    //   // Send the form data using AJAX
+    //   var xhr = new XMLHttpRequest();
+    //   xhr.onreadystatechange = function() {
+    //     if (xhr.readyState === XMLHttpRequest.DONE) {
+    //       if (xhr.status === 200) {
+    //         swal('Success', 'User information added successfully!', 'success');
+    //       } else {
+    //         swal('Error', 'An error occurred while adding user information.', 'error');
+    //       }
+    //     }
+    //   };
+    //   xhr.open('POST', 'Userinfo_process.php', true);
+    //   xhr.send(formData);
+    // });
   </script> 
                     <!-- Page Heading -->
                     

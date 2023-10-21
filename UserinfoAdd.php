@@ -112,82 +112,30 @@
                         <div class="row">
                             
                             <div class="form-group col-md-4">
-                                <label for="email">Email Address</label>
-                                <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email" required>
-                            </div>
-                            <div class="form-group col-md-4">
                                 <label for="contactNo">Contact No.</label>
                                 <input type="tel" class="form-control" id="contactNo" name="contactNo" placeholder="Enter Contact No." required>
                             </div>
-                            <div class="form-group col-md-4">
-                                <label for="barangay">Barangay</label>
-                                <select class="form-control" id="barangay" name="barangay" required>
-                                    <option value="BENIT">BENIT</option>
-                                    <option value="BUAC DAKU">BUAC DAKU</option>
-                                    <option value="BUAC GAMAY">BUAC GAMAY</option>
-                                    <option value="CABADBARAN">CABADBARAN</option>
-                                    <option value="CONCEPCION">CONCEPCION</option>
-                                    <option value="CONSOLACION">CONSOLACION</option>
-                                    <option value="DAGSA">DAGSA</option>
-                                    <option value="HIBOD-HIBOD">HIBOD-HIBOD</option>
-                                    <option value="HINDANGAN">HINDANGAN</option>
-                                    <option value="HIPANTAG">HIPANTAG</option>
-                                    <option value="JAVIER">JAVIER</option>
-                                    <option value="KAHUPIAN">KAHUPIAN</option>
-                                    <option value="KANANGKAAN">KANANGKAAN</option>
-                                    <option value="KAUSWAGAN">KAUSWAGAN</option>
-                                    <option value="LP CONCEPCION">LP CONCEPCION</option>
-                                    <option value="LIBAS">LIBAS</option>
-                                    <option value="LOM-AN">LOM-AN</option>
-                                    <option value="MABICAY">MABICAY</option>
-                                    <option value="MAAC">MAAC</option>
-                                    <option value="MAGATAS">MAGATAS</option>
-                                    <option value="MAHAYAHAY">MAHAYAHAY</option>
-                                    <option value="MALINAO">MALINAO</option>
-                                    <option value="MARIA PLANA">MARIA PLANA</option>
-                                    <option value="MILAGROSO">MILAGROSO</option>
-                                    <option value="OLISIHAN">OLISIHAN</option>
-                                    <option value="PANCHO VILLA">PANCHO VILLA</option>
-                                    <option value="PANDAN">PANDAN</option>
-                                    <option value="RIZAL">RIZAL</option>
-                                    <option value="SALVACION">SALVACION</option>
-                                    <option value="SF MABUHAY">SF MABUHAY</option>
-                                    <option value="SAN ISIDRO">SAN ISIDRO</option>
-                                    <option value="SAN JOSE">SAN JOSE</option>
-                                    <option value="SAN JUAN (AGATA)">SAN JUAN (AGATA)</option>
-                                    <option value="SAN MIGUEL">SAN MIGUEL</option>
-                                    <option value="SAN PEDRO">SAN PEDRO</option>
-                                    <option value="SAN ROQUE">SAN ROQUE</option>
-                                    <option value="SAN VICENTE">SAN VICENTE</option>
-                                    <option value="SANTA MARIA">SANTA MARIA</option>
-                                    <option value="SUBA">SUBA</option>
-                                    <option value="TAMPOONG">TAMPOONG</option>
-                                    <option value="ZONE I">ZONE I</option>
-                                    <option value="ZONE II">ZONE II</option>
-                                    <option value="ZONE III">ZONE III</option>
-                                    <option value="ZONE IV">ZONE IV</option>
-                                    <option value="ZONE V">ZONE V</option>
-                                </select>
-                            </div>
                            
-                        </div>
-                        <div class="row">
-                        <div class="form-group col-md-4">
-                                <label for="farmNo">Purok</label>
-                                <input type="text" class="form-control" id="purok" name="purok" placeholder="Enter Purok" required>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="farmNo">No. Farm</label>
-                                <input type="number" class="form-control" id="farmNo" name="farmNo" placeholder="Enter No. Farm" required>
-                            </div>
                             <div class="form-group col-md-4">
                                 <label for="pigsNo">No. Pigs</label>
                                 <input type="number" class="form-control" id="pigsNo" name="pigsNo" placeholder="Enter No. Pigs" required>
                             </div>
-                           
                         </div>
+                        
                         <div class="row">
-           
+                       
+                        <div class="form-group col-md-4">
+                        <label for="positive">Pigs Status</label>
+                            <div>
+                                <label>
+                                    <input type="radio" name="pigsStatus" value="Positive" required> Positive
+                                </label>
+                                <label>
+                                    <input type="radio" name="pigsStatus" value="Negative" required> Negative
+                                </label>
+                            </div>
+                        </div>
+
                           </div>
                         <div class="row">
                         <div class="col-md-6">

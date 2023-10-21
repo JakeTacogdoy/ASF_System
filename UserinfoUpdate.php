@@ -1,17 +1,16 @@
+
 <?php
     Include('db_connection.php');
 
     $fname = mysqli_real_escape_string($conn,$_POST["firstName"]);
     $mname = mysqli_real_escape_string($conn,$_POST["middleName"]);
     $lname = mysqli_real_escape_string($conn,$_POST["lastName"]);
-    $email = mysqli_real_escape_string($conn,$_POST["email"]);
     $contact = mysqli_real_escape_string($conn,$_POST["contactNo"]);
-    $barangay = mysqli_real_escape_string($conn,$_POST["barangay"]);
-    $farm = mysqli_real_escape_string($conn,$_POST["farmNo"]);
+    $positive = mysqli_real_escape_string($conn,$_POST["positive"]);
     $pig = mysqli_real_escape_string($conn,$_POST["pigsNo"]);
     $id = mysqli_real_escape_string($conn,$_POST["hiddenID"]); 
 
-    $sql = "UPDATE owners SET  firstname = '".$fname."', middlename = '".$mname."', lastname = '".$lname."', email = '".$email."', barangay = '".$barangay."',contact = '".$contact."', farm = '".$farm."', pig = '".$pig."' WHERE id = ".$id;
+    $sql = "UPDATE owners SET firstname = '".$fname."', middlename = '".$mname."', lastname = '".$lname."', contact = '".$contact."', pig = '".$pig."', is_positive = '".$positive."' WHERE id = ".$id;
     $res = $conn->query($sql);
 
     if ($res){
@@ -19,4 +18,4 @@
     } else {
         echo "Error updating record: " . $conn->error;
     }
-?>
+
