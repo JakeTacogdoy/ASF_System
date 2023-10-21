@@ -121,6 +121,7 @@
                             <div class="form-group">
                                 <label for="userType">User Type</label>
                                 <select class="form-control" id="userType" name="userType" required>
+                                    <option value="user">User</option>
                                     <option value="da-admin">DA-Admin</option>
                                     <option value="admin">Admin</option>
                                 </select>
@@ -134,15 +135,6 @@
             </div>
             <!-- End of Main Content -->
 
-            <!-- Footer -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Barangay Ambao Information System 2022</span>
-                    </div>
-                </div>
-            </footer>
-            <!-- End of Footer -->
 
         </div>
         <!-- End of Content Wrapper -->
