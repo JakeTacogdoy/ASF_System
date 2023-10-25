@@ -1,7 +1,7 @@
 <?php
     session_start();
 
-    require_once('db_connection.php');
+    require_once('../db_connection.php');
 
     $hasLogin = (isset($_SESSION['hasLogin'])?$_SESSION['hasLogin']:0);
 
@@ -17,7 +17,7 @@
 <html lang="en">
 
 <?php
-    include("header.php");
+    include("../brgyadmin/brgyheader.php");
 ?>
 
 <body id="page-top">
@@ -27,7 +27,7 @@
 
         <!-- Sidebar -->
        <?php
-            include ("menu.php");
+            include ("../brgyadmin/brgymenu.php");
 
         ?>
             <!-- Divider -->

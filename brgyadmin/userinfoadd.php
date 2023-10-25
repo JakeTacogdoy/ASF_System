@@ -27,7 +27,7 @@
 
         <!-- Sidebar -->
        <?php
-            include ("menu../brgyadmin/brgymenu.php");
+            include ("../brgyadmin/brgymenu.php");
 
         ?>
             <!-- Divider -->

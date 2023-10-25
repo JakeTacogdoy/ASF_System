@@ -74,6 +74,14 @@
 
                 </nav>
                 <!-- End of Topbar -->
+                
+
+                <div class="container mt-5">
+                    <div class="alert alert-success">
+                        Welcome <?php echo $_SESSION['firstname'] ?> <?php echo $_SESSION['lastname'] ?>
+                    </div>
+                </div>
+
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
