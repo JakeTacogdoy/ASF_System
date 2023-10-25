@@ -14,7 +14,7 @@ style="background: linear-gradient(36deg, #515bf0,#515bf0);;">
 
             <!-- Nav Item - Dashboard -->
              <li class="nav-item active">
-                <a class="nav-link" href="../index.php">
+                <a class="nav-link" href="../useradmin/index.php">
                 <i class="fa-solid fa-gauge" style="color: #ffffff;"></i>
                     <span>Dashboard</span></a>
             </li>

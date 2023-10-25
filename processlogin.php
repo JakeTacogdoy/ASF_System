@@ -19,7 +19,7 @@
 		$_SESSION['hasLogin'] = 1;
 		echo "2";
 	}
-	else if($uname == isset($row['UserName']) and $pword == isset($row['Password']) and $row['usertype'] == "da-admin"){
+	else if($uname == isset($row['UserName']) and $pword == isset($row['Password']) and $row['usertype'] == "brgy-admin"){
 		$_SESSION['hasLogin'] = 1;
 		echo "3";
 	}

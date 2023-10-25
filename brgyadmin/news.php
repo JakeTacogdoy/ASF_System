@@ -1,7 +1,7 @@
 <?php
     session_start();
 
-    require_once('db_connection.php');
+    require_once('../db_connection.php');
 
     $hasLogin = (isset($_SESSION['hasLogin'])?$_SESSION['hasLogin']:0);
 
@@ -17,7 +17,7 @@
 <html lang="en">
 
 <?php
-    include("header.php");
+    include("../brgyadmin/brgyheader.php");
 ?>
 
 <body id="page-top">
@@ -27,7 +27,7 @@
 
         <!-- Sidebar -->
        <?php
-            include ("menu.php");
+            include ("../brgyadmin/brgymenu.php");
 
         ?>
             <!-- Divider -->
@@ -46,6 +46,8 @@
 
             <!-- Main Content -->
             <div id="content">
+
+            
 
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
@@ -67,7 +69,7 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $_SESSION['username'] ?></span>
                                 <img class="img-profile rounded-circle"
                                     src="img/undraw_profile.svg">
                             </a>
@@ -88,72 +90,79 @@
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Residents Information</h1>
-
-                    <?php
-                        $sql = "Select id, LastName, FirstName, MiddleName, Birthdate, TIMESTAMPDIFF(YEAR, Birthdate, CURDATE()) AS Age, Sex, Status from residents order by LastName";
-                        $results = $conn->query($sql);
-
-                    ?>
-
-                   <!-- Add Button -->
-                            <a href="residentsadd.php" class="btn bg-primary" style="margin-bottom:15px"><i class="fa fa-plus"></i> Add Resident</a>
-                        <!-- End Add Button -->
-                    <div class="card shadow mb-4">
-                         
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table" id="dataTable" width="100%" cellspacing="0">
-                                     <thead>
-                                        <tr class="bg-gradient-warning text-white">
-                                            <th>Action</th>
-                                            <th>Last Name</th>
-                                            <th>First Name</th>
-                                            <th>Middle Name</th>
-                                            <th>Date of Birth</th>
-                                            <th>Age</th>
-                                            <th>Sex</th>
-                                            <th>Status</th>
-                                        </tr>
-                                        </thead>
-
-                                        <tbody>
-                        <?php
-                            foreach ($results as $line) {
-                                echo "<tr>
-                                    <td>
-                                     
-                                      <a class = 'mr-2' href = 'residentsedit.php?id=".$line['id']."'>
-                                        <i class = 'fa fa-edit text-success'></i>
-                                        </a>
-                          
-                                      
-                                       <a href = 'residentsdelete.php?id=".$line['id']."'>
-                                        <i class = 'fa fa-trash text-danger'></i>
-                                        </a>
+                    <div class="container mt-5">
+        <h1>Upload News</h1>
+        <form action="UploadNews.php" method="post">
+            <div class="form-group">
+                <label for="newsDescription">News Description:</label>
+                <textarea class="form-control" id="newsDescription" name="description" rows="3" placeholder="Type Here"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="newsURL">URL Link:</label>
+                <input type="text" class="form-control" id="newsURL" name="url" placeholder="https://example.com">
+            </div>
+            <button type="submit" class="btn btn-primary" name="submit">Submit</button>
+        </form>
+       
+    </div>
 
 
-
-                                    </td>
-                                    <td>".$line['LastName']."</td>
-                                    <td>".$line['FirstName']."</td>
-                                    <td>".$line['MiddleName']."</td>
-                                    <td>".$line['Birthdate']."</td>
-                                    <td>".$line['Age']."</td>
-                                    <td>".$line['Sex']."</td>
-                                    <td>".$line['Status']."</td>
-                                </tr>";
-                            }
-                        ?>
-                        </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.5.0/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
+                    
 
                 </div>
+                <div class="container2" style="margin: 20px">
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <tr>
+                               
+                                <th style="padding: 8px; text-align: left; border-bottom: 1px solid #ddd; background-color: #f2f2f2;">ID</th>
+                                <th style="padding: 8px; text-align: left; border-bottom: 1px solid #ddd; background-color: #f2f2f2;">DESCRIPTION</th>
+                                <th style="padding: 8px; text-align: left; border-bottom: 1px solid #ddd; background-color: #f2f2f2;">URL</th>
+                                <th style="padding: 8px; text-align: left; border-bottom: 1px solid #ddd; background-color: #f2f2f2;">ACTION</th>
+                                
+                            </tr>
+                    <?php
+
+                    include "../db_connection.php";
+
+                    $sql = "SELECT * FROM news";
+                    $result = $conn->query($sql);
+
+                if($result->num_rows > 0) {
+
+                    while ($row = $result->fetch_assoc())
+                    {
+                        echo "<tr>
+                       
+                            <td>" . $row['id']. "</td>
+                            <td>" . $row['description']. "</td>
+                            <td>" . $row['url']."</td>
+                            <td>
+                            <a class = 'mr-2' href = 'EditNews.php?id=".$row['id']."'style='font-size: 30px;'>
+                            <i class = 'fa fa-edit text-success'></i>
+                            </a>
+            
+                        
+                        <a href = 'DeleteNews.php?id=".$row['id']."'style='font-size: 30px;'>
+                            <i class = 'fa fa-trash text-danger'></i>
+                            </a>
+                       </td>
+
+                            </tr>";
+
+                            
+
+                    }
+
+                }
+                ?>
+
+            </table>
+            </div>
                 <!-- /.container-fluid -->
 
             </div>
@@ -163,7 +172,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Barangay Ambao Information System 2022</span>
+                        <span>Copyright &copy;Southern Leyte State University 2023</span>
                     </div>
                 </div>
             </footer>
@@ -200,6 +209,8 @@
         </div>
     </div>
 
+    
+
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -216,6 +227,8 @@
 
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
+
+ 
 
 </body>
 

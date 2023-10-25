@@ -81,7 +81,7 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $_SESSION['username'] ?></span>
                                 <img class="img-profile rounded-circle"
                                     src="img/undraw_profile.svg">
                             </a>
@@ -118,14 +118,12 @@
     var longitudeInput = document.getElementById('longitude');
 
     function initMap() {
-      map = L.map('mapid').setView([11.474641, 125.065661], 8);
+      map = L.map('mapid').setView([10.3943, 124.9754], 18);
 
-      L.tileLayer('https://api.maptiler.com/maps/openstreetmap/{z}/{x}/{y}@2x.jpg?key=ck9IuPHVWmR193EaY5rr', {
-        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
-          '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-          'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-        maxZoom: 13
-      }).addTo(map);
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
 
     
     <?php 
@@ -144,10 +142,14 @@
 
             if (isWithinRadius($centerLatitude, $centerLongitude, $targetLatitude, $targetLongitude)) {
     ?>  
-            console.log('Positive : <?php echo $owner['firstname']; ?>');
+             console.log('Positive : <?php echo $owner['firstname']; ?>');
               L.marker([<?php echo $owner['latitude']; ?>, <?php echo $owner['longitude']; ?>]).addTo(map)
                 .bindPopup(`<p style="background-color:red;">Within the radius!</p><br>
-                First Name: <?php echo $owner['firstname']; ?>
+                Name: <?php echo $owner['firstname']; ?> <?php echo $owner['lastname']; ?><br>
+                Contact: <?php echo $owner['contact']; ?><br>
+                No.Pigs: <?php echo $owner['pig']; ?><br>
+                Coordinate: <?php echo $owner['latitude']; ?>,<?php echo $owner['longitude']; ?><br>
+                
                 `)
                 .openPopup();
     <?php 
@@ -155,7 +157,10 @@
     ?>   
             console.log('Negative : <?php echo $owner['firstname']; ?>');
             L.marker([<?php echo $owner['latitude']; ?>, <?php echo $owner['longitude']; ?>]).addTo(map)
-            .bindPopup(`First Name: <?php echo $owner['firstname']; ?>`);
+            .bindPopup(`Name: <?php echo $owner['firstname']; ?>  <?php echo $owner['lastname']; ?><br>
+                        Contact: <?php echo $owner['contact']; ?><br>
+                        No.pigs: <?php echo $owner['pig']; ?><br>
+                        Coordinates: <?php echo $owner['latitude']; ?>,<?php echo $owner['longitude']; ?>`);
     <?php          
             }
         }

@@ -3,10 +3,10 @@
 	
 	$id = $_GET['id'];
 
-	$sql = "DELETE from users where id = ".$id;
+	$sql = "DELETE from owners where id = ".$id;
 	$result = $conn->query($sql);
 
 	if ($result){
-		header("location: ../brgyadmin/Account_user.php");
+		header("location: Userslist.php");
 	}
 ?>

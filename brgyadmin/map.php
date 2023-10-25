@@ -10,7 +10,19 @@
         exit;
     }
 
+    function isWithinRadius($centerLat, $centerLon, $targetLat, $targetLon) {
+        $earthRadius = 6371000; // Radius of the Earth in meters
     
+        $dLat = deg2rad($targetLat - $centerLat);
+        $dLon = deg2rad($targetLon - $centerLon);
+    
+        $a = sin($dLat / 2) * sin($dLat / 2) + cos(deg2rad($centerLat)) * cos(deg2rad($targetLat)) * sin($dLon / 2) * sin($dLon / 2);
+        $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+    
+        $distance = $earthRadius * $c; // Distance in meters
+    
+        return $distance <= 500;
+    }
 ?>
 
 <!DOCTYPE html>
@@ -46,6 +58,8 @@
 
             <!-- Main Content -->
             <div id="content">
+
+            
 
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
@@ -85,64 +99,126 @@
 
                 </nav>
                 <!-- End of Topbar -->
-
+                <?php
+                        $sql = "Select * from owners";
+                        $owners = $conn->query($sql);
+                        $sql = "Select * from owners where is_positive = 1";
+                        $positives = $conn->query($sql);
+                        echo "<script>document.addEventListener('DOMContentLoaded', function () { initMap(); });</script>";
+                    ?>
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
+                <div class="col" id="mapid" style="height: 580px; "></div>
 
+<script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+<script>
+    var map;
+    var marker;
+    var latitudeInput = document.getElementById('latitude');
+    var longitudeInput = document.getElementById('longitude');
+
+    function initMap() {
+      map = L.map('mapid').setView([10.3959, 124.9427],15);
+
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+}).addTo(map);
+
+    
+    <?php 
+        // Example usage:
+        // $centerLatitude = 10.059410; // Example latitude
+        // $centerLongitude = 125.159160; // Example longitude
+        
+        foreach ($positives as $positive) { 
+            $centerLatitude = $positive['latitude'];
+            $centerLongitude = $positive['longitude'];
+        }
+
+        foreach ($owners as $owner) { 
+            $targetLatitude = $owner['latitude']; 
+            $targetLongitude = $owner['longitude']; 
+
+            if (isWithinRadius($centerLatitude, $centerLongitude, $targetLatitude, $targetLongitude)) {
+    ?>  
+            console.log('Positive : <?php echo $owner['firstname']; ?>');
+              L.marker([<?php echo $owner['latitude']; ?>, <?php echo $owner['longitude']; ?>]).addTo(map)
+                .bindPopup(`<p style="background-color:red;">Within the radius!</p><br>
+                Name: <?php echo $owner['firstname']; ?> <?php echo $owner['lastname']; ?><br>
+                No.Pigs: <?php echo $owner['firstname']; ?><br>
+                Coordinate: <?php echo $owner['latitude']; ?>,<?php echo $owner['longitude']; ?><br>
+                
+                `)
+                .openPopup();
+    <?php 
+            } else {
+    ?>   
+            console.log('Negative : <?php echo $owner['firstname']; ?>');
+            L.marker([<?php echo $owner['latitude']; ?>, <?php echo $owner['longitude']; ?>]).addTo(map)
+            .bindPopup(`Name: <?php echo $owner['firstname']; ?>  <?php echo $owner['lastname']; ?><br>
+                        Contact: <?php echo $owner['contact']; ?><br>
+                        No.pigs: <?php echo $owner['pig']; ?><br>
+                        Coordinates: <?php echo $owner['latitude']; ?>,<?php echo $owner['longitude']; ?>`);
+    <?php          
+            }
+        }
+    ?>
+      
+
+    //   map.on('click', function (event) {
+    //     var lat = event.latlng.lat;
+    //     var lng = event.latlng.lng;
+
+    //     // Update the marker's position
+    //     if (marker) {
+    //       marker.setLatLng([lat, lng]);
+    //     } else {
+    //       marker = L.marker([lat, lng]).addTo(map);
+    //     }
+
+    //     // Update the input fields with the latitude and longitude
+    //     latitudeInput.value = lat;
+    //     longitudeInput.value = lng;
+
+    //     // Add a popup to the marker
+    //     marker.bindPopup('Click here for more information.').openPopup();
+    //   });
+    }
+
+    // Call the initMap function once the page has loaded
+    
+
+    // document.getElementById('submitForm').addEventListener('click', function() {
+    //   // Get the form data
+    //   var formData = new FormData(document.getElementById('userForm'));
+
+    //   // Send the form data using AJAX
+    //   var xhr = new XMLHttpRequest();
+    //   xhr.onreadystatechange = function() {
+    //     if (xhr.readyState === XMLHttpRequest.DONE) {
+    //       if (xhr.status === 200) {
+    //         swal('Success', 'User information added successfully!', 'success');
+    //       } else {
+    //         swal('Error', 'An error occurred while adding user information.', 'error');
+    //       }
+    //     }
+    //   };
+    //   xhr.open('POST', 'Userinfo_process.php', true);
+    //   xhr.send(formData);
+    // });
+  </script> 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Admin Information</h1>
                     
-                    <?php
-                        $id = $_GET['id'];
-                        $sql = "Select * from users where id = ".$id;
-                        $results = $conn->query($sql);
-                        $row = $results->fetch_assoc();
 
-                    ?>
-
-                    <form action="brgyadmin/Add_user_process.php" method="post">
-                        
-                        <div class="form-group">
-                            <label for="email">Email Address</label>
-                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="firstName">First Name</label>
-                            <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Enter First Name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="lastName">Last Name</label>
-                            <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Enter Last Name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="username">Username</label>
-                            <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="password">Password</label>
-                            <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="confirmPassword">Confirm Password</label>
-                            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" required>
-                        </div>
-                        <div class="form-group">
-                                <label for="userType">User Type</label>
-                                <select class="form-control" id="userType" name="userType" required>
-                                    <option value="user">User</option>
-                                    <option value="admin">Admin</option>
-                                </select>
-                            </div>
-                            
-                        <button type="submit" class="btn btn-primary">Add Admin</button>
-                    </form>
                 </div>
+               
                 <!-- /.container-fluid -->
 
             </div>
             <!-- End of Main Content -->
 
-            
+           
 
         </div>
         <!-- End of Content Wrapper -->
@@ -174,6 +250,7 @@
             </div>
         </div>
     </div>
+    
 
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
@@ -191,6 +268,8 @@
 
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
+
+ 
 
 </body>
 

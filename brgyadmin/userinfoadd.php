@@ -1,7 +1,7 @@
 <?php
     session_start();
 
-    require_once('db_connection.php');
+    require_once('../db_connection.php');
 
     $hasLogin = (isset($_SESSION['hasLogin'])?$_SESSION['hasLogin']:0);
 
@@ -17,7 +17,7 @@
 <html lang="en">
 
 <?php
-    include("header.php");
+    include("../brgyadmin/brgyheader.php");
 ?>
 
 <body id="page-top">
@@ -27,7 +27,7 @@
 
         <!-- Sidebar -->
        <?php
-            include ("menu.php");
+            include ("menu../brgyadmin/brgymenu.php");
 
         ?>
             <!-- Divider -->
@@ -120,8 +120,10 @@
                                 <label for="pigsNo">No. Pigs</label>
                                 <input type="number" class="form-control" id="pigsNo" name="pigsNo" placeholder="Enter No. Pigs" required>
                             </div>
-                            
-                            <div class="form-group col-md-4">
+                        </div>
+                        
+                        <div class="row">
+                        <div class="form-group col-md-4">
                             <label for="positive">Status</label>
                             <div style="display: flex; align-items: center;">
                                 <label style="margin-right: 10px;">
@@ -134,9 +136,7 @@
                                 </label>
                             </div>
                         </div>
-                        </div>
-                        
-                        
+                          </div>
                         <div class="row">
                         <div class="col-md-6">
                                 <div id="mapid" style="width: 90%; height: 300px;"></div>

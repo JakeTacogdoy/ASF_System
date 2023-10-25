@@ -1,7 +1,7 @@
 <?php
     session_start();
 
-    require_once('db_connection.php');
+    require_once('../db_connection.php');
 
     $hasLogin = (isset($_SESSION['hasLogin'])?$_SESSION['hasLogin']:0);
 
@@ -18,7 +18,7 @@
 <html lang="en">
 
 <?php
-    include('header.php');
+    include('../brgyadmin/brgyheader.php');
 ?>
 <body id="page-top">
 
@@ -27,7 +27,7 @@
 
         <!-- Sidebar -->
         <?php
-            include ('menu.php');
+            include ('../brgyadmin/brgymenu.php');
 
         ?>
         <!-- End of Sidebar -->
@@ -94,7 +94,7 @@
                     ?>
 
                     <!-- Content Row -->
-                    <form action="UserinfoUpdate.php" method="post" id="updateForm">
+                    <form action="UserinfoUpdate.php" method="post">
                         <input type="hidden" name="hiddenID" value="<?=$id?>">
 
                         <div class="row">
@@ -151,11 +151,9 @@
                                 </label>
                             </div>
                         </div>
-                        
-                        </div>
 
                         <center>
-                            <button style="margin-top: 200px;" type="submit" class="btn btn-primary" id="submitButton">Save Changes</button>
+                            <button style="margin-top: 200px;" type="submit" class="btn btn-primary">Save Changes</button>
                         </center>
                     </form>
                 <!-- /.container-fluid -->
@@ -186,36 +184,6 @@
             </div>
         </div>
     </div>
-    <script type=text/javascript>
-    $(document).ready(function() {
-    $('#submitButton').click(function() {
-        $.ajax({
-            type: 'POST',
-            url: 'UserinfoUpdate.php',
-            data: $('#updateForm').serialize(),
-            success: function(response) {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Successfully Updated',
-                    showConfirmButton: false,
-                    timer: 1500, // Auto close after 1.5 seconds
-                    onClose: function() {
-                        window.location.href = 'Userlist.php';
-                    }
-                });
-            },
-            error: function() {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Something went wrong!',
-                });
-            }
-        });
-    });
-});
-</script>
-
 
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>

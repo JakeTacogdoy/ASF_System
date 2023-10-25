@@ -58,9 +58,7 @@
                                         </a>
                                     </form>
                                     <hr>
-                                    <div class="text-center">
-                                        <a class="small" href="register.php">Create an Account</a>
-                                    </div>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -161,7 +159,7 @@
                     window.location = "useradmin/index.php";
                 }else if(response == "3")
                 {
-                    window.location = "da.php";
+                    window.location = "brgyadmin/Dashboard.php";
                 }
                 else{
                     $("#msg").html(response);

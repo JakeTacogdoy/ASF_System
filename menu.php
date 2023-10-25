@@ -2,11 +2,9 @@
 style="background: linear-gradient(36deg, #515bf0,#515bf0);;">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-              <div class="sidebar-brand-icon">
-                    <i class="fas fa-home"></i>
-                </div>
-                <div class="sidebar-brand-text mx-3">SwineSight</div>
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php">
+              
+                <div class="sidebar-brand-text mx-3"><img src="img/Swinesights.png" alt="" width="200px"></div>
             </a>
 
             <!-- Divider -->
@@ -42,7 +40,7 @@ style="background: linear-gradient(36deg, #515bf0,#515bf0);;">
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="Userslist.php">
+                <a class="nav-link" href="message.php">
                 <i class="fa-solid fa-message"></i>
                     <span>Message</span></a>
             </li>

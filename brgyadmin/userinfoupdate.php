@@ -1,21 +1,20 @@
 
 <?php
-    Include('db_connection.php');
+    Include('../db_connection.php');
 
     $fname = mysqli_real_escape_string($conn,$_POST["firstName"]);
     $mname = mysqli_real_escape_string($conn,$_POST["middleName"]);
     $lname = mysqli_real_escape_string($conn,$_POST["lastName"]);
     $contact = mysqli_real_escape_string($conn,$_POST["contactNo"]);
-    $pig = mysqli_real_escape_string($conn,$_POST["pig"]);
     $positive = mysqli_real_escape_string($conn,$_POST["positive"]);
-     
+    $pig = mysqli_real_escape_string($conn,$_POST["pigsNo"]);
     $id = mysqli_real_escape_string($conn,$_POST["hiddenID"]); 
 
     $sql = "UPDATE owners SET firstname = '".$fname."', middlename = '".$mname."', lastname = '".$lname."', contact = '".$contact."', pig = '".$pig."', is_positive = '".$positive."' WHERE id = ".$id;
     $res = $conn->query($sql);
 
     if ($res){
-        header("location: Userslist.php");
+        header("location: ../brgyadmin/listuser.php");
     } else {
         echo "Error updating record: " . $conn->error;
     }

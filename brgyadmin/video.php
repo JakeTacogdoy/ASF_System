@@ -1,7 +1,7 @@
 <?php
     session_start();
 
-    require_once('db_connection.php');
+    require_once('../db_connection.php');
 
     $hasLogin = (isset($_SESSION['hasLogin'])?$_SESSION['hasLogin']:0);
 
@@ -10,26 +10,35 @@
         exit;
     }
 
-
+    
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
 
 <?php
-    include('header.php');
+    include("../brgyadmin/brgyheader.php");
 ?>
+
 <body id="page-top">
 
     <!-- Page Wrapper -->
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <?php
-            include ('menu.php');
+       <?php
+            include ("../brgyadmin/brgymenu.php");
 
         ?>
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+
+        </ul>
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
@@ -37,6 +46,8 @@
 
             <!-- Main Content -->
             <div id="content">
+
+            
 
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
@@ -58,7 +69,7 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $_SESSION['username'] ?></span>
                                 <img class="img-profile rounded-circle"
                                     src="img/undraw_profile.svg">
                             </a>
@@ -79,75 +90,72 @@
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-
                     <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Edit</h1>
-                        
-                    </div>
-
-                    <?php
-                        $id = $_GET['id'];
-                        $sql = "Select * from residents where id = ".$id;
-                        $results = $conn->query($sql);
-                        $row = $results->fetch_assoc();
-
-                    ?>
-                    <!-- Content Row -->
                     
-                   <form action = "residentseditsave.php" method="post">
-                        <input type="hidden" name="hiddenID" value="<?=$id?>">
-                            <div class="row">
-                                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                                    <div class="form-group">
-                                        <label>Last Name</label>
-                                        <input type="text" name="LastName" class="form-control" value="<?=$row['LastName']?>">
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                                    <div class="form-group">
-                                        <label>First Name</label>
-                                        <input type="text" name="FirstName" class="form-control" value="<?=$row['FirstName']?>">
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                                    <div class="form-group">
-                                        <label>Middle Name</label>
-                                        <input type="text" name="MiddleName" class="form-control" value="<?=$row['MiddleName']?>">
-                                    </div>
-                                </div>
-                            </div>
-                                <div class="row">
-                                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                                    <div class="form-group">
-                                        <label>Date of Birth</label>
-                                        <input type="text" name="Birthdate" class="form-control" value="<?=$row['Birthdate']?>">
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                                    <div class="form-group">
-                                       <label>Sex</label>
-                                        <select type="text" name="Sex" id="Sex" class="form-control" value="<?=$row['Sex']?>">
-                                            <option value="Male">Male</option>
-                                            <option value="Female">Female</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                                    <div class="form-group">
-                                        <label>Status</label>
-                                        <input type="text" name="Status" class="form-control" value="<?=$row['Status']?>">
-                                    </div>
-                                </div>  
-                               
-                       </div>
-                        <center><button class="btn btn btn-flat btn-primary btn-sm" style="margin: 20px;"><i class="fa fa-save"></i> Save Changes</button></center>
+                    <h1>Upload Your Videos Here</h1>
+                    <form action="uploadvideo.php" method="POST" enctype="multipart/form-data">
+                        <div class="form-group">
+
+                        <?php if (isset($_GET['error'])){ ?>
+                        <p><?=$_GET['error']?></p>
+                         <?php  } ?>
+                            <label for="video">Upload Video</label>
+                            <input type="file" class="form-control" name="video"><br>
+
+                            <input type="submit" value="upload" class="btn btn-primary" name="submit">
                     </form>
+
                 </div>
+               
                 <!-- /.container-fluid -->
+                        <div class="container2" style="margin: 20px">
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <tr>
+                            <th style="padding: 8px; text-align: left; border-bottom: 1px solid #ddd; background-color: #f2f2f2;">ID</th>
+                                <th style="padding: 8px; text-align: left; border-bottom: 1px solid #ddd; background-color: #f2f2f2;">TITLE</th>
+                                <th style="padding: 8px; text-align: left; border-bottom: 1px solid #ddd; background-color: #f2f2f2;">URL</th>
+                                <th style="padding: 8px; text-align: left; border-bottom: 1px solid #ddd; background-color: #f2f2f2;">ACTION</th>
+                            </tr>
+                    <?php
+
+                    include "../db_connection.php";
+
+                    $sql = "SELECT * FROM videos";
+                    $result = $conn->query($sql);
+
+                if($result->num_rows > 0) {
+
+                    while ($row = $result->fetch_assoc())
+                    {
+                        echo "<tr>
+                            <td>" . $row['id']. "</td>
+                            <td>" . $row['title']. "</td>  
+                            <td>" . $row['video_url']."</td>
+                            <td>
+                            
+                            <a href = 'DeleteVideo.php?id=".$row['id']."' style='font-size: 30px;'>
+                            <i class = 'fa fa-trash text-danger'></i>
+                            </a>
+                       </td>
+                            </tr>";
+                    }
+                }
+                ?>
+
+            </table>
+            </div>
 
             </div>
             <!-- End of Main Content -->
+
+          
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
@@ -172,6 +180,7 @@
             </div>
         </div>
     </div>
+    
 
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
@@ -184,11 +193,13 @@
     <script src="js/sb-admin-2.min.js"></script>
 
     <!-- Page level plugins -->
-    <script src="vendor/chart.js/Chart.min.js"></script>
+    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- Page level custom scripts -->
-    <script src="js/demo/chart-area-demo.js"></script>
-    <script src="js/demo/chart-pie-demo.js"></script>
+    <script src="js/demo/datatables-demo.js"></script>
+
+ 
 
 </body>
 

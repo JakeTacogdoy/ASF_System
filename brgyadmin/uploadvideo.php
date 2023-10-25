@@ -5,7 +5,7 @@
 
     {
         
-        include "db_connection.php";
+        include "../db_connection.php";
         
         $video_name = $_FILES['video']['name'];
         $tmp_name = $_FILES['video']['tmp_name'];
@@ -32,17 +32,17 @@
                 $sql = "INSERT INTO videos(video_url) VALUES('$new_video_name')";
                 mysqli_query($conn, $sql);
 
-                header("Location: Video.php");
+                header("Location: User_interface/UploadedVideos.php");
             }
             else{
                 $em = "You can't upload files of this type";
-                header("Location: Video.php?error=$em");
+                header("Location: ../brgyadmin/video.php?error=$em");
             }
         }
         
     }
     else {
-        header("Location: Video.php");
+        header("Location: ../brgyadmin/video.php");
     }
 
 

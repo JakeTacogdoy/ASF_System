@@ -67,7 +67,7 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $_SESSION['username'] ?></span>
                                 <img class="img-profile rounded-circle"
                                     src="img/undraw_profile.svg">
                             </a>
@@ -92,7 +92,7 @@
                     <!-- Page Heading -->
                     <h1 class="h3 mb-2 text-gray-800">Admin Information</h1>
                     
-                    <form action="Add_admin_process.php" method="post">
+                    <form action="../brgyadmin/Add_users_process.php" method="post">
                         
                         <div class="form-group">
                             <label for="email">Email Address</label>
@@ -133,16 +133,7 @@
             </div>
             <!-- End of Main Content -->
 
-            <!-- Footer -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Barangay Ambao Information System 2022</span>
-                    </div>
-                </div>
-            </footer>
-            <!-- End of Footer -->
-
+            
         </div>
         <!-- End of Content Wrapper -->
 

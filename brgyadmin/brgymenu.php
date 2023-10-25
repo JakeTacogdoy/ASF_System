@@ -2,11 +2,9 @@
 style="background: linear-gradient(36deg, #515bf0,#515bf0);;">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-              <div class="sidebar-brand-icon">
-                    <i class="fas fa-home"></i>
-                </div>
-                <div class="sidebar-brand-text mx-3">SwineSight</div>
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="../brgyadmin/Dashboard.php">
+              
+                <div class="sidebar-brand-text mx-3"><img src="../img/Swinesights.png" alt="" width="250px"></div>
             </a>
 
             <!-- Divider -->
@@ -14,7 +12,7 @@ style="background: linear-gradient(36deg, #515bf0,#515bf0);;">
 
             <!-- Nav Item - Dashboard -->
              <li class="nav-item active">
-                <a class="nav-link" href="Dashboard.php">
+                <a class="nav-link" href="../brgyadmin/Dashboard.php">
                 <i class="fa-solid fa-gauge" style="color: #ffffff;"></i>
                     <span>Dashboard</span></a>
             </li>
@@ -30,13 +28,13 @@ style="background: linear-gradient(36deg, #515bf0,#515bf0);;">
 
             <!-- Nav Item - Tables -->
             <li class="nav-item">
-                <a class="nav-link" href="../Userslist.php">
-                <i class="fa-solid fa-clipboard-list""></i>
+                <a class="nav-link" href="../brgyadmin/listuser.php">
+                <i class="fa-solid fa-clipboard-list"></i>
                     <span>Users</span></a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="Account.php">
+                <a class="nav-link" href="../brgyadmin/Account_user.php">
                 <i class="fa-solid fa-user-plus"></i>
                     <span>Add Account</span></a>
             </li>
@@ -48,25 +46,20 @@ style="background: linear-gradient(36deg, #515bf0,#515bf0);;">
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="Map.php">
+                <a class="nav-link" href="../brgyadmin/map.php">
                 <i class="fa-solid fa-map-location-dot"></i>
-                    <span>Map</span></a>
+                    <span>GIS Map</span></a>
             </li>
 
-             <li class="nav-item">
-                <a class="nav-link" href="residents.php">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Warnings</span></a>
-            </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="Video.php">
+                <a class="nav-link" href="../brgyadmin/video.php">
                 <i class="fa-solid fa-video"></i>
                     <span>Videos</span></a>
             </li>
 
              <li class="nav-item">
-                <a class="nav-link" href="News.php">
+                <a class="nav-link" href="../brgyadmin/news.php">
                 <i class="fa-solid fa-newspaper"></i>
                     <span>News</span></a>
             </li>

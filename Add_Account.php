@@ -67,7 +67,7 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $_SESSION['username'] ?></span>
                                 <img class="img-profile rounded-circle"
                                     src="img/undraw_profile.svg">
                             </a>
@@ -122,7 +122,7 @@
                                 <label for="userType">User Type</label>
                                 <select class="form-control" id="userType" name="userType" required>
                                     <option value="user">User</option>
-                                    <option value="da-admin">DA-Admin</option>
+                                    <option value="brgy-admin">Brgy-Admin</option>
                                     <option value="admin">Admin</option>
                                 </select>
                             </div>
