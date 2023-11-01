@@ -74,6 +74,15 @@
 
                             </nav>
                 <!-- End of Topbar -->
+             
+                 
+                
+                <div class="container mt-2">
+                    <div class="alert alert-success" style="font-family: 'Cinzel', serif; font-size: 30px;" >
+                        Welcome, <?php echo $_SESSION['username'] ?>
+                    </div>
+                </div>
+
                         
                 <!-- Begin Page Content -->
                 <div class="container-fluid">

@@ -74,11 +74,11 @@
 
                 </nav>
                 <!-- End of Topbar -->
+               
                 
-
-                <div class="container mt-5">
-                    <div class="alert alert-success">
-                        Welcome <?php echo $_SESSION['firstname'] ?> <?php echo $_SESSION['lastname'] ?>
+                <div class="container mt-2">
+                    <div class="alert alert-success" style="font-family: 'Cinzel', serif; font-size: 30px;" >
+                        Welcome <?php echo $_SESSION['username'] ?>
                     </div>
                 </div>
 

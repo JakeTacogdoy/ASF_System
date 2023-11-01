@@ -132,7 +132,7 @@
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                                 <label for="pigsNo">No. Pigs</label>
-                                <input type="number" class="form-control" id="pigsNo" name="pigsNo" value="<?= $row['pig'] ?>" required>
+                                <input type="number" class="form-control" id="pigsNo" name="pigsNo" value="<?= $row['pig'] ?>">
                             </div>
 
                            

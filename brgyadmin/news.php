@@ -91,6 +91,7 @@
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
                     <!-- Page Heading -->
+                      <h6 class="h3 mb-2 text-gray-800" style="font-family: 'Bodoni Moda', serif; font-size: 20px"><span style="color: #C0C0C0">Pages</span> / News </h6><br>
                     <div class="container mt-5">
         <h1>Upload News</h1>
         <form action="UploadNews.php" method="post">

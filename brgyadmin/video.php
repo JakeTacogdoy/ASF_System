@@ -87,6 +87,7 @@
 
                 </nav>
                 <!-- End of Topbar -->
+                <h6 class="h3 mb-2 text-gray-800" style="font-family: 'Bodoni Moda', serif; font-size: 20px"><span style="color: #C0C0C0">Pages</span> / Video </h6><br>
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
