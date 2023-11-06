@@ -1,35 +1,24 @@
 <?php
     session_start();
 
-    require_once('db_connection.php');
+    require_once('../db_connection.php');
 
     $hasLogin = (isset($_SESSION['hasLogin'])?$_SESSION['hasLogin']:0);
 
     if (empty($hasLogin)){
         header("location: login.php");
+        
+      
         exit;
     }
 
-    function isWithinRadius($centerLat, $centerLon, $targetLat, $targetLon) {
-        $earthRadius = 6371000; // Radius of the Earth in meters
-    
-        $dLat = deg2rad($targetLat - $centerLat);
-        $dLon = deg2rad($targetLon - $centerLon);
-    
-        $a = sin($dLat / 2) * sin($dLat / 2) + cos(deg2rad($centerLat)) * cos(deg2rad($targetLat)) * sin($dLon / 2) * sin($dLon / 2);
-        $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
-    
-        $distance = $earthRadius * $c; // Distance in meters
-    
-        return $distance <= 500;
-    }
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 
 <?php
-    include("header.php");
+    include("../useradmin/userheader.php");
 ?>
 
 <body id="page-top">
@@ -39,7 +28,7 @@
 
         <!-- Sidebar -->
        <?php
-            include ("menu.php");
+            include ("../useradmin/usermenu.php");
 
         ?>
             <!-- Divider -->
@@ -58,8 +47,6 @@
 
             <!-- Main Content -->
             <div id="content">
-
-            
 
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
@@ -99,88 +86,53 @@
 
                 </nav>
                 <!-- End of Topbar -->
-                <?php
-$sql = "Select * from owners";
-$owners = $conn->query($sql);
 
-echo "<script>document.addEventListener('DOMContentLoaded', function() { initMap(); });</script>";
-?>
+                <!-- Begin Page Content -->
+      
+            <?php
 
-<!-- Begin Page Content -->
-<div class="container-fluid">
-    <div class="col" id="mapid" style="height: 580px;"></div>
+            if ($hasLogin) {
+                include('../db_connection.php');
+                $userId = $_SESSION['id']; // Replace with your actual session variable
 
-<script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
-<script>
-    var map;
-    var marker;
-    var latitudeInput = document.getElementById('latitude');
-    var longitudeInput = document.getElementById('longitude');
+                // Retrieve the private warning messages and timestamps for the logged-in user
+                $warningQuery = "SELECT message, created_at FROM warnings WHERE user_id = ?";
+                $stmt = $conn->prepare($warningQuery);
+                $stmt->bind_param("i", $userId);
+                $stmt->execute();
+                $res = $stmt->get_result();
 
-    function initMap() {
-        map = L.map('mapid').setView([10.3943, 124.9754], 18);
+                echo "<div class='container mt-5'>";
+                echo "<h6 class='h3 mb-2 text-gray-800' style='font-family: \"Bodoni Moda\", serif; font-size: 20px'><span style='color: #C0C0C0'>Pages</span> / User </h6>";
+                echo "<div class='mt-4'>";
+                echo "<h2>Warning</h2>";
+                echo "<ul class='list-group'>";
 
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        }).addTo(map);
+                while ($row = $res->fetch_assoc()) {
+                    $message = $row["message"];
+                    $timestamp = $row["created_at"];
 
-        <?php 
-        // Example usage:
-        // $centerLatitude = 10.059410; // Example latitude
-        // $centerLongitude = 125.159160; // Example longitude
+                    echo "<li class='list-group-item'>
+                    <i class='fa-solid fa-circle-exclamation' style='color: #fc1d1d;'></i>
+                    $message <br> $timestamp
+                    <span class='badge badge-info ml-auto'>From Admin</span>
+                  </li>";
 
-        foreach ($owners as $owner) { 
-            $targetLatitude = $owner['latitude']; 
-            $targetLongitude = $owner['longitude']; 
+                }
 
-            if ($owner['is_positive'] == 1) {
-        ?>  
-            // Circle radius 
-            var circle = L.circle([<?php echo $owner['latitude']; ?>, <?php echo $owner['longitude']; ?>], {
-                color: 'red',
-                fillColor: '#f03',
-                fillOpacity: 0.1,
-                radius: 500
-            }).addTo(map);
-            // User info
-            console.log('Positive : <?php echo $owner['firstname']; ?>');
-            L.marker([<?php echo $owner['latitude']; ?>, <?php echo $owner['longitude']; ?>]).addTo(map)
-                .bindPopup(`<p style="background-color:red; font-family: 'Allerta', sans-serif; font-size: 20px; color: white;">Warning! within the radius!</p><br>
-                Status: <?php echo $owner['is_positive']; ?><br>
-                Name: <?php echo $owner['firstname']; ?> <?php echo $owner['lastname']; ?><br>
-                Contact: <?php echo $owner['contact']; ?><br>
-                No.Pigs: <?php echo $owner['pig']; ?><br>
-                Coordinates: <?php echo $owner['latitude']; ?>,<?php echo $owner['longitude']; ?><br>
-                `)
-                .openPopup();
-        <?php 
+                echo "</ul>";
+                echo "</div>";
+                echo "</div>";
             } else {
-                // Display markers without a circle radius or warning
-        ?>
-            L.marker([<?php echo $owner['latitude']; ?>, <?php echo $owner['longitude']; ?>]).addTo(map)
-                .bindPopup(`Status: <?php echo $owner['is_positive']; ?><br>
-                Name: <?php echo $owner['firstname']; ?>  <?php echo $owner['lastname']; ?><br>
-                Contact: <?php echo $owner['contact']; ?><br>
-                No.pigs: <?php echo $owner['pig']; ?><br>
-                Coordinates: <?php echo $owner['latitude']; ?>,<?php echo $owner['longitude']; ?>`);
-        <?php          
+                // Display a message indicating that the user needs to log in.
+                echo "Please log in to view your private warning messages.";
             }
-        }
-        ?>
-    }
-</script>
-                    <!-- Page Heading -->
-                    
+            ?>
 
-                </div>
-               
-                <!-- /.container-fluid -->
 
-            </div>
+
             <!-- End of Main Content -->
 
-           
 
         </div>
         <!-- End of Content Wrapper -->
@@ -212,7 +164,7 @@ echo "<script>document.addEventListener('DOMContentLoaded', function() { initMap
             </div>
         </div>
     </div>
-    
+  
 
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
@@ -231,8 +183,26 @@ echo "<script>document.addEventListener('DOMContentLoaded', function() { initMap
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
 
- 
+<script>
+$(document).ready(function () {
+    const $warningsLink = $('#warnings-link');
+    const $newWarningBadge = $('#new-warning-badge');
+
+    // Check if the "new" badge should be hidden based on local storage
+    if (localStorage.getItem('hideNewWarningBadge') === 'true') {
+        $newWarningBadge.hide();
+    }
+
+    // Add a click event handler for the "Warnings" link
+    $warningsLink.on('click', function () {
+        // Remove the "New" badge
+        $newWarningBadge.hide();
+        // Set a flag in local storage to remember that the badge is hidden
+        localStorage.setItem('hideNewWarningBadge', 'true');
+    });
+});
+</script>
+
 
 </body>
-
 </html>

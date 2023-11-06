@@ -157,47 +157,50 @@ button:hover {
 
                 </nav>
                 <!-- End of Topbar -->
-                <?php
-                    // Include your database connection code here
-                    include('db_connection.php');
+               
 
-                    // Query to fetch users from the database
-                    $sql = "SELECT id, username FROM users";
-                    $result = $conn->query($sql);
-
-                    ?>
 
                 <!-- Begin Page Content -->
-                <div class="container-fluid">
-                <div class="container mt-5">
-        <h1>User List</h1>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>User</th>
-                    <th>Start Chat</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                if ($result->num_rows > 0) {
-                    while ($row = $result->fetch_assoc()) {
-                        // Display each user as a row in the table with a link to start a chat
-                        echo '<tr>';
-                        echo '<td>' . $row['username'] . '</td>';
-                        echo '<td><a href="messageconvo.php?sender_id=1&receiver_id=' . $row['id'] . '" class="btn btn-primary">Start Chat</a></td>';
-                        echo '</tr>';
-                    }
-                } else {
-                    echo '<tr><td colspan="2">No users found.</td></tr>';
-                }
-                ?>
-            </tbody>
-        </table>
-    </div>
+               
+                            <div class="container">
+                                <h1>User List</h1>
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>User ID</th>
+                                            <th>First Name</th>
+                                            <th>Last Name</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        include('db_connection.php');
 
+                                        // Fetch user data from the database
+                                        $sql = "SELECT * FROM owners";
+                                        $result = $conn->query($sql);
 
-                    <!-- Page Heading -->
+                                        if ($result->num_rows > 0) {
+                                            while ($row = $result->fetch_assoc()) {
+                                                echo "<tr>";
+                                                echo "<td>" . $row["id"] . "</td>";
+                                                echo "<td>" . $row["firstname"] . "</td>";
+                                                echo "<td>" . $row["lastname"] . "</td>";
+                                                echo '<td><a href="start_chat.php?user_id=' . $row["id"] . '" class="btn btn-primary">Start Chat</a></td>';
+                                                echo "</tr>";
+                                            }
+                                        } else {
+                                            echo "No users found.";
+                                        }
+
+                                        // Close the database connection
+                                        $conn->close();
+                                        ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <!-- Page Heading -->
                    
                 </div>
                 <!-- /.container-fluid -->

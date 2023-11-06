@@ -2,7 +2,7 @@
 style="background: linear-gradient(36deg, #515bf0,#515bf0);;">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="../useradmin/index.php">
               <div class="sidebar-brand-icon">
                     <i class="fas fa-home"></i>
                 </div>
@@ -37,17 +37,23 @@ style="background: linear-gradient(36deg, #515bf0,#515bf0);;">
                     <span>Message</span></a>
             </li>
 
+          
             <li class="nav-item">
-                <a class="nav-link" href="Map.php">
-                <i class="fa-solid fa-map-location-dot"></i>
-                    <span>Map</span></a>
-            </li>
+    <a class="nav-link" href="../useradmin/warningreceive.php" id="warnings-link">
+        <i class="fas fa-fw fa-table"></i>
+        <span>Warnings</span>
+        <?php
+        // Check if there are warnings (you should implement this logic)
+        $hasWarnings = true; // Replace with your actual logic to check for warnings
 
-             <li class="nav-item">
-                <a class="nav-link" href="residents.php">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Warnings</span></a>
-            </li>
+        if ($hasWarnings) {
+            echo '<span id="new-warning-badge" class="badge badge-danger ml-2">New</span>';
+        }
+        ?>
+    </a>
+</li>
+
+
 
             <li class="nav-item">
                 <a class="nav-link" href="uservideo.php">

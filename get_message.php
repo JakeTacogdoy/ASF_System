@@ -1,34 +1,34 @@
 <?php
+include('db_connection.php');
 
-require('db_connection.php');
+$sql = "SELECT messages.id, 
+               messages.message, 
+               messages.timestamp, 
+               sender.FirstName AS sender_first_name, 
+               sender.LastName AS sender_last_name, 
+               receiver.FirstName AS receiver_first_name, 
+               receiver.LastName AS receiver_last_name 
+        FROM messages
+        JOIN users AS sender ON messages.sender = sender.id
+        JOIN users AS receiver ON messages.receiver = receiver.id
+        ORDER BY messages.timestamp";
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $sender_id = intval($_POST['sender_id']);
-    $receiver_id = intval($_POST['receiver_id']);
+$result = $conn->query($sql);
 
-    $query = "SELECT * FROM messages WHERE (sender_id = ? AND receiver_id = ?) OR (sender_id = ? AND receiver_id = ?) ORDER BY created_at";
-
-    if ($stmt = $conn->prepare($query)) {
-        $stmt->bind_param('iiii', $sender_id, $receiver_id, $receiver_id, $sender_id);
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        $messages = array();
-        while ($row = $result->fetch_assoc()) {
-            $timestamp = date('Y-m-d H:i:s', strtotime($row['created_at']));
-            $message = htmlspecialchars($row['body']);
-            $messages[] = "<div class='message'><strong>$timestamp</strong>: $message</div>";
-        }
-
-        echo implode('', $messages);
-    } else {
-        echo 'Error in query preparation.';
+if ($result->num_rows > 0) {
+    while($row = $result->fetch_assoc()) {
+        echo "<div>";
+        echo "<strong>From: " . $row["sender_first_name"]. " " . $row["sender_last_name"] . "</strong><br>";
+        echo "<strong>To: " . $row["receiver_first_name"]. " " . $row["receiver_last_name"] . "</strong><br>";
+        echo "Message: " . $row["message"]. "<br>";
+        echo "Timestamp: " . $row["timestamp"]. "<br>";
+        echo "</div>";
     }
 } else {
-    echo 'Invalid request.';
+    echo "No messages yet.";
 }
+
+$conn->close();
 ?>
-
-
-
-
+->close();
+?>

@@ -83,7 +83,7 @@
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $_SESSION['username'] ?></span>
                                 <img class="img-profile rounded-circle"
-                                    src="../img/undraw_profile.svg">
+                                    src="img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -100,15 +100,15 @@
                 </nav>
                 <!-- End of Topbar -->
                 <?php
-                        $sql = "Select * from owners";
-                        $owners = $conn->query($sql);
-                        $sql = "Select * from owners where is_positive = 1";
-                        $positives = $conn->query($sql);
-                        echo "<script>document.addEventListener('DOMContentLoaded', function () { initMap(); });</script>";
-                    ?>
-                <!-- Begin Page Content -->
-                <div class="container-fluid">
-                <div class="col" id="mapid" style="height: 580px; "></div>
+$sql = "Select * from owners";
+$owners = $conn->query($sql);
+
+echo "<script>document.addEventListener('DOMContentLoaded', function() { initMap(); });</script>";
+?>
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+    <div class="col" id="mapid" style="height: 580px;"></div>
 
 <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
 <script>
@@ -118,96 +118,59 @@
     var longitudeInput = document.getElementById('longitude');
 
     function initMap() {
-      map = L.map('mapid').setView([10.3959, 124.9427],15);
+        map = L.map('mapid').setView([10.3943, 124.9754], 18);
 
-      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-}).addTo(map);
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
 
-    
-    <?php 
+        <?php 
         // Example usage:
         // $centerLatitude = 10.059410; // Example latitude
         // $centerLongitude = 125.159160; // Example longitude
-        
-        foreach ($positives as $positive) { 
-            $centerLatitude = $positive['latitude'];
-            $centerLongitude = $positive['longitude'];
-        }
 
         foreach ($owners as $owner) { 
             $targetLatitude = $owner['latitude']; 
             $targetLongitude = $owner['longitude']; 
 
-            if (isWithinRadius($centerLatitude, $centerLongitude, $targetLatitude, $targetLongitude)) {
-    ?>  
+            if ($owner['is_positive'] == 1) {
+        ?>  
+            // Circle radius 
+            var circle = L.circle([<?php echo $owner['latitude']; ?>, <?php echo $owner['longitude']; ?>], {
+                color: 'red',
+                fillColor: '#f03',
+                fillOpacity: 0.1,
+                radius: 500
+            }).addTo(map);
+            // User info
             console.log('Positive : <?php echo $owner['firstname']; ?>');
-              L.marker([<?php echo $owner['latitude']; ?>, <?php echo $owner['longitude']; ?>]).addTo(map)
-                .bindPopup(`<p style="background-color:red;">Within the radius!</p><br>
+            L.marker([<?php echo $owner['latitude']; ?>, <?php echo $owner['longitude']; ?>]).addTo(map)
+                .bindPopup(`<p style="background-color:red; font-family: 'Allerta', sans-serif; font-size: 20px; color: white;">Warning! within the radius!</p><br>
+                Status: <?php echo $owner['is_positive']; ?><br>
                 Name: <?php echo $owner['firstname']; ?> <?php echo $owner['lastname']; ?><br>
-                No.Pigs: <?php echo $owner['firstname']; ?><br>
-                Coordinate: <?php echo $owner['latitude']; ?>,<?php echo $owner['longitude']; ?><br>
-                
+                Contact: <?php echo $owner['contact']; ?><br>
+                No.Pigs: <?php echo $owner['pig']; ?><br>
+                Coordinates: <?php echo $owner['latitude']; ?>,<?php echo $owner['longitude']; ?><br>
                 `)
                 .openPopup();
-    <?php 
+        <?php 
             } else {
-    ?>   
-            console.log('Negative : <?php echo $owner['firstname']; ?>');
+                // Display markers without a circle radius or warning
+        ?>
             L.marker([<?php echo $owner['latitude']; ?>, <?php echo $owner['longitude']; ?>]).addTo(map)
-            .bindPopup(`Name: <?php echo $owner['firstname']; ?>  <?php echo $owner['lastname']; ?><br>
-                        Contact: <?php echo $owner['contact']; ?><br>
-                        No.pigs: <?php echo $owner['pig']; ?><br>
-                        Coordinates: <?php echo $owner['latitude']; ?>,<?php echo $owner['longitude']; ?>`);
-    <?php          
+                .bindPopup(`Status: <?php echo $owner['is_positive']; ?><br>
+                Name: <?php echo $owner['firstname']; ?>  <?php echo $owner['lastname']; ?><br>
+                Contact: <?php echo $owner['contact']; ?><br>
+                No.pigs: <?php echo $owner['pig']; ?><br>
+                Coordinates: <?php echo $owner['latitude']; ?>,<?php echo $owner['longitude']; ?>`);
+        <?php          
             }
         }
-    ?>
-      
-
-    //   map.on('click', function (event) {
-    //     var lat = event.latlng.lat;
-    //     var lng = event.latlng.lng;
-
-    //     // Update the marker's position
-    //     if (marker) {
-    //       marker.setLatLng([lat, lng]);
-    //     } else {
-    //       marker = L.marker([lat, lng]).addTo(map);
-    //     }
-
-    //     // Update the input fields with the latitude and longitude
-    //     latitudeInput.value = lat;
-    //     longitudeInput.value = lng;
-
-    //     // Add a popup to the marker
-    //     marker.bindPopup('Click here for more information.').openPopup();
-    //   });
+        ?>
     }
+</script>
 
-    // Call the initMap function once the page has loaded
-    
-
-    // document.getElementById('submitForm').addEventListener('click', function() {
-    //   // Get the form data
-    //   var formData = new FormData(document.getElementById('userForm'));
-
-    //   // Send the form data using AJAX
-    //   var xhr = new XMLHttpRequest();
-    //   xhr.onreadystatechange = function() {
-    //     if (xhr.readyState === XMLHttpRequest.DONE) {
-    //       if (xhr.status === 200) {
-    //         swal('Success', 'User information added successfully!', 'success');
-    //       } else {
-    //         swal('Error', 'An error occurred while adding user information.', 'error');
-    //       }
-    //     }
-    //   };
-    //   xhr.open('POST', 'Userinfo_process.php', true);
-    //   xhr.send(formData);
-    // });
-  </script> 
                     <!-- Page Heading -->
                     
 
