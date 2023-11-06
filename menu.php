@@ -52,7 +52,7 @@ style="background: linear-gradient(36deg, #515bf0,#515bf0);;">
             </li>
 
              <li class="nav-item">
-                <a class="nav-link" href="residents.php">
+                <a class="nav-link" href="warninginterface.php">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Warnings</span></a>
             </li>

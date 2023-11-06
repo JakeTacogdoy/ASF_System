@@ -20,50 +20,17 @@
     include("header.php");
 ?>
 <style>
-#chatContainer {
-    width: 300px;
-    margin: 0 auto;
-    border: 1px solid #ccc;
-    box-shadow: 0 0 5px #ccc;
-    padding: 10px;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-    margin-top: 20px;
-}
-
-#chatHeader {
-    text-align: center;
-    background-color: #333;
-    color: #fff;
-    padding: 10px;
-}
-
-#chatMessages {
-    max-height: 400px;
-    overflow-y: scroll;
-    margin-top: 10px;
-}
-
-#chatInput {
-    display: flex;
-    margin-top: 10px;
-}
-
-#message {
-    flex: 1;
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-}
-
-#sendMessage {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 3px;
-    padding: 5px 10px;
-    cursor: pointer;
-}
+ .card {
+            height: 500px;
+        }
+        .card-body {
+            overflow-y: scroll;
+        }
+        .timestamp {
+            font-size: 12px;
+            color: #666;
+        }
+ 
 </style>
 <body id="page-top">
 
@@ -128,25 +95,70 @@
                 </nav>
                 <!-- End of Topbar -->
 
-                <!-- Begin Page Content -->
-                  <div class="container mt-5">
-                        <h2>Private Chat</h2>
-                        <div class="card">
-                            <div class="card-body" id="chat-messages" style="height: 300px; overflow-y: auto;">
-                                <!-- Messages will be displayed here -->
-                            </div>
-                            <div class="card-footer">
-                                <form id="chat-form" onsubmit="sendMessage(); return false;">
-                                    <div class="input-group">
-                                        <input type="text" id="message" class="form-control" placeholder="Type a message..." required>
-                                        <div class="input-group-append">
-                                            <button type="submit" class="btn btn-primary">Send</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
+                <div class="container mt-5">
+                    <h1>Admin Chat Interface</h1>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>User ID</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="userList">
+                            <!-- User list will be populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <?php
+
+                include('db_connection.php');
+
+                
+                    $sql = "SELECT id, FirstName, LastName FROM users";
+
+                    $result = $conn->query($sql);
+
+                    if ($result->num_rows > 0) {
+                        while($row = $result->fetch_assoc()) {
+                            echo "<tr>";
+                            echo "<td>" . $row["id"] . "</td>";
+                            echo "<td>" . $row["FirstName"] . "</td>";
+                            echo "<td>" . $row["LastName"] . "</td>";
+                            echo "<td><button onclick='startChat(" . $row["id"] . ")'>Start Chat</button></td>";
+                            echo "</tr>";
+                        }
+                    } else {
+                        echo "<tr><td colspan='4'>No users found</td></tr>";
+                    }
+
+                    $conn->close();
+                    ?>
+
+
+    <script>
+        $(document).ready(function() {
+            loadUserList();
+
+            function loadUserList() {
+                $.ajax({
+                    url: 'get_user_list.php',
+                    type: 'GET',
+                    success: function(data) {
+                        $('#userList').html(data);
+                    }
+                });
+            }
+
+            // Function to start a chat with a user
+            function startChat(userId) {
+                window.location.href = 'admin_send_message.php?receiver=' + userId;
+            }
+        });
+    </script>
+
                 <!-- /.container-fluid -->
 
             </div>
@@ -182,8 +194,7 @@
                 </div>
             </div>
         </div>
-    </div>
-
+    </div>|
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -200,61 +211,5 @@
 
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
-
 </body>
-<script type="text/javascript">
-       function sendMessage() {
-            var message = $('#message').val();
-            if (message.trim() === "") {
-                return; // Don't send empty messages
-            }
-
-            var sender_id = <?php echo $user_id; ?>;
-            var receiver_id = /* Retrieve the receiver's ID here */;
-
-            var data = {
-                sender_id: sender_id,
-                receiver_id: receiver_id,
-                message: message
-            };
-
-            $.ajax({
-                type: 'POST',
-                url: 'send_message.php',
-                data: data,
-                success: function () {
-                    // Clear the input field after sending the message
-                    $('#message').val("");
-                },
-                error: function () {
-                    alert('Message sending failed');
-                }
-            });
-        }
-
-        function getMessages() {
-            var sender_id = <?php echo $user_id; ?>;
-            var receiver_id = /* Retrieve the receiver's ID here */;
-
-            var data = {
-                sender_id: sender_id,
-                receiver_id: receiver_id
-            };
-
-            $.ajax({
-                type: 'POST',
-                url: 'get_messages.php',
-                data: data,
-                success: function (data) {
-                    $('#chat-messages').html(data);
-                },
-                error: function () {
-                    console.log('Error fetching messages');
-                }
-            });
-        }
-
-
-        setInterval(getMessages, 2000);
-</script>
 </html>
