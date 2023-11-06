@@ -46,6 +46,18 @@ style="background: linear-gradient(36deg, #515bf0,#515bf0);;">
             </li>
 
             <li class="nav-item">
+                <a class="nav-link" href="admin_reportlist.php">
+                <i class="fa-solid fa-message"></i>
+                    <span>Reports</span></a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="accepted_reports.php">
+                <i class="fa-solid fa-message"></i>
+                    <span>Accepted Reports</span></a>
+            </li>
+
+            <li class="nav-item">
                 <a class="nav-link" href="../brgyadmin/map.php">
                 <i class="fa-solid fa-map-location-dot"></i>
                     <span>GIS Map</span></a>
