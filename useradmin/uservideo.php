@@ -116,55 +116,64 @@ body{
     include("userheader.php");
     ?>
 
+
 </head>
-<body>
-    <h3 class="heading"> video gallery </h3>
 
-<div class="cont">
-    <div class="main-vid">
-        <div class="video">
-            <video src="1image/video_from_database" controls muted autoplay></video>
-            <h3 class="title">01. video title goes here</h3>
+<!-- ... (other HTML, styles, and PHP codes) -->
+
+<body id="page-top">
+
+    <!-- ... (other parts of your code) -->
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <?php
+            include ("usermenu.php");
+
+        ?>
+    <div class="cont">
+        <div class="main-vid">
+            <div class="video"></div>
+            <h2 class="title"></h2>
+        </div>
+        <div class="video-list">
+            <?php
+            include "../db_connection.php";
+
+            $sql = "SELECT * FROM videos";
+            $result = $conn->query($sql);
+
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    $videoPath = $row['video_url'];
+
+                    echo "<div class='vid' data-src='$videoPath'>
+                            <h3 class='title'>" . $row['title'] . "</h3>
+                        </div>";
+                }
+            }
+            ?>
         </div>
     </div>
-    <div class="video-list">
-        <div class="vid active">
-            <video src="1image/video_from_database" muted></video>
-            <h3 class="title">01. video title</h3>
-        </div>
-        <div class="vid">
-            <video src="1image/video_from_database" muted></video>
-            <h3 class="title">02. video title</h3>
-        </div>
-        <div class="vid">
-            <video src="1image/video_from_database" muted></video>
-            <h3 class="title">03. video title</h3>
-        </div>
-        <div class="vid">
-            <video src="1image/video_from_database" muted></video>
-            <h3 class="title">04. video title</h3>
-        </div>
-    </div>
-</div>
 
-<script>
-let listVideo = document.querySelectorAll('.video-list .vid');
-let mainVideo = document.querySelector('.main-vid .video');
-let title = document.querySelector('.main-video .title');
+    <script>
+        let listVideo = document.querySelectorAll('.video-list .vid');
+        let mainVideo = document.querySelector('.main-vid .video');
+        let title = document.querySelector('.main-vid .title');
 
-listVideo.forEach(video =>{
-    video.onclick = () =>{
-        listVideo.forEach(vid => vid.classList.remove('active'));
-        video.classList.add('active');
-        if(video.classList.contains('active')){
-           let src = video.children[0].getAttribute('src');
-           mainVideo.src = src;
-           let text = video.children[1].innerHTML;
-           title.innerHTML = text;
-        };
-    }
-})
-</script>
+        listVideo.forEach(video => {
+            video.onclick = () => {
+                listVideo.forEach(vid => vid.classList.remove('active'));
+                video.classList.add('active');
+                if (video.classList.contains('active')) {
+                    let src = video.getAttribute('data-src');
+                    mainVideo.innerHTML = `<video width='640' height='360' controls><source src='${src}' type='video/mp4'>Your browser does not support the video tag.</video>`;
+                    title.innerHTML = video.querySelector('.title').textContent;
+                }
+            };
+        });
+    </script>
 
 </body>
 </html>

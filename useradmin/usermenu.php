@@ -32,28 +32,26 @@ style="background: linear-gradient(36deg, #515bf0,#515bf0);;">
 
 
             <li class="nav-item">
+<<<<<<< HEAD
+                <a class="nav-link" href="usermessage.php">
+=======
                 <a class="nav-link" href="messageconvo.php">
+>>>>>>> ed7cf4afca6a27c8b621174e9453e4448692dba0
                 <i class="fa-solid fa-message"></i>
                     <span>Message</span></a>
             </li>
 
-          
             <li class="nav-item">
-    <a class="nav-link" href="../useradmin/warningreceive.php" id="warnings-link">
-        <i class="fas fa-fw fa-table"></i>
-        <span>Warnings</span>
-        <?php
-        // Check if there are warnings (you should implement this logic)
-        $hasWarnings = true; // Replace with your actual logic to check for warnings
+                <a class="nav-link" href="Map.php">
+                <i class="fa-solid fa-map-location-dot"></i>
+                    <span>Map</span></a>
+            </li>
 
-        if ($hasWarnings) {
-            echo '<span id="new-warning-badge" class="badge badge-danger ml-2">New</span>';
-        }
-        ?>
-    </a>
-</li>
-
-
+             <li class="nav-item">
+                <a class="nav-link" href="residents.php">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Warnings</span></a>
+            </li>
 
             <li class="nav-item">
                 <a class="nav-link" href="uservideo.php">
@@ -65,6 +63,14 @@ style="background: linear-gradient(36deg, #515bf0,#515bf0);;">
                 <a class="nav-link" href="News.php">
                 <i class="fa-solid fa-newspaper"></i>
                     <span>News</span></a>
+            </li>
+
+            </li>
+
+             <li class="nav-item">
+                <a class="nav-link" href="userreport.php">
+                <i class="fa-solid fa-newspaper"></i>
+                    <span>Report</span></a>
             </li>
 
             

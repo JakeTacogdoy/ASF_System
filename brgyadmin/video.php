@@ -117,31 +117,33 @@
                                 <th style="padding: 8px; text-align: left; border-bottom: 1px solid #ddd; background-color: #f2f2f2;">URL</th>
                                 <th style="padding: 8px; text-align: left; border-bottom: 1px solid #ddd; background-color: #f2f2f2;">ACTION</th>
                             </tr>
-                    <?php
+                            <?php
+                            include "../db_connection.php";
 
-                    include "../db_connection.php";
+                            $sql = "SELECT * FROM videos";
+                            $result = $conn->query($sql);
 
-                    $sql = "SELECT * FROM videos";
-                    $result = $conn->query($sql);
+                            if ($result->num_rows > 0) {
+                                while ($row = $result->fetch_assoc()) {
+                                    echo "<tr>
+                                        <td>" . $row['id'] . "</td>
+                                        <td>" . $row['title'] . "</td>
+                                        <td>
+                                            <video width='320' height='240' controls>
+                                                <source src='" . $row['video_url'] . "' type='video/mp4'>
+                                                Your browser does not support the video tag.
+                                            </video>
+                                        </td>
+                                        <td>
+                                            <a href='DeleteVideo.php?id=" . $row['id'] . "' style='font-size: 30px;'>
+                                                <i class='fa fa-trash text-danger'></i>
+                                            </a>
+                                        </td>
+                                    </tr>";
+                                }
+                            }
+                            ?>
 
-                if($result->num_rows > 0) {
-
-                    while ($row = $result->fetch_assoc())
-                    {
-                        echo "<tr>
-                            <td>" . $row['id']. "</td>
-                            <td>" . $row['title']. "</td>  
-                            <td>" . $row['video_url']."</td>
-                            <td>
-                            
-                            <a href = 'DeleteVideo.php?id=".$row['id']."' style='font-size: 30px;'>
-                            <i class = 'fa fa-trash text-danger'></i>
-                            </a>
-                       </td>
-                            </tr>";
-                    }
-                }
-                ?>
 
             </table>
             </div>
