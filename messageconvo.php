@@ -1,7 +1,7 @@
 <?php
     session_start();
 
-    require_once('../db_connection.php');
+    require_once('db_connection.php');
 
     $hasLogin = (isset($_SESSION['hasLogin'])?$_SESSION['hasLogin']:0);
 
@@ -17,9 +17,54 @@
 <html lang="en">
 
 <?php
-    include("../brgyadmin/brgyheader.php");
+    include("header.php");
 ?>
+<style>
+#chatContainer {
+    width: 300px;
+    margin: 0 auto;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 5px #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    margin-top: 20px;
+}
 
+#chatHeader {
+    text-align: center;
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+}
+
+#chatMessages {
+    max-height: 400px;
+    overflow-y: scroll;
+    margin-top: 10px;
+}
+
+#chatInput {
+    display: flex;
+    margin-top: 10px;
+}
+
+#message {
+    flex: 1;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+#sendMessage {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+</style>
 <body id="page-top">
 
     <!-- Page Wrapper -->
@@ -27,17 +72,14 @@
 
         <!-- Sidebar -->
        <?php
-            include ("../brgyadmin/brgymenu.php");
+            include ("menu.php");
 
         ?>
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
-            <!-- Sidebar Toggler (Sidebar) -->
-            <div class="text-center d-none d-md-inline">
-                <button class="rounded-circle border-0" id="sidebarToggle"></button>
-            </div>
 
+           
         </ul>
         <!-- End of Sidebar -->
 
@@ -46,8 +88,6 @@
 
             <!-- Main Content -->
             <div id="content">
-
-            
 
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
@@ -69,9 +109,9 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $_SESSION['username'] ?></span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin</span>
                                 <img class="img-profile rounded-circle"
-                                    src="../img/undraw_profile.svg">
+                                    src="img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -87,71 +127,31 @@
 
                 </nav>
                 <!-- End of Topbar -->
-                <h6 class="h3 mb-2 text-gray-800" style="font-family: 'Bodoni Moda', serif; font-size: 20px"><span style="color: #C0C0C0">Pages</span> / Video </h6><br>
 
                 <!-- Begin Page Content -->
-                <div class="container-fluid">
-                    <!-- Page Heading -->
-                    
-                    <h1>Upload Your Videos Here</h1>
-                    <form action="uploadvideo.php" method="POST" enctype="multipart/form-data">
-                        <div class="form-group">
-
-                        <?php if (isset($_GET['error'])){ ?>
-                        <p><?=$_GET['error']?></p>
-                         <?php  } ?>
-                            <label for="video">Upload Video</label>
-                            <input type="file" class="form-control" name="video"><br>
-
-                            <input type="submit" value="upload" class="btn btn-primary" name="submit">
-                    </form>
-
-                </div>
-               
+                  <div class="container mt-5">
+                        <h2>Private Chat</h2>
+                        <div class="card">
+                            <div class="card-body" id="chat-messages" style="height: 300px; overflow-y: auto;">
+                                <!-- Messages will be displayed here -->
+                            </div>
+                            <div class="card-footer">
+                                <form id="chat-form" onsubmit="sendMessage(); return false;">
+                                    <div class="input-group">
+                                        <input type="text" id="message" class="form-control" placeholder="Type a message..." required>
+                                        <div class="input-group-append">
+                                            <button type="submit" class="btn btn-primary">Send</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 <!-- /.container-fluid -->
-                        <div class="container2" style="margin: 20px">
-                        <table style="width: 100%; border-collapse: collapse;">
-                            <tr>
-                            <th style="padding: 8px; text-align: left; border-bottom: 1px solid #ddd; background-color: #f2f2f2;">ID</th>
-                                <th style="padding: 8px; text-align: left; border-bottom: 1px solid #ddd; background-color: #f2f2f2;">TITLE</th>
-                                <th style="padding: 8px; text-align: left; border-bottom: 1px solid #ddd; background-color: #f2f2f2;">URL</th>
-                                <th style="padding: 8px; text-align: left; border-bottom: 1px solid #ddd; background-color: #f2f2f2;">ACTION</th>
-                            </tr>
-                            <?php
-                            include "../db_connection.php";
-
-                            $sql = "SELECT * FROM videos";
-                            $result = $conn->query($sql);
-
-                            if ($result->num_rows > 0) {
-                                while ($row = $result->fetch_assoc()) {
-                                    echo "<tr>
-                                        <td>" . $row['id'] . "</td>
-                                        <td>" . $row['title'] . "</td>
-                                        <td>
-                                            <video width='320' height='240' controls>
-                                                <source src='" . $row['video_url'] . "' type='video/mp4'>
-                                                Your browser does not support the video tag.
-                                            </video>
-                                        </td>
-                                        <td>
-                                            <a href='DeleteVideo.php?id=" . $row['id'] . "' style='font-size: 30px;'>
-                                                <i class='fa fa-trash text-danger'></i>
-                                            </a>
-                                        </td>
-                                    </tr>";
-                                }
-                            }
-                            ?>
-
-
-            </table>
-            </div>
 
             </div>
             <!-- End of Main Content -->
 
-          
 
         </div>
         <!-- End of Content Wrapper -->
@@ -183,7 +183,6 @@
             </div>
         </div>
     </div>
-    
 
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
@@ -202,8 +201,60 @@
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
 
- 
-
 </body>
+<script type="text/javascript">
+       function sendMessage() {
+            var message = $('#message').val();
+            if (message.trim() === "") {
+                return; // Don't send empty messages
+            }
 
+            var sender_id = <?php echo $user_id; ?>;
+            var receiver_id = /* Retrieve the receiver's ID here */;
+
+            var data = {
+                sender_id: sender_id,
+                receiver_id: receiver_id,
+                message: message
+            };
+
+            $.ajax({
+                type: 'POST',
+                url: 'send_message.php',
+                data: data,
+                success: function () {
+                    // Clear the input field after sending the message
+                    $('#message').val("");
+                },
+                error: function () {
+                    alert('Message sending failed');
+                }
+            });
+        }
+
+        function getMessages() {
+            var sender_id = <?php echo $user_id; ?>;
+            var receiver_id = /* Retrieve the receiver's ID here */;
+
+            var data = {
+                sender_id: sender_id,
+                receiver_id: receiver_id
+            };
+
+            $.ajax({
+                type: 'POST',
+                url: 'get_messages.php',
+                data: data,
+                success: function (data) {
+                    $('#chat-messages').html(data);
+                },
+                error: function () {
+                    console.log('Error fetching messages');
+                }
+            });
+        }
+
+
+        setInterval(getMessages, 2000);
+</script>
 </html>

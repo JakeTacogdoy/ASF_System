@@ -32,7 +32,11 @@ style="background: linear-gradient(36deg, #515bf0,#515bf0);;">
 
 
             <li class="nav-item">
+<<<<<<< HEAD
                 <a class="nav-link" href="usermessage.php">
+=======
+                <a class="nav-link" href="messageconvo.php">
+>>>>>>> ed7cf4afca6a27c8b621174e9453e4448692dba0
                 <i class="fa-solid fa-message"></i>
                     <span>Message</span></a>
             </li>

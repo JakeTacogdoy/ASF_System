@@ -104,7 +104,7 @@
                         $owners = $conn->query($sql);
                         $sql = "Select * from owners where is_positive = 1";
                         $positives = $conn->query($sql);
-                        echo "<script>document.addEventListener('DOMContentLoaded', function () { initMap(); });</script>";
+                        echo "<script>document.addEventListener('DOMContentLoaded', function() { initMap(); });</script>";
                     ?>
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
@@ -141,10 +141,19 @@
             $targetLongitude = $owner['longitude']; 
 
             if (isWithinRadius($centerLatitude, $centerLongitude, $targetLatitude, $targetLongitude)) {
+                
     ?>  
+            // circle radius 
+             var circle = L.circle([<?php echo $centerLatitude; ?>, <?php echo $centerLongitude; ?>, ], {
+                color: 'red',
+                fillColor: '#f03',
+                fillOpacity: 0.1,
+                radius: 500
+            }).addTo(map);
+            // user info
              console.log('Positive : <?php echo $owner['firstname']; ?>');
               L.marker([<?php echo $owner['latitude']; ?>, <?php echo $owner['longitude']; ?>]).addTo(map)
-                .bindPopup(`<p style="background-color:red;">Within the radius!</p><br>
+                .bindPopup(`<p style="background-color:red; font-family: 'Allerta', sans-serif; font-size: 20px; color: white;">Warning! within the radius!</p><br>
                 Name: <?php echo $owner['firstname']; ?> <?php echo $owner['lastname']; ?><br>
                 Contact: <?php echo $owner['contact']; ?><br>
                 No.Pigs: <?php echo $owner['pig']; ?><br>

@@ -90,7 +90,7 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">User Information</h1>
+                    <h6 class="h3 mb-2 text-gray-800" style="font-family: 'Bodoni Moda', serif; font-size: 20px"><span style="color: #C0C0C0">Pages</span> / User </h6><br>
 
                     <?php
                         $sql = "Select * from owners order by lastname";
@@ -99,7 +99,7 @@
                     ?>
 
                    <!-- Add Button -->
-                            <a href="UserinfoAdd.php" class="btn bg-primary text-white" style="margin-bottom:15px"><i class="fa fa-plus"></i>Add User</a>
+                  <a href="UserinfoAdd.php" class="btn bg-primary text-white" style="margin-bottom:15px"><i class="fa fa-plus"></i>Add User</a>
                         <!-- End Add Button -->
                     <div class="card shadow mb-4">
                          

@@ -17,7 +17,7 @@
 <html lang="en">
 
 <?php
-    include("../brgyadmin/brgyheader.php");
+    include("../useradmin/userheader.php");
 ?>
 
 <body id="page-top">
@@ -27,17 +27,14 @@
 
         <!-- Sidebar -->
        <?php
-            include ("../brgyadmin/brgymenu.php");
+            include ("../useradmin/usermenu.php");
 
         ?>
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
-            <!-- Sidebar Toggler (Sidebar) -->
-            <div class="text-center d-none d-md-inline">
-                <button class="rounded-circle border-0" id="sidebarToggle"></button>
-            </div>
 
+           
         </ul>
         <!-- End of Sidebar -->
 
@@ -46,8 +43,6 @@
 
             <!-- Main Content -->
             <div id="content">
-
-            
 
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
@@ -69,9 +64,9 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $_SESSION['username'] ?></span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin</span>
                                 <img class="img-profile rounded-circle"
-                                    src="../img/undraw_profile.svg">
+                                    src="img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -87,71 +82,38 @@
 
                 </nav>
                 <!-- End of Topbar -->
-                <h6 class="h3 mb-2 text-gray-800" style="font-family: 'Bodoni Moda', serif; font-size: 20px"><span style="color: #C0C0C0">Pages</span> / Video </h6><br>
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-                    <!-- Page Heading -->
                     
-                    <h1>Upload Your Videos Here</h1>
-                    <form action="uploadvideo.php" method="POST" enctype="multipart/form-data">
-                        <div class="form-group">
+                
+                    <!-- Page Heading -->
+                    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header">Chat with User 2</div>
+            <div class="card-body" id="chatMessages">
+                <!-- Messages will be displayed here -->
+            </div>
+            <div class="card-footer">
+                <div class="input-group">
+                    <input type="text" id="message" class="form-control" placeholder="Type a message">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" id="sendMessage">Send</button>
+                    </div>
+                </div>
+             
+            </div>
+        </div>
+    </div>
 
-                        <?php if (isset($_GET['error'])){ ?>
-                        <p><?=$_GET['error']?></p>
-                         <?php  } ?>
-                            <label for="video">Upload Video</label>
-                            <input type="file" class="form-control" name="video"><br>
-
-                            <input type="submit" value="upload" class="btn btn-primary" name="submit">
-                    </form>
+                   
 
                 </div>
-               
                 <!-- /.container-fluid -->
-                        <div class="container2" style="margin: 20px">
-                        <table style="width: 100%; border-collapse: collapse;">
-                            <tr>
-                            <th style="padding: 8px; text-align: left; border-bottom: 1px solid #ddd; background-color: #f2f2f2;">ID</th>
-                                <th style="padding: 8px; text-align: left; border-bottom: 1px solid #ddd; background-color: #f2f2f2;">TITLE</th>
-                                <th style="padding: 8px; text-align: left; border-bottom: 1px solid #ddd; background-color: #f2f2f2;">URL</th>
-                                <th style="padding: 8px; text-align: left; border-bottom: 1px solid #ddd; background-color: #f2f2f2;">ACTION</th>
-                            </tr>
-                            <?php
-                            include "../db_connection.php";
-
-                            $sql = "SELECT * FROM videos";
-                            $result = $conn->query($sql);
-
-                            if ($result->num_rows > 0) {
-                                while ($row = $result->fetch_assoc()) {
-                                    echo "<tr>
-                                        <td>" . $row['id'] . "</td>
-                                        <td>" . $row['title'] . "</td>
-                                        <td>
-                                            <video width='320' height='240' controls>
-                                                <source src='" . $row['video_url'] . "' type='video/mp4'>
-                                                Your browser does not support the video tag.
-                                            </video>
-                                        </td>
-                                        <td>
-                                            <a href='DeleteVideo.php?id=" . $row['id'] . "' style='font-size: 30px;'>
-                                                <i class='fa fa-trash text-danger'></i>
-                                            </a>
-                                        </td>
-                                    </tr>";
-                                }
-                            }
-                            ?>
-
-
-            </table>
-            </div>
 
             </div>
             <!-- End of Main Content -->
 
-          
 
         </div>
         <!-- End of Content Wrapper -->
@@ -183,7 +145,6 @@
             </div>
         </div>
     </div>
-    
 
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
@@ -202,8 +163,48 @@
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
 
- 
-
 </body>
+<script type="text/javascript">
+// Function to load messages
+function loadMessages() {
+    $.ajax({
+        url: 'get_messages.php',
+        type: 'POST',
+        data: { sender_id: senderId, receiver_id: receiverId },
+        dataType: 'json',
+        success: function (data) {
+            $('#chatMessages').empty();
+            data.forEach(function (message) {
+                const messageDiv = $('<div></div>');
+                messageDiv.html('<strong>' + message.sender + ':</strong> ' + message.message_body);
+                $('#chatMessages').append(messageDiv);
+            });
+        }
+    });
+}
+$(document).ready(function () {
+    // Load messages when the page loads
+    loadMessages();
 
+    // Function to send a message
+    $('#sendMessage').click(function () {
+        var message = $('#message').val();
+
+        $.ajax({
+            url: 'send_message.php',
+            type: 'POST',
+            data: {
+                sender_id: senderId,
+                receiver_id: receiverId,
+                message: message
+            },
+            success: function () {
+                loadMessages(); // Reload messages after sending
+                $('#message').val(''); // Clear the input field
+            }
+        });
+    });
+});
+
+</script>
 </html>

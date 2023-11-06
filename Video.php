@@ -91,6 +91,8 @@
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
                     <!-- Page Heading -->
+                    <h6 class="h3 mb-2 text-gray-800" style="font-family: 'Bodoni Moda', serif; font-size: 20px"><span style="color: #C0C0C0">Pages</span> / Video </h6><br>
+
                     
                     <h1>Upload Your Videos Here</h1>
                     <form action="uploadvideo.php" method="POST" enctype="multipart/form-data">
