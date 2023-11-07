@@ -1,7 +1,7 @@
 <?php
     session_start();
 
-    require_once('db_connection.php');
+    require_once('../db_connection.php');
 
     $hasLogin = (isset($_SESSION['hasLogin'])?$_SESSION['hasLogin']:0);
 
@@ -10,26 +10,14 @@
         exit;
     }
 
-    function isWithinRadius($centerLat, $centerLon, $targetLat, $targetLon) {
-        $earthRadius = 6371000; // Radius of the Earth in meters
     
-        $dLat = deg2rad($targetLat - $centerLat);
-        $dLon = deg2rad($targetLon - $centerLon);
-    
-        $a = sin($dLat / 2) * sin($dLat / 2) + cos(deg2rad($centerLat)) * cos(deg2rad($targetLat)) * sin($dLon / 2) * sin($dLon / 2);
-        $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
-    
-        $distance = $earthRadius * $c; // Distance in meters
-    
-        return $distance <= 500;
-    }
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 
 <?php
-    include("header.php");
+    include("../useradmin/userheader.php");
 ?>
 
 <body id="page-top">
@@ -39,7 +27,7 @@
 
         <!-- Sidebar -->
        <?php
-            include ("menu.php");
+            include ("../useradmin/usermenu.php");
 
         ?>
             <!-- Divider -->
@@ -83,7 +71,7 @@
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $_SESSION['username'] ?></span>
                                 <img class="img-profile rounded-circle"
-                                    src="img/undraw_profile.svg">
+                                    src="../img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -99,88 +87,53 @@
 
                 </nav>
                 <!-- End of Topbar -->
-                <?php
-$sql = "Select * from owners";
-$owners = $conn->query($sql);
 
-echo "<script>document.addEventListener('DOMContentLoaded', function() { initMap(); });</script>";
-?>
-
-<!-- Begin Page Content -->
-<div class="container-fluid">
-    <div class="col" id="mapid" style="height: 580px;"></div>
-
-<script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
-<script>
-    var map;
-    var marker;
-    var latitudeInput = document.getElementById('latitude');
-    var longitudeInput = document.getElementById('longitude');
-
-    function initMap() {
-        map = L.map('mapid').setView([10.3959, 124.9427], 18);
-
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        }).addTo(map);
-
-        <?php 
-        // Example usage:
-        // $centerLatitude = 10.059410; // Example latitude
-        // $centerLongitude = 125.159160; // Example longitude
-
-        foreach ($owners as $owner) { 
-            $targetLatitude = $owner['latitude']; 
-            $targetLongitude = $owner['longitude']; 
-
-            if ($owner['is_positive'] == 1) {
-        ?>  
-            // Circle radius 
-            var circle = L.circle([<?php echo $owner['latitude']; ?>, <?php echo $owner['longitude']; ?>], {
-                color: 'red',
-                fillColor: '#f03',
-                fillOpacity: 0.1,
-                radius: 500
-            }).addTo(map);
-            // User info
-            console.log('Positive : <?php echo $owner['firstname']; ?>');
-            L.marker([<?php echo $owner['latitude']; ?>, <?php echo $owner['longitude']; ?>]).addTo(map)
-                .bindPopup(`<p style="background-color:red; font-family: 'Allerta', sans-serif; font-size: 20px; color: white;">Warning! within the radius!</p><br>
-                Status: <?php echo $owner['is_positive']; ?><br>
-                Name: <?php echo $owner['firstname']; ?> <?php echo $owner['lastname']; ?><br>
-                Contact: <?php echo $owner['contact']; ?><br>
-                No.Pigs: <?php echo $owner['pig']; ?><br>
-                Coordinates: <?php echo $owner['latitude']; ?>,<?php echo $owner['longitude']; ?><br>
-                `)
-                .openPopup();
-        <?php 
-            } else {
-                // Display markers without a circle radius or warning
-        ?>
-            L.marker([<?php echo $owner['latitude']; ?>, <?php echo $owner['longitude']; ?>]).addTo(map)
-                .bindPopup(`Status: <?php echo $owner['is_positive']; ?><br>
-                Name: <?php echo $owner['firstname']; ?>  <?php echo $owner['lastname']; ?><br>
-                Contact: <?php echo $owner['contact']; ?><br>
-                No.pigs: <?php echo $owner['pig']; ?><br>
-                Coordinates: <?php echo $owner['latitude']; ?>,<?php echo $owner['longitude']; ?>`);
-        <?php          
-            }
-        }
-        ?>
-    }
-</script>
-                    <!-- Page Heading -->
+                <div class="container-fluid">
+    <!-- Page Heading -->
+                    <h6 class="h3 mb-2 text-gray-800" style="font-family: 'Bodoni Moda', serif; font-size: 20px"><span style="color: #C0C0C0">Pages</span> / News</h6><br>
+                    <h1>News Feed</h1>
+                    <div class="container mt-5">
                     
+                        <div class="row">
+                            <?php
+                            // Connect to your database
+                            include "../db_connection.php";
 
+                            // Retrieve news data from the database
+                            $sql = "SELECT * FROM news";
+                            $result = $conn->query($sql);
+
+                            if ($result->num_rows > 0) {
+                                while ($row = $result->fetch_assoc()) {
+                                    echo '<div class="col-md-4 mb-4">';
+                                    echo '<div class="card text-dark" style="height: 100%;">'; // Set text color to black
+                                    echo '<div class="card-body" style="display: flex; flex-direction: column;">'; // Use flexbox for vertical layout
+                                    echo '<h4 class="card-title" style="font-family: \'Roboto\', sans-serif;">' . $row['description'] . '</h4>';
+                                    echo '<p class="card-text flex-grow-1"></p>';
+                                    echo '<a href="' . $row['url'] . '" target="_blank" class="btn btn-primary">Read More</a>';
+                                    echo '</div>';
+                                    echo '</div>';
+                                    echo '</div>';
+                                }
+                            } else {
+                                echo '<p>No news available.</p>';
+                            }
+
+                            // Close the database connection
+                            $conn->close();
+                            ?>
+                        </div>
+                    </div>
                 </div>
-               
+
+
+
+
                 <!-- /.container-fluid -->
 
             </div>
             <!-- End of Main Content -->
 
-           
 
         </div>
         <!-- End of Content Wrapper -->
@@ -212,6 +165,7 @@ echo "<script>document.addEventListener('DOMContentLoaded', function() { initMap
             </div>
         </div>
     </div>
+
     
 
     <!-- Bootstrap core JavaScript-->

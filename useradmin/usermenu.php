@@ -37,14 +37,9 @@ style="background: linear-gradient(36deg, #515bf0,#515bf0);;">
                     <span>Message</span></a>
             </li>
 
-            <li class="nav-item">
-                <a class="nav-link" href="Map.php">
-                <i class="fa-solid fa-map-location-dot"></i>
-                    <span>Map</span></a>
-            </li>
 
              <li class="nav-item">
-                <a class="nav-link" href="residents.php">
+                <a class="nav-link" href="../useradmin/warningreceive.php">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Warnings</span></a>
             </li>
@@ -56,7 +51,7 @@ style="background: linear-gradient(36deg, #515bf0,#515bf0);;">
             </li>
 
              <li class="nav-item">
-                <a class="nav-link" href="News.php">
+                <a class="nav-link" href="receiveNews.php">
                 <i class="fa-solid fa-newspaper"></i>
                     <span>News</span></a>
             </li>

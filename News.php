@@ -92,30 +92,24 @@
                 <div class="container-fluid">
                     <!-- Page Heading -->
                     <h6 class="h3 mb-2 text-gray-800" style="font-family: 'Bodoni Moda', serif; font-size: 20px"><span style="color: #C0C0C0">Pages</span> / News </h6><br>
-
+                    <h1>Upload News</h1>
                     <div class="container mt-5">
-        <h1>Upload News</h1>
-        <form action="UploadNews.php" method="post">
-            <div class="form-group">
-                <label for="newsDescription">News Description:</label>
-                <textarea class="form-control" id="newsDescription" name="description" rows="3" placeholder="Type Here"></textarea>
-            </div>
-            <div class="form-group">
-                <label for="newsURL">URL Link:</label>
-                <input type="text" class="form-control" id="newsURL" name="url" placeholder="https://example.com">
-            </div>
-            <button type="submit" class="btn btn-primary" name="submit">Submit</button>
-        </form>
+ 
+                    <form id="newsForm">
+                        <div class="form-group">
+                            <label for="newsDescription">News Description:</label>
+                            <textarea class="form-control" id="newsDescription" name="description" rows="3" placeholder="Type Here"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="newsURL">URL Link:</label>
+                            <input type="text" class="form-control" id="newsURL" name="url" placeholder="https://example.com">
+                        </div>
+                        <button type="button" id="submitNews" class="btn btn-primary">Submit</button>
+                    </form>
+
        
     </div>
-
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.5.0/dist/js/bootstrap.min.js"></script>
-</body>
-</html>
-                    
-
+               
                 </div>
                 <div class="container2" style="margin: 20px">
                         <table style="width: 100%; border-collapse: collapse;">
@@ -127,41 +121,31 @@
                                 <th style="padding: 8px; text-align: left; border-bottom: 1px solid #ddd; background-color: #f2f2f2;">ACTION</th>
                                 
                             </tr>
-                    <?php
+                        <?php
+                            include "db_connection.php";
 
-                    include "db_connection.php";
+                            $sql = "SELECT * FROM news";
+                            $result = $conn->query($sql);
 
-                    $sql = "SELECT * FROM news";
-                    $result = $conn->query($sql);
+                            if ($result->num_rows > 0) {
+                                while ($row = $result->fetch_assoc()) {
+                                    echo "<tr>
+                                        <td>" . $row['id']. "</td>
+                                        <td>" . $row['description']. "</td>
+                                        <td>" . $row['url']."</td>
+                                        <td>
+                                            <a class='mr-2 edit-news' href='EditNews.php?id=" . $row['id'] . "' style='font-size: 30px;'>
+                                                <i class='fa fa-edit text-success'></i>
+                                            </a>
+                                            <a href='#' data-id='" . $row['id'] . "' class='delete-news' style='font-size: 30px;'>
+                                                <i class='fa fa-trash text-danger'></i>
+                                            </a>
+                                        </td>
+                                    </tr>";
+                                }
+                            }
+                        ?>
 
-                if($result->num_rows > 0) {
-
-                    while ($row = $result->fetch_assoc())
-                    {
-                        echo "<tr>
-                       
-                            <td>" . $row['id']. "</td>
-                            <td>" . $row['description']. "</td>
-                            <td>" . $row['url']."</td>
-                            <td>
-                            <a class = 'mr-2' href = 'EditNews.php?id=".$row['id']."'style='font-size: 30px;'>
-                            <i class = 'fa fa-edit text-success'></i>
-                            </a>
-            
-                        
-                        <a href = 'DeleteNews.php?id=".$row['id']."'style='font-size: 30px;'>
-                            <i class = 'fa fa-trash text-danger'></i>
-                            </a>
-                       </td>
-
-                            </tr>";
-
-                            
-
-                    }
-
-                }
-                ?>
 
             </table>
             </div>
@@ -182,25 +166,78 @@
         <i class="fas fa-angle-up"></i>
     </a>
 
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
+ 
+    <script>
+    $(document).ready(function () {
+        $('#submitNews').click(function () {
+            $.ajax({
+                type: 'POST',
+                url: 'UploadNews.php',
+                data: $('#newsForm').serialize(),
+                success: function (response) {
+                    // Handle the response from the server
+                    if (response === 'success') {
+                        // Display a success SweetAlert
+                        Swal.fire('Success', 'News uploaded successfully', 'success').then(function() {
+                            // Reload the page or perform any other actions
+                            location.reload();
+                        });
+                    } else {
+                        // Display an error SweetAlert
+                        Swal.fire('Error', 'Failed to upload news', 'error');
+                    }
+                },
+                error: function () {
+                    // Handle AJAX errors
+                    Swal.fire('Error', 'AJAX request failed', 'error');
+                }
+            });
+        });
+    });
+    $(document).ready(function () {
+        // Edit News
+        $('.edit-news').on('click', function (e) {
+            e.preventDefault(); // Prevent the default link behavior
+
+            var newsId = $(this).attr('href'); // Get the href attribute
+
+            Swal.fire({
+                title: 'Edit News',
+                text: 'Are you sure you want to edit this news?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, edit it'
+            }).then(function (result) {
+                if (result.isConfirmed) {
+                    // Redirect to the edit page with the newsId for editing
+                    window.location.href ='EditNews.php?id' + newsId;
+                }
+            });
+        });
+
+        // Delete News
+        $('.delete-news').on('click', function () {
+            var newsId = $(this).data('id');
+
+            Swal.fire({
+                title: 'Confirm Delete',
+                text: 'Are you sure you want to delete this news?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete it'
+            }).then(function (result) {
+                if (result.isConfirmed) {
+                    // Redirect to DeleteNews.php with the newsId for deletion
+                    window.location.href = 'DeleteNews.php?id=' + newsId;
+                }
+            });
+        });
+    });
+</script>
 
     
 
