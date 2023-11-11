@@ -88,85 +88,58 @@
                 </nav>
                 <!-- End of Topbar -->
 
-                <!-- Begin Page Content -->
                 <div class="container-fluid">
-                    <!-- Page Heading -->
-                    <h6 class="h3 mb-2 text-gray-800" style="font-family: 'Bodoni Moda', serif; font-size: 20px"><span style="color: #C0C0C0">Pages</span> / News </h6><br>
-                    <h1>Upload News</h1>
-                    <div class="container mt-5">
- 
-                    <form id="newsForm">
-                        <div class="form-group">
-                            <label for="newsDescription">News Description:</label>
-                            <textarea class="form-control" id="newsDescription" name="description" rows="3" placeholder="Type Here"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="newsURL">URL Link:</label>
-                            <input type="text" class="form-control" id="newsURL" name="url" placeholder="https://example.com">
-                        </div>
-                        <button type="button" id="submitNews" class="btn btn-primary">Submit</button>
-                    </form>
-
-       
-    </div>
-               
-                </div>
-                <div class="container2" style="margin: 20px">
-                        <table style="width: 100%; border-collapse: collapse;">
-                            <tr>
-                               
-                                <th style="padding: 8px; text-align: left; border-bottom: 1px solid #ddd; background-color: #f2f2f2;">ID</th>
-                                <th style="padding: 8px; text-align: left; border-bottom: 1px solid #ddd; background-color: #f2f2f2;">DESCRIPTION</th>
-                                <th style="padding: 8px; text-align: left; border-bottom: 1px solid #ddd; background-color: #f2f2f2;">URL</th>
-                                <th style="padding: 8px; text-align: left; border-bottom: 1px solid #ddd; background-color: #f2f2f2;">ACTION</th>
-                                
-                            </tr>
-                        <?php
-                            include "db_connection.php";
-
-                            $sql = "SELECT * FROM news";
-                            $result = $conn->query($sql);
-
-                            if ($result->num_rows > 0) {
-                                while ($row = $result->fetch_assoc()) {
-                                    echo "<tr>
-                                        <td>" . $row['id']. "</td>
-                                        <td>" . $row['description']. "</td>
-                                        <td>" . $row['url']."</td>
-                                        <td>
-                                            <a class='mr-2 edit-news' href='EditNews.php?id=" . $row['id'] . "' style='font-size: 30px;'>
-                                                <i class='fa fa-edit text-success'></i>
-                                            </a>
-                                            <a href='#' data-id='" . $row['id'] . "' class='delete-news' style='font-size: 30px;'>
-                                                <i class='fa fa-trash text-danger'></i>
-                                            </a>
-                                        </td>
-                                    </tr>";
-                                }
-                            }
-                        ?>
-
-
-            </table>
+    <!-- Page Heading -->
+    <h6 class="h3 mb-2 text-gray-800" style="font-family: 'Bodoni Moda', serif; font-size: 20px"><span style="color: #C0C0C0">Pages</span> / News</h6><br>
+    <h1>Upload News</h1>
+    <div class="container mt-5">
+        <form id="newsForm">
+            <div class="form-group">
+                <label for="newsDescription">News Description:</label>
+                <textarea class="form-control" id="newsDescription" name="description" rows="3" placeholder="Type Here"></textarea>
             </div>
-                <!-- /.container-fluid -->
-
+            <div class="form-group">
+                <label for="newsURL">URL Link:</label>
+                <input type="text" class="form-control" id="newsURL" name="url" placeholder="https://example.com">
             </div>
-            <!-- End of Main Content -->
-
-
-        </div>
-        <!-- End of Content Wrapper -->
-
+            <button type="button" id="submitNews" class="btn btn-primary">Submit</button>
+        </form>
     </div>
-    <!-- End of Page Wrapper -->
+</div>
 
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
+<div class="container2" style="margin: 20px">
+    <table style="width: 100%; border-collapse: collapse;">
+        <tr>
+            <th style="padding: 8px; text-align: left; border-bottom: 1px solid #ddd; background-color: #f2f2f2;">DESCRIPTION</th>
+            <th style="padding: 8px; text-align: left; border-bottom: 1px solid #ddd; background-color: #f2f2f2;">URL</th>
+            <th style="padding: 8px; text-align: left; border-bottom: 1px solid #ddd; background-color: #f2f2f2;">ACTION</th>
+        </tr>
 
- 
+        <?php
+        $sql = "SELECT * FROM news";
+        $result = $conn->query($sql);
+
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                echo "<tr>
+                    <td>" . $row['description'] . "</td>
+                    <td>" . $row['url'] . "</td>
+                    <td>
+                        <a class='mr-2 edit-news' data-id='" . $row['id'] . "' href='EditNews.php?id=" . $row['id'] . "' style='font-size: 30px;'>
+                            <i class='fa fa-edit text-success'></i>
+                        </a>
+                        <a class='delete-news' data-id='" . $row['id'] . "' href='DeleteNews.php?id=" . $row['id'] . "' style='font-size: 30px;'>
+                            <i class='fa fa-trash text-danger'></i>
+                        </a>
+                    </td>
+                </tr>";
+            }
+        }
+        ?>
+    </table>
+</div>
+
+            
     <script>
     $(document).ready(function () {
         $('#submitNews').click(function () {
@@ -238,6 +211,24 @@
         });
     });
 </script>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+ 
 
     
 
