@@ -76,57 +76,54 @@
 
                 </nav>
                 <!-- End of Topbar -->
-
-                <!-- Begin Page Content -->
                 <div class="container-fluid">
+    <h1>Edit News</h1>
+    <?php
+    include "db_connection.php";
 
-                    <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Edit</h1>
-                        
-                    </div>
+    if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id'])) {
+        $id = $_GET['id'];
+        $sql = "SELECT * FROM news WHERE id = $id";
+        $result = $conn->query($sql);
 
-                    <?php
-                        $id = $_GET['id'];
-                        $sql = "Select * from news where id = ".$id;
-                        $results = $conn->query($sql);
-                        $row = $results->fetch_assoc();
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+    ?>
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Edit</h1>
+    </div>
 
-                    ?>
-                    <!-- Content Row -->
-                    
-                   <form action = "EditSaveNews.php" method="post">
-                        <input type="hidden" name="hiddenID" value="<?=$id?>">
-                            <div class="row">
-                                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                                    <div class="form-group">
-                                        <label>ID</label>
-                                        <input type="text" name="id" class="form-control" value="<?=$row['id']?>">
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                                    <div class="form-group">
-                                        <label>DESCRIPTION</label>
-                                        <input type="text" name="description" class="form-control" value="<?=$row['description']?>">
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                                    <div class="form-group">
-                                        <label>URL</label>
-                                        <input type="text" name="url" class="form-control" value="<?=$row['url']?>">
-                                    </div>
-                                </div>
-                            </div>
-                                <div class="row">
-                               
-                               
-                       </div>
-                        <center><button class="btn btn btn-flat btn-primary btn-sm" style="margin: 20px;"><i class="fa fa-save"></i> Save Changes</button></center>
-                    </form>
+    <form action="EditSaveNews.php" method="post">
+        <input type="hidden" name="hiddenID" value="<?=$id?>">
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <label>DESCRIPTION</label>
+                    <input type="text" name="description" class="form-control" value="<?=$row['description']?>">
                 </div>
-                <!-- /.container-fluid -->
-
             </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <label>URL</label>
+                    <input type="text" name="url" class="form-control" value="<?=$row['url']?>">
+                </div>
+            </div>
+        </div>
+        <center>
+            <button class="btn btn btn-flat btn-primary btn-sm" style="margin: 20px;"><i class="fa fa-save"></i> Save Changes</button>
+        </center>
+    </form>
+    </div>
+    <?php
+        } else {
+            echo "News not found.";
+        }
+    } else {
+        header("Location: News.php");
+        exit();
+    }
+    ?>
+</div>
             <!-- End of Main Content -->
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
@@ -171,5 +168,4 @@
     <script src="js/demo/chart-pie-demo.js"></script>
 
 </body>
-
 </html>

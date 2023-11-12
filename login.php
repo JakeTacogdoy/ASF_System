@@ -12,6 +12,11 @@
     <title>Login</title>
     <link rel="shortcut icon" type="image/x-icon" href="img/DA.png" />
 
+       <!---AJAX-->
+     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
@@ -20,55 +25,80 @@
 
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <style>
+      body {
+            background: #f8f9fa; /* Light Gray Background */
+            font-family: 'Arial', sans-serif;
+        }
+
+        .card {
+            background: #ffffff; /* White Card Background */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        #msg {
+            color: #dc3545; /* Red Text for Messages */
+        }
+
+        .logo {
+            max-height: 100px;
+            width: auto;
+        }
+
+        .form-control {
+            border: 1px solid #ced4da; /* Light Gray Border for Input Fields */
+        }
+
+        .btn-primary {
+            background-color: #007bff; /* Primary Blue Button Color */
+            border-color: #007bff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3; /* Darker Blue on Hover */
+            border-color: #0056b3;
+        }
+    </style>
 
 </head>
 
-<body style="background: #ABF1C2 ;">
 
-    <div class="container">
+<body>
 
-        <!-- Outer Row -->
+<div class="container mt-5">
         <div class="row justify-content-center">
-
-            <div class="col-xl-10 col-lg-10 col-md-9">
-
-                <div class="card o-hidden border-0 shadow-lg my-5">
+            <div class="col-md-6">
+                <div class="card o-hidden border-0 shadow-lg">
                     <div class="card-body p-0">
-                        <!-- Nested Row within Card Body -->
-                        <div class="row" style="background: #8BF46F;">
-                            <div class="col-md-4 d-lg-block ml-5 mx-4 my-auto "><center><img src="img/DA.png" class="max-width: 20%; img-fluid    "></center></div>
-                            <div class="col-lg-6">
+                        <div class="row">
+                            <div class="col-lg-12">
                                 <div class="p-5">
                                     <div class="text-center">
+                                        <img src="img/DA.png" class="logo mb-3" alt="Logo">
                                         <h1 class="h4 text-gray-900 mb-4">Welcome!</h1>
                                     </div>
-                                    <div id = "msg"></div>
+                                    <div id="msg"></div>
                                     <form class="user">
                                         <div class="form-group">
-                                            <input type="text" class="form-control form-control-user"
-                                                id="username" aria-describedby="emailHelp"
-                                                placeholder="Enter username">
+                                            <input type="text" class="form-control form-control-user" id="username"
+                                                aria-describedby="emailHelp" placeholder="Enter username">
                                         </div>
                                         <div class="form-group">
                                             <input type="password" class="form-control form-control-user"
                                                 id="password" placeholder="Password">
                                         </div>
-                                        <a href="#" id = "btnLogin" class="btn btn-primary btn-user btn-block">
+                                        <a href="#" id="btnLogin" class="btn btn-primary btn-user btn-block">
                                             Login
                                         </a>
                                     </form>
                                     <hr>
-                                    
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
-
         </div>
-
     </div>
 
     <!-- Bootstrap core JavaScript-->
@@ -81,97 +111,59 @@
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script type="text/javascript">
+        $("#btnLogin").click(function (e) {
+            e.preventDefault();
+            var uname = $("#username").val();
+            var pword = $("#password").val();
+
+            if (uname == "") {
+                Swal.fire({
+                    title: 'Please enter your username',
+                    icon: 'warning',
+                    timer: 2000,
+                    timerProgressBar: true,
+                });
+                return false;
+            }
+
+            if (pword == "") {
+                Swal.fire({
+                    title: 'Please enter your password',
+                    icon: 'warning',
+                    timer: 2000,
+                    timerProgressBar: true,
+                });
+                return false;
+            }
+
+            $.ajax({
+                url: "processlogin.php",
+                type: "post",
+                data: { "username": uname, "password": pword },
+                success: function (response) {
+                    if (response == "1") {
+                        window.location = "index.php";
+                    } else if (response == "2") {
+                        window.location = "useradmin/index.php";
+                    } else if (response == "3") {
+                        window.location = "brgyadmin/Dashboard.php";
+                    } else {
+                        $("#msg").html(response);
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(textStatus, errorThrown);
+                }
+            });
+        })
+    </script>
+
+  
 </body>
+
 
 </html>
 
 
-<script type="text/javascript">
-    
-    $("#btnLogin").click(function(e){
-        e.preventDefault();
-        var uname = $("#username").val();
-        var pword = $("#password").val();
-
-        if (uname == ""){
-            let timerInterval
-            Swal.fire({
-              title: 'Please enter your username',
-              html: 'I will close in <b></b> milliseconds.',
-              timer: 2000,
-              timerProgressBar: true,
-              didOpen: () => {
-                Swal.showLoading()
-                const b = Swal.getHtmlContainer().querySelector('b')
-                timerInterval = setInterval(() => {
-                  b.textContent = Swal.getTimerLeft()
-                }, 100)
-              },
-              willClose: () => {
-                clearInterval(timerInterval)
-              }
-            }).then((result) => {
-              /* Read more about handling dismissals below */
-              if (result.dismiss === Swal.DismissReason.timer) {
-                console.log('I was closed by the timer')
-              }
-            })
-
-            return false;
-        }
-
-        if (pword == ""){
-            let timerInterval
-            Swal.fire({
-              title: 'Please enter your password',
-              html: 'I will close in <b></b> milliseconds.',
-              timer: 2000,
-              timerProgressBar: true,
-              didOpen: () => {
-                Swal.showLoading()
-                const b = Swal.getHtmlContainer().querySelector('b')
-                timerInterval = setInterval(() => {
-                  b.textContent = Swal.getTimerLeft()
-                }, 100)
-              },
-              willClose: () => {
-                clearInterval(timerInterval)
-              }
-            }).then((result) => {
-              /* Read more about handling dismissals below */
-              if (result.dismiss === Swal.DismissReason.timer) {
-                console.log('I was closed by the timer')
-              }
-            })
-
-            return false;
-        }
-
-        $.ajax({
-            url: "processlogin.php",
-            type: "post",
-            data: {"username":uname,"password":pword},
-            success: function (response) {
-                if (response == "1"){
-                    window.location = "index.php";
-                }else if(response == "2")
-                {
-                    window.location = "useradmin/index.php";
-                }else if(response == "3")
-                {
-                    window.location = "brgyadmin/Dashboard.php";
-                }
-                else{
-                    $("#msg").html(response);
-                }
-                
-               // You will get response from your PHP page (what you echo or print)
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-               console.log(textStatus, errorThrown);
-            }
-        });
-
-    })
-
-</script>
