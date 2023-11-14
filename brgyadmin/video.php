@@ -48,6 +48,8 @@
             <!-- Main Content -->
             <div id="content">
 
+            
+
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
@@ -86,78 +88,71 @@
 
                 </nav>
                 <!-- End of Topbar -->
+                <h6 class="h3 mb-2 text-gray-800" style="font-family: 'Bodoni Moda', serif; font-size: 20px"><span style="color: #C0C0C0">Pages</span> / Video </h6><br>
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-
                     <!-- Page Heading -->
-                    <h6 class="h3 mb-2 text-gray-800" style="font-family: 'Bodoni Moda', serif; font-size: 20px"><span style="color: #C0C0C0">Pages</span> / Account</h6><br>
-
-                    <?php
-                        $sql = "Select * from users order by LastName";
-                        $results = $conn->query($sql);
-
-                    ?>
-
-                   <!-- Add Button -->
-                            <a href="../brgyadmin/Add_users.php" class="btn bg-info" style="margin-bottom:15px"><i class="fa fa-plus"></i>Add Account</a>
-                        <!-- End Add Button -->
-                    <div class="card shadow mb-4">
-                         
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table" id="dataTable" width="100%" cellspacing="0">
-                                     <thead>
-                                        <tr class="bg-gradient-info text-white">
-                                            <th>Action</th>
-                                            <th>Email Address</th>
-                                            <th>First Name</th>
-                                            <th>Last Name</th>
-                                            <th>User Name</th>
-                                            <th>Password</th>
-                                            <th>UserType</th>
-                                        </tr>
-                                        </thead>
-
-                                        <tbody>
-                        <?php
-                            foreach ($results as $line) {
-                                echo "<tr>
-                                    <td>
-                                     
-                                    <button type='button' class='btn btn-success mr-2' onclick='showEditAlert(". $line['id'] .")'>
-                                    <i class='fa fa-edit'></i>
-                                    </button>
                     
-                                    <button type='button' class='btn btn-danger' onclick='showDeleteAlert(". $line['id'] .")'>
-                                    <i class='fa fa-trash'></i>
-                                     </button>
+                    <h1>Upload Your Videos Here</h1>
+                    <form action="uploadvideo.php" method="POST" enctype="multipart/form-data">
+                        <div class="form-group">
 
+                        <?php if (isset($_GET['error'])){ ?>
+                        <p><?=$_GET['error']?></p>
+                         <?php  } ?>
+                            <label for="video">Upload Video</label>
+                            <input type="file" class="form-control" name="video"><br>
 
-
-
-                                    </td>
-                                    <td>".$line['Email']."</td>
-                                    <td>".$line['FirstName']."</td>
-                                    <td>".$line['LastName']."</td>
-                                    <td>".$line['UserName']."</td>
-                                    <td>".$line['Password']."</td>
-                                    <td>".$line['usertype']."</td>
-                                </tr>";
-                            }
-                        ?>
-                        </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
+                            <input type="submit" value="upload" class="btn btn-primary" name="submit">
+                    </form>
 
                 </div>
+               
                 <!-- /.container-fluid -->
+                        <div class="container2" style="margin: 20px">
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <tr>
+                            <th style="padding: 8px; text-align: left; border-bottom: 1px solid #ddd; background-color: #f2f2f2;">ID</th>
+                                <th style="padding: 8px; text-align: left; border-bottom: 1px solid #ddd; background-color: #f2f2f2;">TITLE</th>
+                                <th style="padding: 8px; text-align: left; border-bottom: 1px solid #ddd; background-color: #f2f2f2;">URL</th>
+                                <th style="padding: 8px; text-align: left; border-bottom: 1px solid #ddd; background-color: #f2f2f2;">ACTION</th>
+                            </tr>
+                            <?php
+                            include "../db_connection.php";
+
+                            $sql = "SELECT * FROM videos";
+                            $result = $conn->query($sql);
+
+                            if ($result->num_rows > 0) {
+                                while ($row = $result->fetch_assoc()) {
+                                    echo "<tr>
+                                        <td>" . $row['id'] . "</td>
+                                        <td>" . $row['title'] . "</td>
+                                        <td>
+                                            <video width='320' height='240' controls>
+                                                <source src='" . $row['video_url'] . "' type='video/mp4'>
+                                                Your browser does not support the video tag.
+                                            </video>
+                                        </td>
+                                        <td>
+                                            <a href='DeleteVideo.php?id=" . $row['id'] . "' style='font-size: 30px;'>
+                                                <i class='fa fa-trash text-danger'></i>
+                                            </a>
+                                        </td>
+                                    </tr>";
+                                }
+                            }
+                            ?>
+
+
+            </table>
+            </div>
 
             </div>
             <!-- End of Main Content -->
 
+          
 
         </div>
         <!-- End of Content Wrapper -->
@@ -189,59 +184,27 @@
             </div>
         </div>
     </div>
-  
+    
 
-    <script src="../vendor/jquery/jquery.min.js"></script>
-    <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Core plugin JavaScript-->
-    <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="../js/sb-admin-2.min.js"></script>
+    <script src="js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
 
-</body>
-<script type="text/javascript">
-    function showEditAlert(id) {
-        Swal.fire({
-            title: 'Are you sure?',
-            text: "Once edited, you will not be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, edit it!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                window.location.href = 'AccountEdit.php?id=' + id;
-            }
-        });
-    }
+ 
 
-    function showDeleteAlert(id) {
-        Swal.fire({
-            title: 'Are you sure?',
-            text: "Once deleted, you will not be able to recover this account!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                Swal.fire(
-                    'Deleted!',
-                    'Your file has been deleted.',
-                    'success'
-                ).then(() => {
-                    window.location.href = 'AccountDelete.php?id=' + id;
-                });
-            }
-        });
-    }
-</script>
+</body>
 
 </html>

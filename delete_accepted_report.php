@@ -1,5 +1,5 @@
 <?php
-include('../db_connection.php'); // Include the database connection file
+include('db_connection.php'); // Include the database connection file
 
 if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['report_id'])) {
     $report_id = $_GET['report_id'];
