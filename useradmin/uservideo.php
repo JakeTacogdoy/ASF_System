@@ -1,179 +1,156 @@
+<?php
+    session_start();
+    require_once('../db_connection.php');
+
+    $hasLogin = (isset($_SESSION['hasLogin']) ? $_SESSION['hasLogin'] : 0);
+
+    if (empty($hasLogin)) {
+        header("location: login.php");
+        exit;
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-      
-        <!--uservideo-->
-*{
-  margin: 0; padding: 0;
-  box-sizing: border-box;
-  text-transform: capitalize;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  font-weight: normal;
-}
 
-body{
-   background: #eee;
-
-}
-
-.vid{
-   color: #444;
-   font-size: 40px;
-   text-align: center;
-   padding: 10px; 
-}
-
-.cont{
-   display: grid;
-   grid-template-columns: 2fr 1fr;
-   gap: 15px;
-   align-items: flex-start;
-   padding: 5px 5%;
-}
-.cont .main-vid{
-   background: #fff;
-   border-radius: 5px;
-   padding: 10px;
-}
-
-.cont .main-vid video{
-   width: 100%;
-   border-radius: 5px;
-}
-
-.cont .main-vid .title{
-   color: #333;
-   font-size: 23px;
-   padding-bottom: 15px;
-   padding-top: 15px;
-}
-
-.cont .video-list{
-   background: #fff;
-   border-radius: 5px;
-   height: 520px;
-   overflow-y: scroll;
-}
-.cont .video-list::-webkit-scrollbar{
-   width: 7px;
-}
-.cont .video-list::-webkit-scrollbar-track{
-   background: #ccc;
-   border-radius: 50px;
-}
-.cont .video-list::-webkit-scrollbar-thumb{
-   background: #666;
-   border-radius: 50px;
-}
-.cont .video-list .vid video{
-   width: 100px;
-   border-radius: 5px;
-}
-.cont .video-list .vid{
-   display: flex;
-   align-items: center;
-   gap: 15px;
-   background: #f7f7f7;
-   border-radius: 5px;
-   margin: 10px;
-   padding: 10px;
-   border: 1px solid rgba(0,0,0,.1);
-   cursor: pointer;
-}
-.cont .video-list .vid:hover{
-   background: #eee;
-}
-.cont .video-list .vid.active{
-   background: #2980b9;
-}
-.cont .video-list .vid.active .title{
-   background: #fff;
-}
-.cont .video-list .vid .title{
-   background: #333;
-   font-size: 17px;
-}
-
-@media (max-width:991px){
-   .cont{
-       grid-template-columns: 1.5fr 1fr;
-       padding: 10px;
-   }
-}
-@media (max-width:768px){
-   .cont{
-       grid-template-columns: 1fr;
-   }
-}
-    </style>
-
-    <title>Document</title>
-
-    <?php
-    include("userheader.php");
-    ?>
-
-
-</head>
-
-<!-- ... (other HTML, styles, and PHP codes) -->
+<?php
+    include("../useradmin/userheader.php");
+?>
 
 <body id="page-top">
 
-    <!-- ... (other parts of your code) -->
     <!-- Page Wrapper -->
     <div id="wrapper">
 
         <!-- Sidebar -->
         <?php
-            include ("usermenu.php");
-
+            include("../useradmin/usermenu.php");
         ?>
-    <div class="cont">
-        <div class="main-vid">
-            <div class="video"></div>
-            <h2 class="title"></h2>
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-auto">
+
+                        <!-- Nav Item - User Information -->
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $_SESSION['username'] ?></span>
+                                <img class="img-profile rounded-circle"
+                                    src="../img/undraw_profile.svg">
+                            </a>
+                            <!-- Dropdown - User Information -->
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="logout.php">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Logout
+                                </a>
+                            </div>
+                        </li>
+
+                    </ul>
+
+                </nav>
+                <!-- End of Topbar -->
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <h1 class="h3 mb-2 text-gray-800">Video Gallery</h1>
+                    <p class="mb-4">Watch the latest videos uploaded by your barangay.</p>
+
+                    <div class="row">
+                        <?php
+                            include "../db_connection.php";
+
+                            $sql = "SELECT * FROM videos";
+                            $result = $conn->query($sql);
+
+                            if ($result->num_rows > 0) {
+                                while ($row = $result->fetch_assoc()) {
+                                    echo "<div class='col-lg-4 mb-4'>
+                                            <div class='card'>
+                                                <div class='card-body'>
+                                                    <h5 class='card-title'>" . $row['title'] . "</h5>";
+
+                                    // Display video player with the video URL
+                                    echo "<a href='#videoModal" . $row['id'] . "' data-toggle='modal'>";
+                                    echo "<video width='100%' height='auto' controls>";
+                                    echo "<source src='" . $row['video_url'] . "' type='video/mp4'>";
+                                    echo "Your browser does not support the video tag.";
+                                    echo "</video>";
+                                    echo "</a>";
+
+                                    // Bootstrap Modal
+                                    echo "<div class='modal fade' id='videoModal" . $row['id'] . "' tabindex='-1' role='dialog' aria-labelledby='videoModalLabel' aria-hidden='true'>
+                                            <div class='modal-dialog modal-lg' role='document'>
+                                                <div class='modal-content'>
+                                                    <div class='modal-header'>
+                                                        <h5 class='modal-title' id='videoModalLabel'>" . $row['title'] . "</h5>
+                                                        <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
+                                                            <span aria-hidden='true'>&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class='modal-body'>
+                                                        <video width='100%' height='auto' controls>
+                                                            <source src='" . $row['video_url'] . "' type='video/mp4'>
+                                                            Your browser does not support the video tag.
+                                                        </video>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>";
+
+                                    echo "</div>
+                                          </div>
+                                        </div>";
+                                }
+                            } else {
+                                echo "<p>No videos available.</p>";
+                            }
+                        ?>
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
         </div>
-        <div class="video-list">
-            <?php
-            include "../db_connection.php";
+        <!-- End of Content Wrapper -->
 
-            $sql = "SELECT * FROM videos";
-            $result = $conn->query($sql);
-
-            if ($result->num_rows > 0) {
-                while ($row = $result->fetch_assoc()) {
-                    $videoPath = $row['video_url'];
-
-                    echo "<div class='vid' data-src='$videoPath'>
-                            <h3 class='title'>" . $row['title'] . "</h3>
-                        </div>";
-                }
-            }
-            ?>
-        </div>
     </div>
+    <!-- End of Page Wrapper -->
 
-    <script>
-        let listVideo = document.querySelectorAll('.video-list .vid');
-        let mainVideo = document.querySelector('.main-vid .video');
-        let title = document.querySelector('.main-vid .title');
+    <!-- Bootstrap core JavaScript-->
+    <script src="../vendor/jquery/jquery.min.js"></script>
+    <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-        listVideo.forEach(video => {
-            video.onclick = () => {
-                listVideo.forEach(vid => vid.classList.remove('active'));
-                video.classList.add('active');
-                if (video.classList.contains('active')) {
-                    let src = video.getAttribute('data-src');
-                    mainVideo.innerHTML = `<video width='640' height='360' controls><source src='${src}' type='video/mp4'>Your browser does not support the video tag.</video>`;
-                    title.innerHTML = video.querySelector('.title').textContent;
-                }
-            };
-        });
-    </script>
+    <!-- Core plugin JavaScript-->
+    <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="../js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="../vendor/chart.js/Chart.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="../js/demo/chart-area-demo.js"></script>
+    <script src="../js/demo/chart-pie-demo.js"></script>
+    
 
 </body>
+
 </html>

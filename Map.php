@@ -10,7 +10,19 @@
         exit;
     }
 
-   
+    function isWithinRadius($centerLat, $centerLon, $targetLat, $targetLon) {
+        $earthRadius = 6371000; // Radius of the Earth in meters
+    
+        $dLat = deg2rad($targetLat - $centerLat);
+        $dLon = deg2rad($targetLon - $centerLon);
+    
+        $a = sin($dLat / 2) * sin($dLat / 2) + cos(deg2rad($centerLat)) * cos(deg2rad($targetLat)) * sin($dLon / 2) * sin($dLon / 2);
+        $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+    
+        $distance = $earthRadius * $c; // Distance in meters
+    
+        return $distance <= 500;
+    }
 ?>
 
 <!DOCTYPE html>
