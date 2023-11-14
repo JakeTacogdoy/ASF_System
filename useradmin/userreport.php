@@ -93,15 +93,6 @@
         </form>
     </div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Report Content</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
             <?php
             include('../db_connection.php');
 
@@ -117,28 +108,7 @@
                     echo "Error: " . $insert_sql . "<br>" . mysqli_error($conn);
                 }
             }
-
-            // Fetch reports submitted by the logged-in user from the 'submitted_reports' table
-            $id = $_SESSION['id']; // Assuming you have user ID stored in the session
-            $sql = "SELECT * FROM report WHERE id = $id";
-            $result = mysqli_query($conn, $sql);
-
-            if (mysqli_num_rows($result) > 0) {
-                while ($row = mysqli_fetch_assoc($result)) {
-                    echo "<tr>";
-                    echo "<td>" . $row['reporter_name'] . "</td>";
-                    echo "<td>" . $row['report_content'] . "</td>";
-                    echo "<td><a href='edit_report.php?id=" . $row['id'] . "'>Edit</a></td>";
-                    echo "</tr>";
-                }
-            } else {
-                echo "<tr><td colspan='3'>No reports submitted yet</td></tr>";
-            }
-
-            mysqli_close($conn);
             ?>
-        </tbody>
-    </table>
 </div>
 
     <script>
