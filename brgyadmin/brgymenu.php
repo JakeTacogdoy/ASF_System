@@ -45,11 +45,7 @@ style="background: linear-gradient(36deg, #515bf0,#515bf0);;">
                     <span>Message</span></a>
             </li>
 
-            <li class="nav-item">
-                <a class="nav-link" href="admin_reportlist.php">
-                <i class="fa-solid fa-message"></i>
-                    <span>Reports</span></a>
-            </li>
+
 
             <li class="nav-item">
                 <a class="nav-link" href="accepted_reports.php">

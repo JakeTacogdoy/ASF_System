@@ -9,6 +9,13 @@
         header("location: login.php");
         exit;
     }
+    $usertype = isset($_SESSION['usertype']) ? strtolower($_SESSION['usertype']) : '';
+    if ($usertype === 'brgy-admin') {
+    // Redirect to a page with an appropriate message or simply deny access
+    header("location: ../unauthorized.php");
+    exit;
+    }
+
 
     function isWithinRadius($centerLat, $centerLon, $targetLat, $targetLon) {
         $earthRadius = 6371000; // Radius of the Earth in meters
