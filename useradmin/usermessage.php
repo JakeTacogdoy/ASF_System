@@ -68,7 +68,6 @@
         <!-- Sidebar -->
         <?php
             include ("usermenu.php");
-
         ?>
         <!-- End of Sidebar -->
 
