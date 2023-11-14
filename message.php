@@ -187,7 +187,7 @@ button:hover {
                                                 echo "<td>" . $row["id"] . "</td>";
                                                 echo "<td>" . $row["firstname"] . "</td>";
                                                 echo "<td>" . $row["lastname"] . "</td>";
-                                                echo '<td><a href="start_chat.php?user_id=' . $row["id"] . '" class="btn btn-primary">Start Chat</a></td>';
+                                                echo '<td><a href="messageconvo.php?user_id=' . $row["id"] . '" class="btn btn-primary">Start Chat</a></td>';
                                                 echo "</tr>";
                                             }
                                         } else {
@@ -258,62 +258,4 @@ button:hover {
     <script src="js/demo/datatables-demo.js"></script>
 
 </body>
-<script type="text/javascript">
-      function addAdmin() {
-        var emailInput = document.getElementById("email");
-        var emailValue = emailInput.value;
-
-        // Check if the email contains "@"
-        if (emailValue.indexOf("@") === -1) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Invalid Email Address',
-                text: 'Please enter a valid email.'
-            });
-            return; // Don't submit the form
-        }
-
-        var passwordInput = document.getElementById("password");
-        var confirmPasswordInput = document.getElementById("confirmPassword");
-        var passwordValue = passwordInput.value;
-        var confirmPasswordValue = confirmPasswordInput.value;
-
-        // Check if password and confirm password match
-        if (passwordValue !== confirmPasswordValue) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Passwords Mismatch',
-                text: 'Please make sure passwords match.'
-            });
-            return; // Don't submit the form
-        }
-
-        // If the email and passwords are valid, submit the form
-        $.ajax({
-            url: 'Add_admin_process.php',
-            type: 'POST',
-            data: $('form').serialize(),
-            success: function(response) {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Account Added Successfully',
-                    showConfirmButton: false,
-                    timer: 2000
-                });
-
-                setTimeout(function(){
-                    window.location.href = 'Account.php'; // Redirect after 2 seconds
-                }, 2000);
-            },
-            error: function(xhr, status, error) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Something went wrong!'
-                });
-                console.error(error);
-            }
-        });
-    }
-</script>
 </html>
