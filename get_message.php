@@ -1,34 +1,27 @@
 <?php
 include('db_connection.php');
 
-$sql = "SELECT messages.id, 
-               messages.message, 
-               messages.timestamp, 
-               sender.FirstName AS sender_first_name, 
-               sender.LastName AS sender_last_name, 
-               receiver.FirstName AS receiver_first_name, 
-               receiver.LastName AS receiver_last_name 
-        FROM messages
-        JOIN users AS sender ON messages.sender = sender.id
-        JOIN users AS receiver ON messages.receiver = receiver.id
-        ORDER BY messages.timestamp";
+$receiver_id = isset($_GET['receiver_id']) ? $_GET['receiver_id'] : null;
 
-$result = $conn->query($sql);
+// Retrieve messages from the database
+if ($receiver_id !== null) {
+    $sql = "SELECT users.username, messages.message, messages.timestamp FROM messages 
+            JOIN users ON messages.id = users.id 
+            WHERE messages.receiver_id = $receiver_id
+            ORDER BY messages.timestamp ASC";
 
-if ($result->num_rows > 0) {
-    while($row = $result->fetch_assoc()) {
-        echo "<div>";
-        echo "<strong>From: " . $row["sender_first_name"]. " " . $row["sender_last_name"] . "</strong><br>";
-        echo "<strong>To: " . $row["receiver_first_name"]. " " . $row["receiver_last_name"] . "</strong><br>";
-        echo "Message: " . $row["message"]. "<br>";
-        echo "Timestamp: " . $row["timestamp"]. "<br>";
-        echo "</div>";
+    $result = $conn->query($sql);
+
+    if ($result) {
+        while ($row = $result->fetch_assoc()) {
+            echo "<p><strong>{$row['username']}</strong>: {$row['message']} ({$row['timestamp']})</p>";
+        }
+    } else {
+        echo "<p>Error in SQL query: " . $conn->error . "</p>";
     }
 } else {
-    echo "No messages yet.";
+    echo "<p>Error: receiver_id not provided.</p>";
 }
 
 $conn->close();
-?>
-->close();
 ?>

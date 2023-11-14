@@ -93,72 +93,24 @@
                     </ul>
 
                 </nav>
-                <!-- End of Topbar -->
-
                 <div class="container mt-5">
-                    <h1>Admin Chat Interface</h1>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>User ID</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="userList">
-                            <!-- User list will be populated dynamically -->
-                        </tbody>
-                    </table>
+                <div class="card">
+                    <div class="card-header">
+                        User Chat
+                    </div>
+                    <div class="card-body">
+                        <div id="chat-box" class="border p-3 mb-3" style="height: 300px; overflow-y: scroll;">
+                            <!-- Messages will be displayed here -->
+                        </div>
+                        <div class="input-group mb-3">
+                            <input type="text" id="message" class="form-control" placeholder="Type your message">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" onclick="sendMessage()">Send</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
-                <?php
-
-                include('db_connection.php');
-
-                
-                    $sql = "SELECT id, FirstName, LastName FROM users";
-
-                    $result = $conn->query($sql);
-
-                    if ($result->num_rows > 0) {
-                        while($row = $result->fetch_assoc()) {
-                            echo "<tr>";
-                            echo "<td>" . $row["id"] . "</td>";
-                            echo "<td>" . $row["FirstName"] . "</td>";
-                            echo "<td>" . $row["LastName"] . "</td>";
-                            echo "<td><button onclick='startChat(" . $row["id"] . ")'>Start Chat</button></td>";
-                            echo "</tr>";
-                        }
-                    } else {
-                        echo "<tr><td colspan='4'>No users found</td></tr>";
-                    }
-
-                    $conn->close();
-                    ?>
-
-
-    <script>
-        $(document).ready(function() {
-            loadUserList();
-
-            function loadUserList() {
-                $.ajax({
-                    url: 'get_user_list.php',
-                    type: 'GET',
-                    success: function(data) {
-                        $('#userList').html(data);
-                    }
-                });
-            }
-
-            // Function to start a chat with a user
-            function startChat(userId) {
-                window.location.href = 'admin_send_message.php?receiver=' + userId;
-            }
-        });
-    </script>
-
+                </div>
                 <!-- /.container-fluid -->
 
             </div>
@@ -211,5 +163,59 @@
 
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
+    <script>
+    function getMessages() {
+        // Get the user_id from the URL
+        var user_id = getUrlParameter('id');
+
+        $.ajax({
+            url: 'get_message.php',
+            method: 'GET',
+            data: {receiver_id: user_id},
+            success: function (data) {
+                $('#chat-box').html(data);
+            }
+        });
+    }
+
+    function sendMessage() {
+    var message = $('#message').val();
+    // Get the user_id from the URL
+    var receiver_id = getUrlParameter('id');
+
+    // Check if the sender is an admin based on the session variable
+    var isAdmin = <?php echo isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin' ? 'true' : 'false'; ?>;
+
+    // Set the sender's ID (admin or user)
+    var sender_id = isAdmin ? 'admin' : <?php echo isset($_SESSION['id']) ? $_SESSION['id'] : 'null'; ?>;
+
+    $.ajax({
+        url: 'send_message.php',
+        method: 'POST',
+        data: {sender_id: sender_id, receiver_id: receiver_id, message: message},
+        success: function () {
+            getMessages();
+            $('#message').val('');
+        }
+    });
+}
+
+    // Fetch messages on page load
+    $(document).ready(function () {
+        getMessages();
+    });
+
+    // Refresh messages every 5 seconds
+    setInterval(function () {
+        getMessages();
+    }, 5000);
+
+    // Function to extract URL parameters
+    function getUrlParameter(name) {
+        var urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(name);
+    }
+</script>
+
 </body>
 </html>
