@@ -74,7 +74,7 @@
                             <div class="col-lg-12">
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <img src="img/DA.png" class="logo mb-3" alt="Logo">
+                                        <img src="img/Swinesights.png" class="logo mb-3" alt="Logo">
                                         <h1 class="h4 text-gray-900 mb-4">Welcome!</h1>
                                     </div>
                                     <div id="msg"></div>
