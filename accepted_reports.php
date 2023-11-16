@@ -95,6 +95,8 @@
                 <tr>
                     <th>Reporter's Name</th>
                     <th>Report Content</th>
+                    <th>Time</th>
+                    <th>Action</th>
                     <!-- You can add more columns as needed -->
                 </tr>
             </thead>
@@ -111,6 +113,7 @@
                         echo "<tr>";
                         echo "<td>" . $row['reporter_name'] . "</td>";
                         echo "<td>" . $row['report_content'] . "</td>";
+                        echo "<td>" . $row['create_at'] . "</td>";
                         echo "<td><a href='delete_accepted_report.php?report_id=" . $row['report_id'] . "'><i class='fas fa-trash-alt'></i></a></td>";
                         echo "</tr>";
                     }
