@@ -41,7 +41,11 @@
             <div id="content">
 
                 <!-- Topbar -->
+<<<<<<< HEAD
                 <nav class="navbar navbar-expand navbar-light topbar mb-4 static-top shadow" style="background: #ffff ;">
+=======
+                <nav class="navbar navbar-expand navbar-light topbar mb-4 static-top shadow" style="background: #fffff ;">
+>>>>>>> 9667905718fc033c9a3b5dcd09af5bb49c52643f
 
                             <!-- Sidebar Toggle (Topbar) -->
                             <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">

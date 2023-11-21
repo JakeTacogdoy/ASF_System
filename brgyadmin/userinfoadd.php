@@ -94,7 +94,7 @@
                     <h1 class="h3 mb-2 text-gray-800">User Information</h1>
                     
 
-                    <form action="Userinfo_process.php" method="post">
+                    <form action="../brgyadmin/userinfoprocess.php" method="post">
                         <div class="row">
                            
                             <div class="form-group col-md-4">

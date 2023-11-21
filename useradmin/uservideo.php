@@ -65,61 +65,58 @@
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
-                    <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Video Gallery</h1>
-                    <p class="mb-4">Watch the latest videos uploaded by your barangay.</p>
+<!-- Page Heading -->
+<h1 class="h3 mb-2 text-gray-800">Video Gallery</h1>
+<p class="mb-4">Watch the latest videos uploaded by Department of Agriculture.</p>
 
-                    <div class="row">
-                        <?php
-                            include "../db_connection.php";
+<div class="row" style="overflow-y: auto; max-height: 500px;">
+    <?php
+    // Path to the video directory
+    $videoDirectory = "../videos/";
 
-                            $sql = "SELECT * FROM videos";
-                            $result = $conn->query($sql);
+    // Check if the directory exists
+    if (is_dir($videoDirectory)) {
 
-                            if ($result->num_rows > 0) {
-                                while ($row = $result->fetch_assoc()) {
-                                    echo "<div class='col-lg-4 mb-4'>
-                                            <div class='card'>
-                                                <div class='card-body'>
-                                                    <h5 class='card-title'>" . $row['title'] . "</h5>";
+        // Open the directory
+        if ($dh = opendir($videoDirectory)) {
 
-                                    // Display video player with the video URL
-                                    echo "<a href='#videoModal" . $row['id'] . "' data-toggle='modal'>";
-                                    echo "<video width='100%' height='auto' controls>";
-                                    echo "<source src='" . $row['video_url'] . "' type='video/mp4'>";
-                                    echo "Your browser does not support the video tag.";
-                                    echo "</video>";
-                                    echo "</a>";
+            // Loop through each file in the directory
+            while (($file = readdir($dh)) !== false) {
 
-                                    // Bootstrap Modal
-                                    echo "<div class='modal fade' id='videoModal" . $row['id'] . "' tabindex='-1' role='dialog' aria-labelledby='videoModalLabel' aria-hidden='true'>
-                                            <div class='modal-dialog modal-lg' role='document'>
-                                                <div class='modal-content'>
-                                                    <div class='modal-header'>
-                                                        <h5 class='modal-title' id='videoModalLabel'>" . $row['title'] . "</h5>
-                                                        <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
-                                                            <span aria-hidden='true'>&times;</span>
-                                                        </button>
-                                                    </div>
-                                                    <div class='modal-body'>
-                                                        <video width='100%' height='auto' controls>
-                                                            <source src='" . $row['video_url'] . "' type='video/mp4'>
-                                                            Your browser does not support the video tag.
-                                                        </video>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>";
+                // Check if the file is a video file
+                $allowed_formats = array("mp4", "avi", "mov", "mkv");
+                $videoFileType = strtolower(pathinfo($file, PATHINFO_EXTENSION));
 
-                                    echo "</div>
-                                          </div>
-                                        </div>";
-                                }
-                            } else {
-                                echo "<p>No videos available.</p>";
-                            }
-                        ?>
-                    </div>
+                if (in_array($videoFileType, $allowed_formats)) {
+                    echo "<div class='col-lg-4 mb-4'>
+                            <div class='card h-100'>
+                                <div class='card-body'>
+                                    <h5 class='card-title'>" . pathinfo($file, PATHINFO_FILENAME) . "</h5>";
+
+                    // Display video player with the video URL
+                    echo "<div class='embed-responsive embed-responsive-16by9'>";
+                    echo "<video width='100%' height='auto' controls>";
+                    echo "<source src='" . $videoDirectory . $file . "' type='video/" . $videoFileType . "'>";
+                    echo "Your browser does not support the video tag.";
+                    echo "</video>";
+                    echo "</div>";
+
+                    echo "</div>
+                            </div>
+                          </div>";
+                }
+            }
+
+            // Close the directory
+            closedir($dh);
+        }
+    } else {
+        echo "<p>Video directory not found.</p>";
+    }
+    ?>
+</div>
+
+</div>
 
                 </div>
                 <!-- /.container-fluid -->

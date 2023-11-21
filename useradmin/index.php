@@ -39,7 +39,11 @@
             <div id="content">
 
                 <!-- Topbar -->
+<<<<<<< HEAD
                 <nav class="navbar navbar-expand navbar-light topbar mb-4 static-top shadow" style="background: #ffff ;">
+=======
+                <nav class="navbar navbar-expand navbar-light topbar mb-4 static-top shadow" style="background: #fffff ;">
+>>>>>>> 9667905718fc033c9a3b5dcd09af5bb49c52643f
 
                     <!-- Sidebar Toggle (Topbar) -->
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
@@ -56,7 +60,7 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="mr-2 d-none d-lg-inline text-white-600 small"><?php echo $_SESSION['username'] ?></span>
+                            <span class="mr-2 d-none d-lg-inline text-black-600 small"><?php echo  $_SESSION['username'] ?></span>
                             <img class="img-profile rounded-circle" src="../img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->

@@ -100,7 +100,7 @@
                     ?>
 
                    <!-- Add Button -->
-                            <a href="../brgyadmin/Add_users.php" class="btn bg-info" style="margin-bottom:15px"><i class="fa fa-plus"></i>Add Account</a>
+                            <a href="../brgyadmin/Add_users.php" class="btn bg-info mb-4 text-white" style="margin-bottom:15px "><i class="fa fa-plus"></i>Add Account</a>
                         <!-- End Add Button -->
                     <div class="card shadow mb-4">
                          

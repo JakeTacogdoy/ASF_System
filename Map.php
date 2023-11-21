@@ -99,13 +99,27 @@
 
         $distance = $earthRadius * $c; // Distance in meters
 
-        return $distance <= 500;
+        return $distance;
     }
 
-    $sql = "Select * from owners";
-    $owners = $conn->query($sql);
+    $sql = "SELECT *,
+    CASE 
+          WHEN owners.is_positive = 1 THEN owners.latitude
+    END as poslat,
+    CASE
+        WHEN owners.is_positive = 1 THEN owners.longitude
+    END as poslong,
+    CASE 
+          WHEN owners.is_positive = 0 THEN owners.latitude
+    END as neglat,
+    CASE
+        WHEN owners.is_positive = 0 THEN owners.longitude
+    END as neglong
+    FROM owners";
 
-    echo "<script>document.addEventListener('DOMContentLoaded', function() { initMap(); });</script>";
+    $owners = $conn->query($sql);
+    $positiveLat = mysql_fetch_array(mysql_query('select * from owners where is_positive = 1'));
+
     ?>
 
     <!-- Begin Page Content -->
@@ -120,68 +134,65 @@
         var longitudeInput = document.getElementById('longitude');
 
         
-        function initMap() {
-            map = L.map('mapid').setView([10.3943, 124.9754], 18);
+    
+        map = L.map('mapid').setView([10.3943, 124.9754], 18);
 
-            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                maxZoom: 19,
-                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-            }).addTo(map);
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
 
-            <?php 
-    foreach ($owners as $owner) {  
-        $targetLatitude = $owner['latitude']; 
-        $targetLongitude = $owner['longitude']; 
+        <?php
+           while ($owner = $ownersResult->fetch_assoc()) {
+               $posLat = $owner['poslat'];
+               $posLong = $owner['poslong'];
 
-        if ($owner['is_positive'] == 1) {
-            // Circle radius 
-            ?>
-            var circle = L.circle([<?php echo $owner['latitude']; ?>, <?php echo $owner['longitude']; ?>], {
-                color: 'red',
-                fillColor: '#f03',
-                fillOpacity: 0.1,
-                radius: 500
-            }).addTo(map);
+               $negLat = $owner['neglat'];
+               $negLong = $owner['neglong'];
 
-            // User info
-            console.log('Positive : <?php echo $owner['firstname']; ?>');
-            L.marker([<?php echo $owner['latitude']; ?>, <?php echo $owner['longitude']; ?>]).addTo(map)
-                .bindPopup(`<p style="background-color:red; font-family: 'Allerta', sans-serif; font-size: 20px; color: white;">Warning! Positive!</p><br>
-                Status: <?php echo $owner['is_positive']; ?><br>
-                Name: <?php echo $owner['firstname']; ?> <?php echo $owner['lastname']; ?><br>
-                Contact: <?php echo $owner['contact']; ?><br>
-                No.Pigs: <?php echo $owner['pig']; ?><br>
-                Coordinates: <?php echo $owner['latitude']; ?>,<?php echo $owner['longitude']; ?><br>
-                `)
-                .openPopup();
-            <?php 
-        } elseif ($owner['is_positive'] == 0 && isWithinRadius($targetLatitude, $targetLongitude, $targetLatitude, $targetLongitude)) {
-            // Display warnings for owners who are not positive but are within the circle radius
-            ?>
-            L.marker([<?php echo $owner['latitude']; ?>, <?php echo $owner['longitude']; ?>]).addTo(map)
-                .bindPopup(`<p style="background-color:yellow; font-family: 'Allerta', sans-serif; font-size: 20px; color: black;">Warning! within the radius!</p><br>
-                Status: <?php echo $owner['is_positive']; ?><br>
-                Name: <?php echo $owner['firstname']; ?> <?php echo $owner['lastname']; ?><br>
-                Contact: <?php echo $owner['contact']; ?><br>
-                No.Pigs: <?php echo $owner['pig']; ?><br>
-                Coordinates: <?php echo $owner['latitude']; ?>,<?php echo $owner['longitude']; ?><br>
-                `)
-                .openPopup();
-            <?php 
-        } else {
-            // Display markers without a circle radius or warning
-            ?>
-            L.marker([<?php echo $owner['latitude']; ?>, <?php echo $owner['longitude']; ?>]).addTo(map)
-                .bindPopup(`Status: <?php echo $owner['is_positive']; ?><br>
-                Name: <?php echo $owner['firstname']; ?> <?php echo $owner['lastname']; ?><br>
-                Contact: <?php echo $owner['contact']; ?><br>
-                No.pigs: <?php echo $owner['pig']; ?><br>
-                Coordinates: <?php echo $owner['latitude']; ?>,<?php echo $owner['longitude']; ?>`);
-            <?php          
-        }
-    }
-    ?>
-}
+               
+               
+                echo "<script>console.log(".$positiveLat.")</script>";
+                if ($owner['is_positive'] == 1) {
+                    // Circle radius 
+                    ?>
+                    var circle = L.circle([<?php echo $owner['latitude']; ?>, <?php echo $owner['longitude']; ?>], {
+                        color: 'red',
+                        fillColor: '#f03',
+                        fillOpacity: 0.1,
+                        radius: 500
+                    }).addTo(map);
+        
+                    // User info
+                    console.log('Positive : <?php echo $owner['firstname']; ?>');
+                    L.marker([<?php echo $owner['latitude']; ?>, <?php echo $owner['longitude']; ?>]).addTo(map)
+                        .bindPopup(`<p style="background-color:red; font-family: 'Allerta', sans-serif; font-size: 20px; color: white;">Warning! Positive!</p><br>
+                        Status: <?php echo $owner['is_positive']; ?><br>
+                        Name: <?php echo $owner['firstname']; ?> <?php echo $owner['lastname']; ?><br>
+                        Contact: <?php echo $owner['contact']; ?><br>
+                        No.Pigs: <?php echo $owner['pig']; ?><br>
+                        Coordinates: <?php echo $owner['latitude']; ?>,<?php echo $owner['longitude']; ?><br>
+                        `)
+                        .openPopup();
+                    <?php 
+                }elseif (isWithinRadius($posLat, $posLong, $negLat, $negLong) <= 500) {
+                    // Display warnings for owners who are not positive but are within the circle radius
+                    ?>
+                    L.marker([<?php echo $owner['latitude']; ?>, <?php echo $owner['longitude']; ?>]).addTo(map)
+                        .bindPopup(`<p style="background-color:yellow; font-family: 'Allerta', sans-serif; font-size: 20px; color: black;">Warning! within the radius!</p><br>
+                        Status: <?php echo $owner['is_positive']; ?><br>
+                        Name: <?php echo $owner['firstname']; ?> <?php echo $owner['lastname']; ?><br>
+                        Contact: <?php echo $owner['contact']; ?><br>
+                        No.Pigs: <?php echo $owner['pig']; ?><br>
+                        Coordinates: <?php echo $owner['latitude']; ?>,<?php echo $owner['longitude']; ?><br>
+                        `)
+                        .openPopup();
+                    <?php 
+                }
+            }
+        ?>
+
+        
     </script>
 </div>
 
