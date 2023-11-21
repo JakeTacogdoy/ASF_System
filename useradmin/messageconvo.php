@@ -19,6 +19,23 @@
 <?php
     include("../useradmin/userheader.php");
 ?>
+<style>
+    .message-box{
+    width: fit-content;
+    max-width: 80%;
+    height: auto;
+    background-color: rgb(189, 190, 190);
+    padding: 5px 15px;
+    border-radius: 20px;
+    color: black;
+    margin-bottom: 10px;
+    }
+    .message-user{
+        margin-left: auto;
+        background-color: rgb(2, 18, 167);
+        color: white;
+    }
+</style>
 
 <body id="page-top">
 
@@ -64,9 +81,9 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $_SESSION['username'] ?></span>
                                 <img class="img-profile rounded-circle"
-                                    src="img/undraw_profile.svg">
+                                    src="../img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -91,7 +108,7 @@
                     <div class="container mt-5">
         <div class="card">
             <div class="card-header">Chat with User 2</div>
-            <div class="card-body" id="chatMessages">
+            <div class="card-body" id="chat-box">
                 <!-- Messages will be displayed here -->
             </div>
             <div class="card-footer">
@@ -166,22 +183,37 @@
 </body>
 <script type="text/javascript">
 // Function to load messages
-function loadMessages() {
-    $.ajax({
-        url: 'get_messages.php',
-        type: 'POST',
-        data: { sender_id: senderId, receiver_id: receiverId },
-        dataType: 'json',
-        success: function (data) {
-            $('#chatMessages').empty();
-            data.forEach(function (message) {
-                const messageDiv = $('<div></div>');
-                messageDiv.html('<strong>' + message.sender + ':</strong> ' + message.message_body);
-                $('#chatMessages').append(messageDiv);
+    function getMessages() {
+            // Get the user_id from the URL
+            var user_id = getUrlParameter('user_id');
+
+            $.ajax({
+                url: 'get_message.php',
+                method: 'GET',
+                data: {user_id},
+                success: function (data) {
+                    $('#chat-box').html(data);
+                }
             });
-        }
+    }
+
+    // Fetch messages on page load
+    $(document).ready(function () {
+        getMessages();
     });
-}
+
+    // Refresh messages every 5 seconds
+    setInterval(function () {
+        getMessages();
+    }, 5000);
+
+    // Function to extract URL parameters
+    function getUrlParameter(name) {
+        var urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(name);
+    }
+
+
 $(document).ready(function () {
     // Load messages when the page loads
     loadMessages();

@@ -93,6 +93,8 @@ button {
 button:hover {
     background-color: #0056b3;
 }
+
+
 </style>
 <body id="page-top">
 
@@ -178,15 +180,15 @@ button:hover {
                                         include('db_connection.php');
 
                                         // Fetch user data from the database
-                                        $sql = "SELECT * FROM owners";
+                                        $sql = "SELECT * FROM users WHERE id != 9";
                                         $result = $conn->query($sql);
 
                                         if ($result->num_rows > 0) {
                                             while ($row = $result->fetch_assoc()) {
                                                 echo "<tr>";
                                                 echo "<td>" . $row["id"] . "</td>";
-                                                echo "<td>" . $row["firstname"] . "</td>";
-                                                echo "<td>" . $row["lastname"] . "</td>";
+                                                echo "<td>" . $row["FirstName"] . "</td>";
+                                                echo "<td>" . $row["LastName"] . "</td>";
                                                 echo '<td><a href="messageconvo.php?user_id=' . $row["id"] . '" class="btn btn-primary">Start Chat</a></td>';
                                                 echo "</tr>";
                                             }

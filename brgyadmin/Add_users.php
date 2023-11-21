@@ -126,7 +126,7 @@
                                 </select>
                             </div>
                             
-                        <button type="button" class="btn btn-primary" onclick="addAdmin()">Add Admin</button>
+                        <button type="button" class="btn btn-primary" onclick="addAdmin()">Add User</button>
                     </form>
                 </div>
                 <!-- /.container-fluid -->
@@ -211,7 +211,7 @@
 
         // If the email and passwords are valid, submit the form
         $.ajax({
-            url: 'Add_admin_process.php',
+            url: '../brgyadmin/Add_users_process.php',
             type: 'POST',
             data: $('form').serialize(),
             success: function(response) {
@@ -223,7 +223,7 @@
                 });
 
                 setTimeout(function(){
-                    window.location.href = 'Account.php'; // Redirect after 2 seconds
+                    window.location.href = '../brgyadmin/Account_user.php'; // Redirect after 2 seconds
                 }, 2000);
             },
             error: function(xhr, status, error) {

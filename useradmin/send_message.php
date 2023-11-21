@@ -1,31 +1,15 @@
 <?php
-// Include your database connection code
-include('db_connection.php');
+    session_start();
+    include "../db_connection.php";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $senderId = $_POST['sender_id'];
-    $receiverId = $_POST['receiver_id'];
     $message = $_POST['message'];
+    $customer_id = $_SESSION['customer_id'];
 
-    // Validate and sanitize the message (implement your own validation logic here)
-
-    // Insert the reply message into the database
-    $sql = "INSERT INTO messages (sender_id, receiver_id, message_body) VALUES ($senderId, $receiverId, '$message')";
-
-    if ($conn->query($sql) === TRUE) {
-        echo "Reply message sent successfully";
-    } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+    $query = mysqli_query($conn, "INSERT INTO messages(from_id, to_id, message) VALUES ('$customer_id', 0, '$message')");
+    if($query){
+        echo "sent";
+    }else{
+        echo "error";
     }
-}
 
-$conn->close();
 ?>
-
-
-
-
-
-
-
-

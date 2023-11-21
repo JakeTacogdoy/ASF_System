@@ -30,6 +30,21 @@
             font-size: 12px;
             color: #666;
         }
+        .message-box{
+    width: fit-content;
+    max-width: 80%;
+    height: auto;
+    background-color: rgb(189, 190, 190);
+    padding: 5px 15px;
+    border-radius: 20px;
+    color: black;
+    margin-bottom: 10px;
+    }
+    .message-user{
+        margin-left: auto;
+        background-color: rgb(2, 18, 167);
+        color: white;
+    }
  
 </style>
 <body id="page-top">
@@ -164,14 +179,15 @@
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
     <script>
+        
     function getMessages() {
         // Get the user_id from the URL
-        var user_id = getUrlParameter('id');
+        var user_id = getUrlParameter('user_id');
 
         $.ajax({
             url: 'get_message.php',
             method: 'GET',
-            data: {receiver_id: user_id},
+            data: {user_id},
             success: function (data) {
                 $('#chat-box').html(data);
             }
@@ -181,7 +197,7 @@
     function sendMessage() {
     var message = $('#message').val();
     // Get the user_id from the URL
-    var receiver_id = getUrlParameter('id');
+    var receiver_id = getUrlParameter('user_id');
 
     // Check if the sender is an admin based on the session variable
     var isAdmin = <?php echo isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin' ? 'true' : 'false'; ?>;
@@ -189,10 +205,12 @@
     // Set the sender's ID (admin or user)
     var sender_id = isAdmin ? 'admin' : <?php echo isset($_SESSION['id']) ? $_SESSION['id'] : 'null'; ?>;
 
+    console.log(receiver_id, message, sender_id)
+
     $.ajax({
         url: 'send_message.php',
         method: 'POST',
-        data: {sender_id: sender_id, receiver_id: receiver_id, message: message},
+        data: {sender_id, receiver_id, message},
         success: function () {
             getMessages();
             $('#message').val('');

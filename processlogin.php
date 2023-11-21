@@ -13,6 +13,7 @@
 	
 	if ($uname == isset($row['UserName']) and $pword == isset($row['Password']) and $row['usertype'] == "admin"){
 		$_SESSION['hasLogin'] = 1;
+		$_SESSION['admin_id'] = $row['id'];
 		echo "1";
 	}
 	else if($uname == isset($row['UserName']) and $pword == isset($row['Password']) and $row['usertype'] == "user"){
