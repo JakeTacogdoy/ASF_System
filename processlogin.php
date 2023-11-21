@@ -29,6 +29,7 @@
 	if ($uname == isset($row['UserName'])) {
 		$_SESSION['username'] = $row['UserName'];
 		$_SESSION['id'] = $row['id'];
+		
 	}
 
 ?>

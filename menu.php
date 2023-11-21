@@ -39,6 +39,18 @@ style="background: linear-gradient(36deg, #515bf0,#515bf0);;">
                     <span>Add Account</span></a>
             </li>
 
+            <hr class="sidebar-divider">
+
+            <div class="sidebar-heading">
+                Reports
+            </div>
+
+            <li class="nav-item">
+                <a class="nav-link" href="Map.php">
+                <i class="fa-solid fa-map-location-dot"></i>
+                    <span>GIS Map</span></a>
+            </li>
+
             <li class="nav-item">
                 <a class="nav-link" href="message.php">
                 <i class="fa-solid fa-message"></i>
@@ -57,17 +69,18 @@ style="background: linear-gradient(36deg, #515bf0,#515bf0);;">
                     <span>Accepted Reports</span></a>
             </li>
 
-            <li class="nav-item">
-                <a class="nav-link" href="Map.php">
-                <i class="fa-solid fa-map-location-dot"></i>
-                    <span>GIS Map</span></a>
-            </li>
 
              <li class="nav-item">
                 <a class="nav-link" href="warninginterface.php">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Warnings</span></a>
             </li>
+
+            <hr class="sidebar-divider">
+
+            <div class="sidebar-heading">
+                Uploads
+            </div>
 
             <li class="nav-item">
                 <a class="nav-link" href="Video.php">

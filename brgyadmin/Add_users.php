@@ -18,7 +18,7 @@
 <html lang="en">
 
 <?php
-    include("../brgyadmin/brgyheader.php");
+    include("brgyheader.php");
 ?>
 
 <body id="page-top">
@@ -93,7 +93,7 @@
                     <!-- Page Heading -->
                     <h1 class="h3 mb-2 text-gray-800">Admin Information</h1>
                     
-                    <form action="../brgyadmin/Add_users_process.php" method="post">
+                    <form id="adminForm">
                         
                         <div class="form-group">
                             <label for="email">Email Address</label>
@@ -126,11 +126,77 @@
                                 </select>
                             </div>
                             
-                        <button type="button" class="btn btn-primary" onclick="addAdmin()">Add Admin</button>
+                            <button type="button" class="btn btn-primary" onclick="addAdmin()">Add Admin</button>   
                     </form>
                 </div>
                 <!-- /.container-fluid -->
+                <script type="text/javascript">
+    function addAdmin(event) {
 
+        var emailInput = document.getElementById("email");
+        var emailValue = emailInput.value;
+
+        // Check if the email contains "@"
+        if (emailValue.indexOf("@") === -1) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Invalid Email Address',
+                text: 'Please enter a valid email.'
+            });
+            return; // Don't submit the form
+        }
+
+        var passwordInput = document.getElementById("password");
+        var confirmPasswordInput = document.getElementById("confirmPassword");
+        var passwordValue = passwordInput.value;
+        var confirmPasswordValue = confirmPasswordInput.value;
+
+        // Check if password and confirm password match
+        if (passwordValue !== confirmPasswordValue) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Passwords Mismatch',
+                text: 'Please make sure passwords match.'
+            });
+            return; // Don't submit the form
+        }
+
+        // If the email and passwords are valid, submit the form
+        $.ajax({
+            url: 'Add_users_process.php',
+            type: 'POST',
+            data: $('form').serialize(),
+            success: function(response) {
+                if (response.trim() === 'success') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Account Added Successfully',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+
+                    setTimeout(function(){
+                        window.location.href = 'Account_user.php'; // Redirect after 2 seconds
+                    }, 2000);
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Something went wrong!'
+                    });
+                }
+            },
+            error: function(xhr, status, error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Something went wrong!'
+                });
+                console.error(error);
+            }
+        });
+    }
+</script>
             </div>
             <!-- End of Main Content -->
 
@@ -179,62 +245,5 @@
     <script src="js/demo/datatables-demo.js"></script>
 
 </body>
-<script type="text/javascript">
-      function addAdmin() {
-        var emailInput = document.getElementById("email");
-        var emailValue = emailInput.value;
 
-        // Check if the email contains "@"
-        if (emailValue.indexOf("@") === -1) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Invalid Email Address',
-                text: 'Please enter a valid email.'
-            });
-            return; // Don't submit the form
-        }
-
-        var passwordInput = document.getElementById("password");
-        var confirmPasswordInput = document.getElementById("confirmPassword");
-        var passwordValue = passwordInput.value;
-        var confirmPasswordValue = confirmPasswordInput.value;
-
-        // Check if password and confirm password match
-        if (passwordValue !== confirmPasswordValue) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Passwords Mismatch',
-                text: 'Please make sure passwords match.'
-            });
-            return; // Don't submit the form
-        }
-
-        // If the email and passwords are valid, submit the form
-        $.ajax({
-            url: 'Add_admin_process.php',
-            type: 'POST',
-            data: $('form').serialize(),
-            success: function(response) {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Account Added Successfully',
-                    showConfirmButton: false,
-                    timer: 2000
-                });
-
-                setTimeout(function(){
-                    window.location.href = 'Account.php'; // Redirect after 2 seconds
-                }, 2000);
-            },
-            error: function(xhr, status, error) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Something went wrong!'
-                });
-                console.error(error);
-            }
-        });
-    }
-</script>
 </html>

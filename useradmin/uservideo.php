@@ -67,9 +67,9 @@
 
 <!-- Page Heading -->
 <h1 class="h3 mb-2 text-gray-800">Video Gallery</h1>
-<p class="mb-4">Watch the latest videos uploaded by your barangay.</p>
+<p class="mb-4">Watch the latest videos uploaded by Department of Agriculture.</p>
 
-<div class="row">
+<div class="row" style="overflow-y: auto; max-height: 500px;">
     <?php
     // Path to the video directory
     $videoDirectory = "../videos/";
@@ -89,7 +89,7 @@
 
                 if (in_array($videoFileType, $allowed_formats)) {
                     echo "<div class='col-lg-4 mb-4'>
-                            <div class='card'>
+                            <div class='card h-100'>
                                 <div class='card-body'>
                                     <h5 class='card-title'>" . pathinfo($file, PATHINFO_FILENAME) . "</h5>";
 
@@ -117,6 +117,7 @@
 </div>
 
 </div>
+
                 </div>
                 <!-- /.container-fluid -->
 

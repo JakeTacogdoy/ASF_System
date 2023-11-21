@@ -1,5 +1,5 @@
 <?php
-include('db_connection.php');
+include('../db_connection.php');
 
 $firstName = $_POST['firstName'];
 $middleName = $_POST['middleName'];

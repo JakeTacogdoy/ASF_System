@@ -38,6 +38,19 @@ style="background: linear-gradient(36deg, #515bf0,#515bf0);;">
                 <i class="fa-solid fa-user-plus"></i>
                     <span>Add Account</span></a>
             </li>
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Reports
+            </div>
+
+            <li class="nav-item">
+                <a class="nav-link" href="../brgyadmin/map.php">
+                <i class="fa-solid fa-map-location-dot"></i>
+                    <span>GIS Map</span></a>
+            </li>
 
             <li class="nav-item">
                 <a class="nav-link" href="Userslist.php">
@@ -53,11 +66,7 @@ style="background: linear-gradient(36deg, #515bf0,#515bf0);;">
                     <span>Accepted Reports</span></a>
             </li>
 
-            <li class="nav-item">
-                <a class="nav-link" href="../brgyadmin/map.php">
-                <i class="fa-solid fa-map-location-dot"></i>
-                    <span>GIS Map</span></a>
-            </li>
+           
 
 
 

@@ -51,11 +51,11 @@
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
                     <!-- Sidebar Toggle (Topbar) -->
-                    <form class="form-inline">
+                  
                         <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                             <i class="fa fa-bars"></i>
                         </button>
-                    </form>
+                    
                     
 
                     <!-- Topbar Navbar -->
@@ -127,7 +127,7 @@
                                 echo "<tr>
                                     <td>
                                      
-                                    <button type='button' class='btn btn-success mr-2' onclick='showEditAlert(". $line['id'] .")'>
+                                    <button type='button' class='btn btn-success mr-2' onclick='redirectToEditPage(". $line['id'] .")'>
                                     <i class='fa fa-edit'></i>
                                     </button>
                     
@@ -214,22 +214,11 @@
 
 </body>
 <script type="text/javascript">
-    function showEditAlert(id) {
-        Swal.fire({
-            title: 'Are you sure?',
-            text: "Once edited, you will not be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, edit it!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                window.location.href = 'UserinfoEdit.php?id=' + id;
-            }
-        });
-    }
 
+function redirectToEditPage(id) {
+    console.log(id); // Check if the ID is logged in the console
+    window.location.href = 'UserinfoEdit.php?id=' + id;
+}
     function showDeleteAlert(id) {
         Swal.fire({
             title: 'Are you sure?',

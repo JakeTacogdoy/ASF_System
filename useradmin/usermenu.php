@@ -3,10 +3,7 @@ style="background: linear-gradient(36deg, #515bf0,#515bf0);;">
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="../useradmin/index.php">
-              <div class="sidebar-brand-icon">
-                    <i class="fas fa-home"></i>
-                </div>
-                <div class="sidebar-brand-text mx-3">SwineSight</div>
+            <div class="sidebar-brand-text mx-3"><img src="../img/Swinesights.png" alt="" width="200px"></div>
             </a>
 
             <!-- Divider -->
@@ -24,12 +21,17 @@ style="background: linear-gradient(36deg, #515bf0,#515bf0);;">
 
             <!-- Heading -->
             <div class="sidebar-heading">
-                Interface
+                Report
             </div>
 
 
             <!-- Nav Item - Tables -->
 
+            <li class="nav-item">
+                <a class="nav-link" href="userreport.php">
+                <i class="fa-solid fa-newspaper"></i>
+                    <span>Report</span></a>
+            </li>
 
             <li class="nav-item">
                 <a class="nav-link" href="messageconvo.php">
@@ -43,6 +45,14 @@ style="background: linear-gradient(36deg, #515bf0,#515bf0);;">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Warnings</span></a>
             </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                News & Videos
+            </div>
 
             <li class="nav-item">
                 <a class="nav-link" href="uservideo.php">
@@ -58,11 +68,7 @@ style="background: linear-gradient(36deg, #515bf0,#515bf0);;">
 
             </li>
 
-             <li class="nav-item">
-                <a class="nav-link" href="userreport.php">
-                <i class="fa-solid fa-newspaper"></i>
-                    <span>Report</span></a>
-            </li>
+             
 
             
 
